@@ -7,13 +7,10 @@ export const updateProfile = async (request, response) => {
   try {
     const { userId, email } = response;
 
-    if (userId !== request.params.id)
-      return response.status(401).send("You are not authenticated");
-
     const updatedUser = await User.findOneAndUpdate(
       { _id: userId, email: email },
       request.body,
-      { upsert: true }
+      { new: true, upsert: true }
     );
     return response.status(201).json({
       user: updatedUser,
