@@ -4,7 +4,18 @@ import User from "../models/user.model.js";
 import Profile from "../models/profile.model.js";
 
 export const getUserInfo = async (request, response) => {
-
+  connectToDb();
+  try {
+    const { id } = request.params;
+    const user = await User.findById(id);
+    const profiles = await Profile.find({ user: id });
+    return response.status(200).json({
+      user: {...user._doc, profiles: profiles}
+    });
+  } catch (error) {
+    console.log(error);
+    return response.status(500).json({ error: error.message });
+  }
 }
 
 export const setUserProfile = async (request, response) => {
@@ -13,7 +24,7 @@ export const setUserProfile = async (request, response) => {
     const { title, bio } = request.body;
     const { userId } = response;
     const profile = await Profile.create({
-      userId,
+      user: userId,
       profileTitle: title,
       bio
     });
