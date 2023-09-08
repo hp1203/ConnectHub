@@ -4,6 +4,7 @@ import cors from "cors";
 import { connectToDb } from "./utils/database.js";
 import authRoute from "./routes/AuthRouter.js";
 import userRoutes from "./routes/UserRoutes.js";
+import linksRoutes from "./routes/LinksRoutes.js";
 
 dotenv.config();
 
@@ -22,6 +23,7 @@ app.use(express.json());
 
 app.use("/api/v1/auth", authRoute);
 app.use("/api/v1/users", userRoutes);
+app.use("/api/v1/links", linksRoutes);
 
 app.listen(PORT, () => {
   console.log(`Server is running on port: ${PORT}`);
