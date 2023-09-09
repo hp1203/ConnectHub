@@ -15,7 +15,16 @@ const linkSchema = new mongoose.Schema({
         required: true
     },
     description: String,
-    icon: String
+    icon: String,
+    tags: [String],
+    analytics: {
+        clicks: Number,
+        lastClickDate: Date,
+    },
+    isPublic: {
+        type: Boolean,
+        default: true
+    },
 }, {
     timestamps: true
 });

@@ -1,8 +1,9 @@
 import { Router } from "express";
-import { getProfileLinks } from "../controllers/LinksController.js";
+import { addNewLink, getProfileLinks } from "../controllers/LinksController.js";
 
 const linksRoutes = Router();
 
 linksRoutes.get("/:profileId", getProfileLinks);
+linksRoutes.post("/:profileId", addNewLink);
 
 export default linksRoutes;
