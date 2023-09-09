@@ -55,7 +55,7 @@ export const login = async (request, response) => {
     });
 
     if (!user)
-      return response.status(400).json({ error: "User already exist" });
+      return response.status(400).json({ error: "User not found" });
 
     const auth = await compare(password, user.password);
 
