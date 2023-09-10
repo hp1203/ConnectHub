@@ -46,24 +46,51 @@ export const addNewLink = async (request, response) => {
   }
 };
 
-export const deleteLink = async (request, response) => {
-    connectToDb();
-    try {
-        const { linkId } = request.params;
-        const { userId } = response;
+export const editLink = async (request, response) => {
+  connectToDb();
+  try {
+    const { linkId } = request.params;
+    const { userId } = response;
 
-        const link = await Link.findById(linkId).populate({path:"profile"});
-        console.log("link", link);
+    const link = await Link.findById(linkId).populate({ path: "profile" });
 
-        if(link.profile.user.toString() !== userId) return response.status(401).send("You are not autherized");
+    if (link.profile.user.toString() !== userId)
+      return response.status(401).send("You are not autherized");
 
-        await Link.findByIdAndRemove(linkId);
-        return response.status(200).json({
-            success: true,
-            message: "Link deleted successfully",
-          });
-    } catch (error) {
-        console.log(error);
+    const updatedLink = await Link.findByIdAndUpdate(linkId, request.body, {
+      new: true,
+      upsert: true,
+    });
+
+    return response.status(200).json({
+      link: updatedLink,
+      success: true,
+      message: "Link updated successfully",
+    });
+  } catch (error) {
+    console.log(error);
     return response.status(500).json({ error: error.message });
-    }
+  }
+};
+
+export const deleteLink = async (request, response) => {
+  connectToDb();
+  try {
+    const { linkId } = request.params;
+    const { userId } = response;
+
+    const link = await Link.findById(linkId).populate({ path: "profile" });
+
+    if (link.profile.user.toString() !== userId)
+      return response.status(401).send("You are not autherized");
+
+    await Link.findByIdAndRemove(linkId);
+    return response.status(200).json({
+      success: true,
+      message: "Link deleted successfully",
+    });
+  } catch (error) {
+    console.log(error);
+    return response.status(500).json({ error: error.message });
+  }
 };
