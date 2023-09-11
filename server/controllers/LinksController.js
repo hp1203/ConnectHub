@@ -2,6 +2,24 @@ import Link from "../models/link.model.js";
 import Profile from "../models/profile.model.js";
 import { connectToDb } from "../utils/database.js";
 
+export const getLinkDetails = async (request, response) => {
+    connectToDb();
+    try {
+      const { linkId } = request.params;
+  
+      const link = await Link.findById(linkId).populate({ path: "profile" });
+  
+      if (!link)
+        return response.status(404).json({ error: "Link not found" });
+  
+      return response.status(200).json({
+        link,
+      });
+    } catch (error) {
+      console.log(error);
+      return response.status(500).json({ error: error.message });
+    }
+  };
 export const getProfileLinks = async (request, response) => {
   connectToDb();
   try {
@@ -10,7 +28,7 @@ export const getProfileLinks = async (request, response) => {
     const links = await Link.find({ profile: profileId });
 
     if (links.length <= 0)
-      return response.status(404).json({ error: "Links not found " });
+      return response.status(404).json({ error: "Links not found" });
 
     return response.status(200).json({
       links,
