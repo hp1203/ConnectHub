@@ -10,6 +10,20 @@ const analyticsSchema = new mongoose.Schema({
         type: String, // Type of event (e.g., "click", "view", "conversion")
         required: true
     },
+    location: {
+        city: String,
+        country: String
+    },
+    device: {
+        name: String,
+        type: String, // Mobile or desktop
+        model: String,
+        os: String
+    },
+    browser: {
+        name: String,
+        version: String
+    },
     ipAddress: String, // IP address of the user
     userAgent: String, // User agent string of the device/browser
     metadata: String // Additional event-specific data can be stored here
