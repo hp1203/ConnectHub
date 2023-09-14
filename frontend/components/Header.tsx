@@ -6,7 +6,7 @@ const Header: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <header className="fixed flex w-full bg-gray-50">
+    <header className="fixed flex w-full bg-gray-50 z-[99999]">
       <div className="container mx-auto py-6 md:flex md:justify-between md:items-center">
         <div className="flex justify-between items-center">
           <div>
