@@ -10,9 +10,9 @@ const Header: React.FC = () => {
       <div className="container mx-auto py-6 md:flex md:justify-between md:items-center">
         <div className="flex justify-between items-center">
           <div>
-            <a className="text-gray-800 font-museomoderno text-xl font-bold md:text-2xl hover:text-gray-700" href="#">
+            <Link className="text-gray-800 font-museomoderno text-xl font-bold md:text-2xl hover:text-gray-700" href="#">
               ConnectHub
-            </a>
+            </Link>
           </div>
           
           <div className="flex md:hidden">
