@@ -1,7 +1,8 @@
+import Input from "@/UI/Input";
 import Link from "next/link";
 import React from "react";
 import { FcGoogle } from "react-icons/fc";
-
+import { MdAlternateEmail, MdLock } from "react-icons/md";
 const Auth: React.FC = () => {
   return (
     <section className="flex flex-col md:flex-row h-screen items-center">
@@ -29,30 +30,13 @@ const Auth: React.FC = () => {
           <form className="mt-6" action="#" method="POST">
             <div>
               <label className="block text-gray-700">Email Address</label>
-              <input
-                type="email"
-                name=""
-                id=""
-                placeholder="Enter Email Address"
-                className="w-full px-4 py-3 rounded-lg bg-gray-200 mt-2 border focus:border-blue-500 focus:bg-white focus:outline-none"
-                autofocus
-                autocomplete
-                required
-              />
+              <Input type="email" name="email" placeholder="Enter your email" icon={<MdAlternateEmail className="w-6 h-6 text-gray-500"/>}/>
             </div>
+
 
             <div className="mt-4">
               <label className="block text-gray-700">Password</label>
-              <input
-                type="password"
-                name=""
-                id=""
-                placeholder="Enter Password"
-                minlength="6"
-                className="w-full px-4 py-3 rounded-lg bg-gray-200 mt-2 border focus:border-blue-500
-                focus:bg-white focus:outline-none"
-                required
-              />
+              <Input type="password" name="password" placeholder="Enter your password" icon={<MdLock className="w-6 h-6 text-gray-500"/>}/>
             </div>
 
             <div className="text-right mt-2">
