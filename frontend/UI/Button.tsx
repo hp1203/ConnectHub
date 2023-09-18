@@ -1,15 +1,19 @@
-import React, { ReactNode } from 'react';
+import React, { ButtonHTMLAttributes, ReactNode } from 'react';
+import { RiLoader3Fill } from "react-icons/ri";
 
 type ButtonProps = {
-  type: 'primary' | 'secondary' | 'outline';
+  style: 'primary' | 'secondary' | 'outline';
+  isLoading: Boolean;
   icon?: ReactNode;
   children: ReactNode;
-};
+  className: String;
+} & ButtonHTMLAttributes<HTMLButtonElement>;
 
-const Button: React.FC<ButtonProps> = ({ type, icon, children }) => {
+const Button: React.FC<ButtonProps> = ({ style, icon, children, className, isLoading, ...props }) => {
+  
   let buttonClass = '';
 
-  switch (type) {
+  switch (style) {
     case 'primary':
       buttonClass = 'bg-blue-500 hover:bg-blue-600 text-white transition duration-150';
       break;
@@ -24,9 +28,22 @@ const Button: React.FC<ButtonProps> = ({ type, icon, children }) => {
   }
 
   return (
-    <button className={`text-lg px-4 py-2 rounded-lg w-fit font-medium tracking-wide ${buttonClass}`}>
-      {icon && <span className="mr-2">{icon}</span>}
-      {children}
+    <button className={`text-lg flex items-center justify-center px-4 py-2 rounded-lg w-fit font-semibold tracking-wide ${buttonClass} ${className}`} {...props}>
+      {
+        isLoading ? 
+          (
+            <span className='text-center'>
+              <RiLoader3Fill className="w-8 h-8 animate-spin"/>
+            </span>
+          )
+        :
+        (
+          <>
+            {icon && <span className="mr-2">{icon}</span>}
+            {children}
+          </>
+        )
+      }
     </button>
   );
 };
