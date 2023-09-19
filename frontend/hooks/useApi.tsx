@@ -11,13 +11,13 @@ interface ApiResponse {
 }
 
 const useApi = (auth_token = "") => {
-  const uri = process.env.API_URL;
+  const uri = process.env.NEXT_PUBLIC_API_URL;
   const [response, setResponse] = useState<ApiResponse | null>(null);
   const [error, setError] = useState<any>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const header = {
-    "Content-Type": "multipart/form-data;application/json",
-    Authorization: `Bearer ${auth_token}`,
+    "Content-Type": "application/json",
+    "Authorization": `Bearer ${auth_token}`,
   };
 
   const fetchData = (
@@ -30,13 +30,14 @@ const useApi = (auth_token = "") => {
       method,
       url: uri + url,
       data,
+      headers: header
     })
       .then((data: AxiosResponse) => {
         setResponse(data);
         setLoading(false);
       })
       .catch((error: any) => {
-        setError(error);
+        setError(error.response.data);
         setLoading(false);
       });
   };
