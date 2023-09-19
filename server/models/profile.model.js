@@ -7,6 +7,16 @@ const profileSchema = new mongoose.Schema(
       ref: "User",
       required: true,
     },
+    url: {
+      type: String,
+      unique: true,
+      required: true
+    },
+    category: {
+      type: Schema.Types.ObjectId,
+      ref: 'Category',
+      required: true
+    },
     profileTitle: String,
     profilePicture: String, // Store the file path or URL to the profile picture
     bio: String,

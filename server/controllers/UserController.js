@@ -21,12 +21,14 @@ export const getUserInfo = async (request, response) => {
 export const setUserProfile = async (request, response) => {
   connectToDb();
   try {
-    const { title, bio } = request.body;
+    const { title, bio, url, category } = request.body;
     const { userId } = response;
     const profile = await Profile.create({
       user: userId,
       profileTitle: title,
-      bio
+      bio,
+      url,
+      category
     });
 
     return response.status(201).json({
