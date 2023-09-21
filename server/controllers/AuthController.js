@@ -6,23 +6,22 @@ import { compare } from "bcrypt";
 export const register = async (request, response) => {
   connectToDb();
   try {
-    const { username, name, email, password } = request.body;
+    const { name, email, password } = request.body;
 
-    if (!username)
-      return response.status(400).json({ error: "Username is required" });
+    if (!name)
+      return response.status(400).json({ error: "name is required" });
     if (!email)
       return response.status(400).json({ error: "email is required" });
     if (!password)
       return response.status(400).json({ error: "password is required" });
 
     const existingUser = await User.findOne({
-      $or: [{ email: email }, { username: username }],
+      email: email,
     });
 
     if (!existingUser) {
       const registeredUser = await User.create({
         name: name,
-        username: username,
         email: email,
         password: await generatePassword(password),
       });
