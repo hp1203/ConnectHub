@@ -1,3 +1,4 @@
+"use client";
 import axios, { AxiosResponse } from "axios";
 import { useState } from "react";
 
