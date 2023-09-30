@@ -3,7 +3,6 @@ import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
 import useApi from "@/hooks/useApi";
 
-
 export const options: NextAuthOptions = {
   providers: [
     GoogleProvider({
@@ -47,7 +46,7 @@ export const options: NextAuthOptions = {
     },
 
     async session({ session, token }) {
-      session.user = token as any;
+      session = token as any;
       return session;
     },
   },
