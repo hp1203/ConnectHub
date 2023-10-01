@@ -3,12 +3,14 @@ import Button from "@/UI/Button";
 import Input from "@/UI/Input";
 import { signIn } from "next-auth/react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { FcGoogle } from "react-icons/fc";
 import { MdAlternateEmail, MdLock } from "react-icons/md";
-import useApi from "@/hooks/useApi";
 const Auth: React.FC = () => {
-  const { loading } = useApi();
+  const router = useRouter();
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -23,14 +25,19 @@ const Auth: React.FC = () => {
 
   const handleSigin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // signIn("credentials", {...formData, callbackUrl: `${window.location.origin}/admin` });
+    setLoading(true);
     const res = await signIn("credentials", {
       ...formData,
-      callbackUrl: `${window.location.origin}/admin`,
-      // redirect: false,
+      // callbackUrl: `${window.location.origin}/admin`,
+      redirect: false
     });
-    if (res?.error) console.log(res.error);
-    // if (res?.token) router.push(res.url);
+    if (res?.error) {
+      console.log(res);
+      // setError(error.response.data.error);
+    } else {
+      router.push("/admin");
+    }
+    setLoading(false);
   };
 
   return (
@@ -88,7 +95,10 @@ const Auth: React.FC = () => {
               />
             </div>
 
-            <div className="text-right mt-2">
+            <div className="flex items-center justify-between text-right mt-2">
+              <div>
+                { error && <span className="text-red-500 font-medium text-sm">{error}</span>}
+              </div>
               <a
                 href="#"
                 className="text-sm font-semibold text-gray-700 hover:text-blue-700 focus:text-blue-700"
