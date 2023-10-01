@@ -39,7 +39,7 @@ const Button: React.FC<ButtonProps> = ({
 
   return (
     <button
-      className={`text-lg flex items-center justify-center px-4 py-2 rounded-lg w-fit font-semibold tracking-wide ${buttonClass} ${className}`}
+      className={`text-lg flex items-center justify-center pl-3 px-4 py-2 rounded-lg w-fit font-semibold tracking-wide ${buttonClass} ${className}`}
       {...props}
     >
       {isLoading ? (
