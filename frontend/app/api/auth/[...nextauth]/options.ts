@@ -44,10 +44,12 @@ export const options: NextAuthOptions = {
     async jwt({ token, user }) {
       return { ...token, ...user };
     },
-
     async session({ session, token }) {
       session = token as any;
       return session;
     },
   },
+  pages: {
+    signIn: "/auth/",
+  }
 };
