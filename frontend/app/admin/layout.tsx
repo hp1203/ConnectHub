@@ -2,10 +2,22 @@
 import "@/styles/globals.css";
 import { Fragment } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
-import { FaBell, FaCross } from "react-icons/fa6";
+import { FaBell, FaChevronDown, FaCross } from "react-icons/fa6";
 import { HiMenu } from "react-icons/hi";
 import { IoCloseOutline } from "react-icons/io5";
 import Link from "next/link";
+import { useSession } from "next-auth/react";
+import UserProfileDropdown from "@/components/Dashboard/UserProfileDropdown";
+import { LuAreaChart, LuComponent, LuPencilRuler, LuSettings } from "react-icons/lu";
+import MobileMenu from "@/components/Dashboard/MobileMenu";
+import { useRouter } from "next/navigation";
+
+const navigation = [
+  { name: "Analytics", href: "/admin", current: true, icon: <LuAreaChart className="w-5 h-5"/> },
+  { name: "Links", href: "/admin/links", current: false,icon: <LuComponent className="w-5 h-5"/> },
+  { name: "Appearance", href: "/admin/appearance", current: false,icon: <LuPencilRuler className="w-5 h-5"/> },
+  { name: "Settings", href: "/admin/settings", current: false,icon: <LuSettings className="w-5 h-5"/> },
+];
 
 const user = {
   name: "Tom Cook",
@@ -13,16 +25,11 @@ const user = {
   imageUrl:
     "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
 };
-const navigation = [
-  { name: "Analytics", href: "/admin", current: true },
-  { name: "Links", href: "/admin/links", current: false },
-  { name: "Appearance", href: "/admin/appearance", current: false },
-  { name: "Settings", href: "/admin/settings", current: false },
-];
+
 const userNavigation = [
-  { name: "Your Profile", href: "#" },
-  { name: "Settings", href: "#" },
-  { name: "Sign out", href: "#" },
+  { name: "Your Profile", href: "#", icon: <LuAreaChart className="w-5 h-5"/> },
+  { name: "Settings", href: "#", icon: <LuAreaChart className="w-5 h-5"/> },
+  { name: "Sign out", href: "#", icon: <LuAreaChart className="w-5 h-5"/> },
 ];
 
 function classNames(...classes: string[]) {
@@ -34,16 +41,12 @@ export default function DashboardLayout({
 }: {
   children: React.ReactNode;
 }) {
+
+  const {data: session} = useSession();
+  const router = useRouter();
+
   return (
     <>
-      {/*
-      This example requires updating your template:
-
-      ```
-      <html class="h-full bg-gray-100">
-      <body class="h-full">
-      ```
-    */}
       <div className="min-h-full">
         <Disclosure as="nav" className="bg-blue-500">
           {({ open }) => (
@@ -51,14 +54,14 @@ export default function DashboardLayout({
               <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                 <div className="flex h-16 items-center justify-between">
                   <div className="flex items-center">
+                    <MobileMenu/>
                     <div className="flex-shrink-0">
                       <div>
-                        <Link
-                          className="text-gray-100 font-museomoderno text-xl font-bold md:text-2xl hover:text-gray-700"
-                          href="#"
+                        <h1
+                          className="text-gray-100 font-museomoderno text-xl font-bold md:text-2xl"
                         >
                           ConnectHub
-                        </Link>
+                        </h1>
                       </div>
                     </div>
                     <div className="hidden md:block">
@@ -71,10 +74,11 @@ export default function DashboardLayout({
                               item.current
                                 ? "bg-blue-600 text-white"
                                 : "text-gray-100 hover:bg-blue-600 hover:text-white",
-                              "rounded-md px-3 py-2 text-sm font-medium"
+                              "rounded-md px-3 py-2 text-sm font-medium flex items-center gap-2"
                             )}
                           >
-                            {item.name}
+                            <span>{item.icon}</span>
+                            <span className="text-base font-medium tracking-wide">{item.name}</span>
                           </Link>
                         ))}
                       </div>
@@ -82,56 +86,17 @@ export default function DashboardLayout({
                   </div>
                   <div className="hidden md:block">
                     <div className="ml-4 flex items-center md:ml-6">
-                      <button
+                      {/* <button
                         type="button"
                         className="relative rounded-full bg-blue-500 hover:bg-blue-600 p-2 text-gray-100 hover:text-white focus:outline-none focus:ring-none focus:ring-white focus:ring-offset-2 focus:ring-offset-blue-600"
                       >
                         <span className="absolute -inset-1.5" />
                         <span className="sr-only">View notifications</span>
                         <FaBell className="h-6 w-6" aria-hidden="true" />
-                      </button>
+                      </button> */}
 
                       {/* Profile dropdown */}
-                      <Menu as="div" className="relative ml-3">
-                        <div>
-                          <Menu.Button className="relative flex max-w-xs items-center rounded-full bg-blue-500 text-sm focus:outline-none focus:ring-none focus:ring-none focus:ring-offset-2 focus:ring-offset-blue-600">
-                            <span className="absolute -inset-1.5" />
-                            <span className="sr-only">Open user menu</span>
-                            <img
-                              className="h-10 w-10 rounded-full"
-                              src={user.imageUrl}
-                              alt=""
-                            />
-                          </Menu.Button>
-                        </div>
-                        <Transition
-                          as={Fragment}
-                          enter="transition ease-out duration-100"
-                          enterFrom="transform opacity-0 scale-95"
-                          enterTo="transform opacity-100 scale-100"
-                          leave="transition ease-in duration-75"
-                          leaveFrom="transform opacity-100 scale-100"
-                          leaveTo="transform opacity-0 scale-95"
-                        >
-                          <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                            {userNavigation.map((item) => (
-                              <Menu.Item key={item.name}>
-                                {({ active }) => (
-                                  <a
-                                    href={item.href}
-                                    className={classNames(
-                                      active ? "bg-gray-100" : "",
-                                      "block px-4 py-2 text-sm text-gray-700"
-                                    )}
-                                  >
-                                    {item.name}
-                                  </a>
-                                )}
-                              </Menu.Item>
-                            ))}
-                          </Menu.Items>
-                        </Transition>
-                      </Menu>
+                      <UserProfileDropdown name={session?.user?.name ?? ""} email={session?.user?.email ?? ""} image={session?.user?.image ?? ""}/>
                     </div>
                   </div>
                   <div className="-mr-2 flex md:hidden">
@@ -181,7 +146,7 @@ export default function DashboardLayout({
                       <div className="text-base font-medium leading-none text-white">
                         {user.name}
                       </div>
-                      <div className="text-sm font-medium leading-none text-gray-400">
+                      <div className="text-xs font-medium leading-none text-gray-400">
                         {user.email}
                       </div>
                     </div>
@@ -211,18 +176,9 @@ export default function DashboardLayout({
             </>
           )}
         </Disclosure>
-
-        <header className="bg-white shadow">
-          <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-            <h1 className="text-3xl font-bold tracking-tight text-gray-900">
-              Dashboard
-            </h1>
-          </div>
-        </header>
+        
         <main>
-          <div className="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
-            {children}
-          </div>
+          {children}
         </main>
       </div>
     </>
