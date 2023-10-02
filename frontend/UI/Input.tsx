@@ -7,10 +7,10 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
 const Input: React.FC<InputProps> = ({ icon = null, ...props }) => {
   return (
     <div className="flex items-center border border-gray-300 rounded-lg mt-2">
-      {icon && <div className="p-2 px-3">{icon}</div>}
+      {icon && <div className="pl-3">{icon}</div>}
       <input
         {...props}
-        className="w-full pr-3 py-3 rounded-lg focus:outline-none"
+        className="w-full pl-2 pr-3 py-3 rounded-lg focus:outline-none"
       />
     </div>
   );
