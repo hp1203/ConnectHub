@@ -10,7 +10,7 @@ const Input: React.FC<InputProps> = ({ icon = null, ...props }) => {
       {icon && <div className="pl-3">{icon}</div>}
       <input
         {...props}
-        className="w-full pl-2 pr-3 py-3 rounded-lg focus:outline-none"
+        className="w-full pl-3 pr-3 py-3 rounded-lg focus:outline-none"
       />
     </div>
   );
