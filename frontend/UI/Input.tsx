@@ -1,7 +1,7 @@
 import React from "react";
 
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
-  icon: React.ReactNode;
+  icon?: React.ReactNode;
 }
 
 const Input: React.FC<InputProps> = ({ icon = null, ...props }) => {
