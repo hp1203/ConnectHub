@@ -2,6 +2,7 @@ import { NextAuthOptions } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
 import useApi from "@/hooks/useApi";
+import axios from "axios";
 
 export const options: NextAuthOptions = {
   providers: [
@@ -24,15 +25,18 @@ export const options: NextAuthOptions = {
         },
       },
       async authorize(credentials, req) {
-        const { fetchData } = useApi();
-        const response = await fetchData(
-          "post",
-          "auth/login",
-          JSON.stringify({
+        const response = await axios({
+          method: 'POST',
+          url: `${process.env.NEXT_PUBLIC_API_URL}auth/login`,
+          data: JSON.stringify({
             email: credentials?.email,
             password: credentials?.password,
-          })
-        );
+          }),
+          headers: {
+            "Content-Type": "application/json",
+          }
+        });
+        
         if(response?.data){
           return response?.data;
         }
