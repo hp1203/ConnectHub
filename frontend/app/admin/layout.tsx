@@ -9,7 +9,7 @@ import Link from "next/link";
 import { useSession } from "next-auth/react";
 import UserProfileDropdown from "@/components/Dashboard/UserProfileDropdown";
 import { LuAreaChart, LuComponent, LuPencilRuler, LuSettings } from "react-icons/lu";
-import MobileMenu from "@/components/Dashboard/MobileMenu";
+// import MobileMenu from "@/components/Dashboard/MobileMenu";
 import { useRouter } from "next/navigation";
 
 const navigation = [
@@ -54,7 +54,7 @@ export default function DashboardLayout({
               <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                 <div className="flex h-16 items-center justify-between">
                   <div className="flex items-center">
-                    <MobileMenu/>
+                    {/* <MobileMenu/> */}
                     <div className="flex-shrink-0">
                       <div>
                         <h1
