@@ -2,7 +2,7 @@ import React, { ButtonHTMLAttributes, ReactNode } from "react";
 import { RiLoader3Fill } from "react-icons/ri";
 
 type ButtonProps = {
-  style: "primary" | "secondary" | "outline";
+  style: "primary" | "secondary" | "outline" | "icon";
   isLoading: Boolean;
   icon?: ReactNode;
   children: ReactNode;
@@ -22,24 +22,27 @@ const Button: React.FC<ButtonProps> = ({
   switch (style) {
     case "primary":
       buttonClass =
-        "bg-blue-500 hover:bg-blue-600 text-white transition duration-150";
+        "px-4 py-2 bg-blue-500 rounded text-white shadow-sm active:shadow-none active:scale-95 hover:bg-blue-600 focus:bg-blue-600 focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 disabled:bg-gray-400/80 disabled:shadow-none disabled:cursor-not-allowed";
       break;
     case "secondary":
       buttonClass =
-        "bg-gray-500 hover:bg-gray-600 text-white transition duration-150";
+        "px-4 py-2 bg-blue-50 border border-blue-100 rounded text-blue-500 active:scale-95 hover:bg-blue-400 hover:text-white focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 disabled:bg-gray-400/80 disabled:shadow-none disabled:cursor-not-allowed";
       break;
     case "outline":
       buttonClass =
-        "bg-transparent hover:bg-blue-600 text-blue-600 hover:text-white border-[3px] border-blue-500 hover:border-blue-600 transition duration-150";
+        "px-4 py-2 bg-transparent border-2 border-blue-400 rounded text-blue-500 active:scale-95 hover:bg-blue-600 hover:text-white hover:border-transparent focus:bg-blue-600 focus:text-white focus:border-transparent focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 disabled:bg-gray-400/80 disabled:shadow-none disabled:cursor-not-allowed";
+      break;
+    case "icon":
+      buttonClass =
+        "w-10 h-10 flex items-center justify-center bg-gray-100 border-gray-200 border text-blue-500 rounded group hover:bg-blue-500 hover:text-white hover:border-transparent focus:bg-blue-500 focus:text-white focus:border-transparent focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 n active:scale-95 disabled:bg-gray-400/80 disabled:shadow-none disabled:cursor-not-allowed";
       break;
     default:
-      buttonClass =
-        "bg-blue-500 hover:bg-blue-600 text-white transition duration-150";
+      buttonClass = "bg-blue-500 hover:bg-blue-600 text-white";
   }
 
   return (
     <button
-      className={`text-lg flex items-center justify-center pl-3 px-4 py-2 rounded-lg w-fit font-semibold tracking-wide ${buttonClass} ${className}`}
+      className={`flex rounded-md items-center gap-2 justify-center outline-none font-medium focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 disabled:bg-gray-400/80 disabled:shadow-none disabled:cursor-not-allowed transition-colors duration-200 ${buttonClass} ${className}`}
       {...props}
     >
       {isLoading ? (
@@ -48,8 +51,8 @@ const Button: React.FC<ButtonProps> = ({
         </span>
       ) : (
         <>
-          {icon && <span className="mr-2">{icon}</span>}
-          {children}
+          {icon && <span className="">{icon}</span>}
+          {style !== "icon" && children}
         </>
       )}
     </button>
