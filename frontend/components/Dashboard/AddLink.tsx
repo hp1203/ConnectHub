@@ -37,19 +37,20 @@ const AddLink: React.FC = () => {
     const data = {
       ...formData,
       tags: selectedTags,
-      isPublic: isPublic
+      icon: JSON.stringify(selectedEmoji),
+      isPublic: isPublic,
     };
-    console.log("Session", session);
-    console.log("data", data);
-    
-    fetchData("post", `links/${session?.user?.profiles[0]?._id}`, data).then((response) => {
-      setIsLoading(false);
-      setOpen(false);
-    }).catch((error) => {
-      setIsLoading(false);
-      alert(error)
-    });
-  }
+
+    fetchData("post", `links/${session?.user?.profiles[0]?._id}`, data)
+      .then((response) => {
+        setIsLoading(false);
+        setOpen(false);
+      })
+      .catch((error) => {
+        setIsLoading(false);
+        alert(error);
+      });
+  };
 
   const handleCancel = () => {
     setFormData({
@@ -61,8 +62,8 @@ const AddLink: React.FC = () => {
     setSelectedTags([]);
     setSelectedEmoji({});
     setOpen(false);
-  }
-  
+  };
+
   return (
     <div>
       <Button
@@ -119,24 +120,27 @@ const AddLink: React.FC = () => {
                       <div className="relative mt-6 flex-1 px-4 sm:px-6 overflow-y-scroll scrollbar-hide pb-4">
                         <div className="flex flex-col gap-4">
                           <div className="flex items-center gap-3">
-                          <div>
-                            <EmojiSelector value={selectedEmoji} setEmoji={setSelectedEmoji}/>
-                          </div>
-                          <div className="flex-1">
-                            <label className="block text-gray-700 font-semibold">
-                              Title
-                              <span className="font-normal text-red-600 text-xl">
-                                *
-                              </span>
-                            </label>
-                            <Input
-                              type="text"
-                              name="title"
-                              placeholder="Enter title for link"
-                              value={formData.title}
-                              onChange={handleOnChange}
-                            />
-                          </div>
+                            <div>
+                              <EmojiSelector
+                                value={selectedEmoji}
+                                setEmoji={setSelectedEmoji}
+                              />
+                            </div>
+                            <div className="flex-1">
+                              <label className="block text-gray-700 font-semibold">
+                                Title
+                                <span className="font-normal text-red-600 text-xl">
+                                  *
+                                </span>
+                              </label>
+                              <Input
+                                type="text"
+                                name="title"
+                                placeholder="Enter title for link"
+                                value={formData.title}
+                                onChange={handleOnChange}
+                              />
+                            </div>
                           </div>
 
                           <div>
@@ -176,36 +180,60 @@ const AddLink: React.FC = () => {
                                 *
                               </span>
                             </label>
-                            <MultiSelectInput value={selectedTags} setTags={setSelectedTags}/>
+                            <MultiSelectInput
+                              value={selectedTags}
+                              setTags={setSelectedTags}
+                            />
                           </div>
 
                           <div className="flex items-center justify-between mt-2">
                             <label className="block text-gray-700 font-semibold">
-                              Is Public?<br/>
-                              <span className="text-xs text-gray-400 font-normal">Do you want it to be public or not?</span>
+                              Is Public?
+                              <br />
+                              <span className="text-xs text-gray-400 font-normal">
+                                Do you want it to be public or not?
+                              </span>
                             </label>
                             <div className="">
                               <Switch
                                 checked={isPublic}
                                 onChange={seIsPublic}
-                                className={`${isPublic ? "bg-blue-600" : "bg-gray-300"}
+                                className={`${
+                                  isPublic ? "bg-blue-600" : "bg-gray-300"
+                                }
                               relative inline-flex h-[22px] w-[46px] shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2  focus-visible:ring-white focus-visible:ring-opacity-75`}
                               >
                                 <span className="sr-only">Use setting</span>
                                 <span
                                   aria-hidden="true"
-                                  className={`${isPublic ? "translate-x-6" : "translate-x-0"}
+                                  className={`${
+                                    isPublic ? "translate-x-6" : "translate-x-0"
+                                  }
                                 pointer-events-none inline-block h-[18px] w-[18px] transform rounded-full bg-white shadow-lg ring-0 transition duration-200 ease-in-out`}
                                 />
                               </Switch>
                             </div>
                           </div>
-
                         </div>
                       </div>
                       <div className="flex border-t p-3 items-center gap-3">
-                        <Button style="primary" className="" onClick={() => handleCreateLink()} icon={<LuSave className="w-5 h-5"/>} isLoading={isLoading}>Save</Button>
-                        <Button style="secondary" className="" isLoading={false} onClick={() => handleCancel()}>Cancel</Button>
+                        <Button
+                          style="primary"
+                          className=""
+                          onClick={() => handleCreateLink()}
+                          icon={<LuSave className="w-5 h-5" />}
+                          isLoading={isLoading}
+                        >
+                          Save
+                        </Button>
+                        <Button
+                          style="secondary"
+                          className=""
+                          isLoading={false}
+                          onClick={() => handleCancel()}
+                        >
+                          Cancel
+                        </Button>
                       </div>
                     </div>
                   </Dialog.Panel>
