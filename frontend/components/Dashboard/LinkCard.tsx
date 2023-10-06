@@ -1,20 +1,30 @@
 "use client";
 import { Switch } from "@headlessui/react";
+import Link from "next/link";
 import React, { useState } from "react";
 import { LuBarChart3, LuClipboardEdit, LuShare2, LuTrash2 } from "react-icons/lu";
-
-const LinkCard: React.FC = () => {
-  const [enabled, setEnabled] = useState(false);
+type LinkType = {
+  _id: string
+  title: string,
+  icon: string,
+  url: string,
+  description: string,
+  isPublic: boolean,
+}
+const LinkCard: React.FC<LinkType> = ({ title, icon, description, url, isPublic }) => {
+  const [enabled, setEnabled] = useState(isPublic);
   return (
     <div className="flex flex-col shadow rounded-lg bg-white w-full h-fit">
       <div className="flex gap-4 items-center border-b border-gray-100 p-3">
         <div className="bg-gray-50 w-12 h-12 flex items-center justify-center border border-gray-100 rounded-full">
-          <span className="text-2xl">{"\ud83d\ude00"}</span>
+          <span className="text-2xl">{icon || "\ud83d\ude00"}</span>
         </div>
         <div className="flex flex-1 flex-col">
-          <p className="font-semibold text-gray-800">Facebook</p>
+          <p className="font-semibold text-gray-800">{title}</p>
           <span className="text-sm text-gray-500">
-            http://www.twitter.com/himanshu_eth
+            <Link href={url} target="_blank">
+              {url}
+            </Link>
           </span>
         </div>
         <div className="pr-2">
@@ -34,7 +44,7 @@ const LinkCard: React.FC = () => {
         </div>
       </div>
       <div className="p-4 text-gray-600 font-normal text-sm">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores nihil deserunt commodi maxime atque distinctio totam et enim fugit inventore pariatur, iusto obcaecati, accusamus molestiae in consectetur quisquam, asperiores natus.
+        {description}
       </div>
       <div className="flex border-t border-gray-100 divide-x divide-gray-100">
         <button className="flex items-center justify-center p-3 w-full gap-2">
