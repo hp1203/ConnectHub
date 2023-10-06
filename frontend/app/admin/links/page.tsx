@@ -6,11 +6,12 @@ import AddLink from "@/components/Dashboard/AddLink";
 import Content from "@/components/Dashboard/Content";
 import LinkCard from "@/components/Dashboard/LinkCard";
 import useApi from "@/hooks/useApi";
+import { LinkType } from "@/Constants/types";
 const Links: React.FC = () => {
   const {data: session} = useSession();
   const [isLoading, setIsLoading] = useState(false);
   const { fetchData } = useApi(session?.token);
-  const [links, setLinks] = useState([]);
+  const [links, setLinks] = useState<LinkType[]>([]);
   useEffect(() => { 
     const fetchLinks = () => {
       setIsLoading(true);
@@ -38,7 +39,7 @@ const Links: React.FC = () => {
         <div className="flex flex-1 flex-col gap-4 col-span-3 overflow-y-scroll scrollbar-hide p-1">
           {
             links.length > 0 && links.map((link) => (
-              <LinkCard link={link} />
+              <LinkCard {...link} key={link?._id.toString()}/>
             ))
           }
         </div>
