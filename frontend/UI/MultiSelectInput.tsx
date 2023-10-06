@@ -20,7 +20,7 @@ const MultiSelectInput = ({ value, setTags }: {
   };
 
   const handleTagDelete = (tag: string) => {
-    const updatedTags = value.filter((t) => t !== tag);
+    const updatedTags = value.filter((t: any) => t !== tag);
     setTags(updatedTags);
   };
 
