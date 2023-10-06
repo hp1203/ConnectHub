@@ -97,6 +97,7 @@ const MobileMenu: React.FC = ({ menus, user }: { menus: any[]; user: any }) => {
                         {menus.map((menu) => (
                           <Link
                             href={menu.href}
+                            key={menu.name}
                             className="flex items-center py-3 px-4 gap-3 text-gray-700 hover:bg-gray-100 duration-150"
                           >
                             <span className="text-gray-500">{menu.icon}</span>
