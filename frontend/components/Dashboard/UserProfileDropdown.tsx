@@ -35,7 +35,7 @@ const UserProfileDropdown: React.FC<UserProfileProps> = ({
                   image ||
                   `https://eu.ui-avatars.com/api/?name=${name}&size=250&background=f5f5f5&color=3B82F6`
                 }
-                alt=""
+                alt={name}
               />
             </div>
           </Menu.Button>
@@ -59,13 +59,15 @@ const UserProfileDropdown: React.FC<UserProfileProps> = ({
                     "flex items-center gap-3 px-4 py-5 border-b border-gray-100 text-sm text-gray-700"
                   )}
                 >
-                  <img
+                  <Image
                     className="h-9 w-9 rounded-full"
+                    width={40}
+                    height={40}
                     src={
                       image ||
                       `https://eu.ui-avatars.com/api/?name=${name}&size=250&background=f5f5f5&color=3B82F6`
                     }
-                    alt=""
+                    alt={name}
                   />
                   <div className=" hidden md:flex flex-col items-start justify-start gap-1">
                     <div className="text-sm font-medium leading-none text-gray-800">
@@ -92,7 +94,7 @@ const UserProfileDropdown: React.FC<UserProfileProps> = ({
                 </Link>
               )}
             </Menu.Item>
-            <Menu.Item>
+            {/* <Menu.Item>
               {({ active }) => (
                 <Link
                   href="/profile"
@@ -107,7 +109,7 @@ const UserProfileDropdown: React.FC<UserProfileProps> = ({
                   </span>
                 </Link>
               )}
-            </Menu.Item>
+            </Menu.Item> */}
             <Menu.Item>
               {({ active }) => (
                 <Link
