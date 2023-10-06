@@ -1,16 +1,10 @@
 "use client";
+import { LinkType } from "@/Constants/types";
 import { Switch } from "@headlessui/react";
 import Link from "next/link";
 import React, { useState } from "react";
 import { LuBarChart3, LuClipboardEdit, LuShare2, LuTrash2 } from "react-icons/lu";
-type LinkType = {
-  _id: string
-  title: string,
-  icon: string,
-  url: string,
-  description: string,
-  isPublic: boolean,
-}
+
 const LinkCard: React.FC<LinkType> = ({ title, icon, description, url, isPublic }) => {
   const [enabled, setEnabled] = useState(isPublic);
   return (
