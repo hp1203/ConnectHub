@@ -103,13 +103,13 @@ const AddLink: React.FC = () => {
                 >
                   <Dialog.Panel className="pointer-events-auto relative w-screen max-w-md">
                     <div className="flex h-full flex-col overflow-y-scroll bg-white shadow-xl">
-                      <div className="flex items-center justify-between p-4 text-white bg-blue-600">
+                      <div className="flex items-center justify-between p-4 text-white bg-blue-500">
                         <Dialog.Title className="text-lg font-medium leading-6">
                           Add New Link
                         </Dialog.Title>
                         <button
                           type="button"
-                          className="relative rounded-md text-gray-100 bg-blue-700 p-1 focus:outline-none focus:ring-2 focus:ring-white"
+                          className="relative rounded-md text-gray-100 bg-blue-600 p-1 focus:outline-none focus:ring-2 focus:ring-white"
                           onClick={() => setOpen(false)}
                         >
                           <span className="absolute -inset-2.5" />
