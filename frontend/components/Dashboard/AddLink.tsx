@@ -12,12 +12,13 @@ import useApi from "@/hooks/useApi";
 import { useSession } from "next-auth/react";
 
 const AddLink: React.FC = () => {
-  const { fetchData } = useApi();
   const { data: session } = useSession();
+  const { fetchData } = useApi(session?.token);
   const [open, setOpen] = useState(false);
   const [selectedEmoji, setSelectedEmoji] = useState({});
   const [selectedTags, setSelectedTags] = useState([]);
   const [isPublic, seIsPublic] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
     title: "",
     description: "",
@@ -32,15 +33,22 @@ const AddLink: React.FC = () => {
   };
 
   const handleCreateLink = () => {
+    setIsLoading(true);
     const data = {
       ...formData,
       tags: selectedTags,
       isPublic: isPublic
     };
-    console.log("Session", session?.user);
+    console.log("Session", session);
     console.log("data", data);
     
-    // fetchData("post", `/links/${session?.user.profile}`)
+    fetchData("post", `links/${session?.user?.profiles[0]?._id}`, data).then((response) => {
+      setIsLoading(false);
+      setOpen(false);
+    }).catch((error) => {
+      setIsLoading(false);
+      alert(error)
+    });
   }
 
   const handleCancel = () => {
@@ -196,7 +204,7 @@ const AddLink: React.FC = () => {
                         </div>
                       </div>
                       <div className="flex border-t p-3 items-center gap-3">
-                        <Button style="primary" className="" onClick={() => handleCreateLink()} icon={<LuSave className="w-5 h-5"/>} isLoading={false}>Save</Button>
+                        <Button style="primary" className="" onClick={() => handleCreateLink()} icon={<LuSave className="w-5 h-5"/>} isLoading={isLoading}>Save</Button>
                         <Button style="secondary" className="" isLoading={false} onClick={() => handleCancel()}>Cancel</Button>
                       </div>
                     </div>
