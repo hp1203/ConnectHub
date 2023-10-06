@@ -25,7 +25,7 @@ const AddLink: React.FC = () => {
     url: "",
     isPublic: true,
   });
-  const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleOnChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData((prevState) => ({
       ...prevState,
       [e.target.name]: e.target.value,
