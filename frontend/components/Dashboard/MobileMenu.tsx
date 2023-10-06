@@ -11,8 +11,9 @@ import {
 import Link from "next/link";
 import Image from "next/image";
 import { signOut } from "next-auth/react";
+import { MobileMenuProps } from "@/Constants/types";
 
-const MobileMenu: React.FC = ({ menus, user }: { menus: any[]; user: any }) => {
+const MobileMenu: React.FC<MobileMenuProps> = ({ menus, user }) => {
   const [open, setOpen] = useState(false);
   return (
     <>
