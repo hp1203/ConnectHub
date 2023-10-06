@@ -7,15 +7,16 @@ import Content from "@/components/Dashboard/Content";
 import LinkCard from "@/components/Dashboard/LinkCard";
 import useApi from "@/hooks/useApi";
 import { LinkType } from "@/Constants/types";
+
 const Links: React.FC = () => {
   const {data: session} = useSession();
   const [isLoading, setIsLoading] = useState(false);
-  const { fetchData } = useApi(session?.token);
+  const { fetchData } = useApi(session?.token || "");
   const [links, setLinks] = useState<LinkType[]>([]);
   useEffect(() => { 
     const fetchLinks = () => {
       setIsLoading(true);
-      fetchData("get", `links/profile/${session?.user?.profiles[0]?._id}`).then((response) => {
+      fetchData("get", `links/profile/${session?.user?.profiles[0]?._id || ""}`).then((response) => {
         setLinks(response.data.links);
         setIsLoading(false);
       }).catch((error) => {
