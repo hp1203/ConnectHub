@@ -2,6 +2,7 @@ import Link from "next/link";
 import React from "react";
 import { FiArrowRight } from "react-icons/fi";
 import { FaLink } from "react-icons/fa6";
+import Image from "next/image";
 
 const Features: React.FC = () => {
   return (
@@ -19,7 +20,7 @@ const Features: React.FC = () => {
         <div className="mt-16 grid border divide-x divide-y rounded-xl overflow-hidden sm:grid-cols-2 lg:divide-y-0 lg:grid-cols-3 xl:grid-cols-4">
           <div className="relative group bg-white transition hover:z-[1] hover:shadow-2xl">
             <div className="relative p-8 space-y-8 h-full flex flex-col justify-between">
-              <img
+              <Image
                 src="/link.png"
                 className="w-14"
                 width="512"
@@ -51,7 +52,7 @@ const Features: React.FC = () => {
           </div>
           <div className="relative group bg-white transition hover:z-[1] hover:shadow-2xl">
             <div className="relative p-8 space-y-8 h-full flex flex-col justify-between">
-              <img
+              <Image
                 src="/design.png"
                 className="w-14"
                 width="512"
@@ -80,7 +81,7 @@ const Features: React.FC = () => {
           </div>
           <div className="relative group bg-white transition hover:z-[1] hover:shadow-2xl">
             <div className="relative p-8 space-y-8 h-full flex flex-col justify-between">
-              <img
+              <Image
                 src="/analytics.png"
                 className="w-14"
                 width="512"
@@ -109,7 +110,7 @@ const Features: React.FC = () => {
           </div>
           <div className="relative group bg-white transition hover:z-[1] hover:shadow-2xl">
             <div className="relative p-8 space-y-8 h-full flex flex-col justify-between">
-              <img
+              <Image
                 src="/tools.png"
                 className="w-14 "
                 width="512"
@@ -138,7 +139,7 @@ const Features: React.FC = () => {
           </div>
           {/* <div className="relative group bg-gray-100 transition hover:z-[1] hover:shadow-2xl lg:hidden xl:block">
             <div className="relative p-8 space-y-8 border-dashed rounded-lg transition duration-300 group-hover:bg-white group-hover:border group-hover:scale-90">
-              <img
+              <Image
                 src="https://tailus.io/sources/blocks/stacked/preview/images/avatars/metal.png"
                 className="w-10"
                 width="512"

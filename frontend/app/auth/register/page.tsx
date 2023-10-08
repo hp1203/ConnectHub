@@ -47,7 +47,7 @@ const Register: React.FC = () => {
         </h1>
       </div>
 
-      <div className="bg-white w-full flex-[0.4] flex flex-col p-14 h-screen overflow-y-scroll">
+      <div className="bg-white w-full flex-[0.4] flex flex-col p-14 min-h-screen overflow-y-scroll">
         <div>
           <Link
             className="text-gray-800 font-museomoderno text-xl font-bold md:text-2xl hover:text-gray-700"

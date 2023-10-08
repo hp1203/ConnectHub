@@ -2,6 +2,7 @@ import { connectToDb } from "../utils/database.js";
 import User from "../models/user.model.js";
 import { createToken, generatePassword } from "../utils/auth.js";
 import { compare } from "bcrypt";
+import Profile from "../models/profile.model.js";
 
 export const register = async (request, response) => {
   connectToDb();
@@ -25,9 +26,14 @@ export const register = async (request, response) => {
         email: email,
         password: await generatePassword(password),
       });
+      const profile = await Profile.create({
+        user: registeredUser._id,
+        url: registeredUser._id.toString(),
+        category: "6509e819ccb8245ae52f2ac6"
+      });
       const token = await createToken(email, registeredUser._id.toString());
       return response.status(201).json({
-        user: registeredUser,
+        user: {...registeredUser, profile},
         token: token,
       });
     } else {
@@ -60,9 +66,11 @@ export const login = async (request, response) => {
 
     if (!auth) return response.status(400).json({ error: "Invalid Password" });
 
+    const profiles = await Profile.find({ user: user._id});
+
     const token = await createToken(user.email, user._id.toString());
     return response.status(201).json({
-      user: user,
+      user: {...user._doc, profiles },
       token: token,
     });
   } catch (error) {

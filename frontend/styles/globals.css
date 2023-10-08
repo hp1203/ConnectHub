@@ -8,3 +8,12 @@
 body {
     @apply bg-gray-50 dark:bg-gray-800 font-montserrat
 }
+
+.scrollbar-hide::-webkit-scrollbar {
+    display: none;
+}
+
+.scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}

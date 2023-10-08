@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import Link from "../models/link.model.js";
 import Profile from "../models/profile.model.js";
 import { connectToDb } from "../utils/database.js";
@@ -24,9 +25,9 @@ export const getProfileLinks = async (request, response) => {
   connectToDb();
   try {
     const { profileId } = request.params;
-
+    console.log("profileId", profileId);
     const links = await Link.find({ profile: profileId });
-
+    console.log(links);
     if (links.length <= 0)
       return response.status(404).json({ error: "Links not found" });
 
