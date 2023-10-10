@@ -25,7 +25,7 @@ export const getProfileLinks = async (request, response) => {
   connectToDb();
   try {
     const { profileId } = request.params;
-    console.log("profileId", profileId);
+    
     const links = await Link.find({ profile: profileId });
     console.log(links);
     if (links.length <= 0)

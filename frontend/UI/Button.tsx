@@ -2,18 +2,18 @@ import React, { ButtonHTMLAttributes, ReactNode } from "react";
 import { RiLoader3Fill } from "react-icons/ri";
 
 type ButtonProps = {
-  style: "primary" | "secondary" | "outline" | "icon";
-  isLoading: Boolean;
+  style: "primary" | "danger" | "secondary" | "outline" | "icon";
+  isLoading?: Boolean;
   icon?: ReactNode;
   children: ReactNode;
-  className: String;
+  className?: String;
 } & ButtonHTMLAttributes<HTMLButtonElement>;
 
 const Button: React.FC<ButtonProps> = ({
   style = "primary",
   icon = null,
   children,
-  className = "",
+  className = null,
   isLoading = false,
   ...props
 }) => {
@@ -24,6 +24,10 @@ const Button: React.FC<ButtonProps> = ({
       buttonClass =
         "px-4 py-2 bg-blue-500 rounded text-white shadow-sm active:shadow-none active:scale-95 hover:bg-blue-600 focus:bg-blue-600 focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 disabled:bg-gray-400/80 disabled:shadow-none disabled:cursor-not-allowed";
       break;
+    case "danger":
+        buttonClass =
+          "px-4 py-2 bg-red-500 rounded text-white shadow-sm active:shadow-none active:scale-95 hover:bg-red-600 focus:bg-red-600 focus:ring-2 focus:ring-red-600 focus:ring-offset-2 disabled:bg-gray-400/80 disabled:shadow-none disabled:cursor-not-allowed";
+        break;
     case "secondary":
       buttonClass =
         "px-4 py-2 bg-blue-50 border border-blue-100 rounded text-blue-500 active:scale-95 hover:bg-blue-400 hover:text-white focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 disabled:bg-gray-400/80 disabled:shadow-none disabled:cursor-not-allowed";

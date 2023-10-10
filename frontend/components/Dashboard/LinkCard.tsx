@@ -4,8 +4,9 @@ import { Switch } from "@headlessui/react";
 import Link from "next/link";
 import React, { useState } from "react";
 import { LuBarChart3, LuClipboardEdit, LuShare2, LuTrash2 } from "react-icons/lu";
+import DeleteLink from "./DeleteLink";
 
-const LinkCard: React.FC<LinkType> = ({ title, icon, description, url, isPublic }) => {
+const LinkCard: React.FC<LinkType> = ({ title, icon, description, url, isPublic, _id }) => {
   const [enabled, setEnabled] = useState(isPublic);
   return (
     <div className="flex flex-col shadow rounded-lg bg-white w-full h-fit">
@@ -53,10 +54,7 @@ const LinkCard: React.FC<LinkType> = ({ title, icon, description, url, isPublic 
             <LuClipboardEdit className="w-4 h-4 text-gray-500"/>
             <span className="text-gray-600 text-sm font-medium">Edit</span>
         </button>
-        <button className="flex items-center justify-center p-3 w-full gap-2">
-            <LuTrash2 className="w-4 h-4 text-gray-500"/>
-            <span className="text-gray-600 text-sm font-medium">Delete</span>
-        </button>
+        <DeleteLink linkId={_id}/>
       </div>
     </div>
   );
