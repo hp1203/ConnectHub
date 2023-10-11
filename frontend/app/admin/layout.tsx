@@ -11,30 +11,31 @@ import {
   LuSettings,
 } from "react-icons/lu";
 import MobileMenu from "@/components/Dashboard/MobileMenu";
+import { useSelectedLayoutSegment } from "next/navigation";
 
 const navigation = [
   {
     name: "Analytics",
     href: "/admin",
-    current: true,
+    targetSegment: null,
     icon: <LuAreaChart className="w-5 h-5" />,
   },
   {
     name: "Links",
     href: "/admin/links",
-    current: false,
+    targetSegment: "links",
     icon: <LuComponent className="w-5 h-5" />,
   },
   {
     name: "Appearance",
     href: "/admin/appearance",
-    current: false,
+    targetSegment: "appearance",
     icon: <LuPencilRuler className="w-5 h-5" />,
   },
   {
     name: "Settings",
     href: "/admin/settings",
-    current: false,
+    targetSegment: "settings",
     icon: <LuSettings className="w-5 h-5" />,
   },
 ];
@@ -49,6 +50,7 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }) {
   const { data: session } = useSession();
+  const activeSegment = useSelectedLayoutSegment();
 
   return (
     <>
@@ -58,12 +60,12 @@ export default function DashboardLayout({
             <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
               <div className="flex h-16 items-center justify-between">
                 <div className="flex items-center">
-                  <MobileMenu 
-                    menus={navigation} 
+                  <MobileMenu
+                    menus={navigation}
                     user={{
                       name: session?.user?.name ?? "",
                       email: session?.user?.email ?? "",
-                      image: session?.user?.image ?? ""
+                      image: session?.user?.image ?? "",
                     }}
                   />
                   <div className="flex-shrink-0">
@@ -80,7 +82,7 @@ export default function DashboardLayout({
                           key={item.name}
                           href={item.href}
                           className={classNames(
-                            item.current
+                            activeSegment === item.targetSegment
                               ? "bg-blue-600 text-white"
                               : "text-gray-100 hover:bg-blue-600 hover:text-white",
                             "rounded-md px-3 py-2 text-sm font-medium flex items-center gap-2"
@@ -97,16 +99,6 @@ export default function DashboardLayout({
                 </div>
                 <div className="hidden md:block">
                   <div className="ml-4 flex items-center md:ml-6">
-                    {/* <button
-                        type="button"
-                        className="relative rounded-full bg-blue-500 hover:bg-blue-600 p-2 text-gray-100 hover:text-white focus:outline-none focus:ring-none focus:ring-white focus:ring-offset-2 focus:ring-offset-blue-600"
-                      >
-                        <span className="absolute -inset-1.5" />
-                        <span className="sr-only">View notifications</span>
-                        <FaBell className="h-6 w-6" aria-hidden="true" />
-                      </button> */}
-
-                    {/* Profile dropdown */}
                     <UserProfileDropdown
                       name={session?.user?.name ?? ""}
                       email={session?.user?.email ?? ""}
