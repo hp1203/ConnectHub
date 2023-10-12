@@ -4,6 +4,7 @@ export type LinkType = {
   icon: string;
   url: string;
   description: string;
+  tags: string[];
   isPublic: boolean;
 };
 

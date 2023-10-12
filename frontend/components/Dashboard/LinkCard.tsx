@@ -6,7 +6,7 @@ import React, { useState } from "react";
 import { LuBarChart3, LuClipboardEdit, LuShare2, LuTrash2 } from "react-icons/lu";
 import DeleteLink from "./DeleteLink";
 
-const LinkCard: React.FC<LinkType> = ({ title, icon, description, url, isPublic, _id }) => {
+const LinkCard: React.FC<LinkType> = ({ title, icon, description, url, isPublic, _id, tags }) => {
   const [enabled, setEnabled] = useState(isPublic);
   return (
     <div className="flex flex-col shadow rounded-lg bg-white w-full h-fit">
@@ -40,6 +40,11 @@ const LinkCard: React.FC<LinkType> = ({ title, icon, description, url, isPublic,
       </div>
       <div className="p-4 text-gray-600 font-normal text-sm">
         {description}
+      </div>
+      <div className="flex flex-wrap gap-2 px-3 mb-3">
+        {tags && tags.map((tag) => (
+          <p className="p-2 rounded-lg bg-gray-100 text-gray-600 font-medium tracking-wide text-xs">#{tag}</p>
+        ))}
       </div>
       <div className="flex border-t border-gray-100 divide-x divide-gray-100">
         <button className="flex items-center justify-center p-3 w-full gap-2">
