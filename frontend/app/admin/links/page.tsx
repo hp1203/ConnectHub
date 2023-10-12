@@ -1,7 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
-import Button from "@/UI/Button";
 import AddLink from "@/components/Dashboard/AddLink";
 import Content from "@/components/Dashboard/Content";
 import LinkCard from "@/components/Dashboard/LinkCard";
@@ -31,7 +30,7 @@ const Links: React.FC = () => {
     if (session?.token) {
       fetchLinks();
     }
-  }, [session]);
+  }, [session, fetchData]);
   return (
     <Content
       title="Links"
@@ -49,7 +48,7 @@ const Links: React.FC = () => {
               Fetching Links...
             </p>
             <p className="text-gray-500 font-normal max-w-md text-center">
-              Hold on! We're getting your links.
+              {`Hold on! We're getting your links.`}
             </p>
           </div>
         )}
