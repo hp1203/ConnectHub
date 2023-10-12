@@ -18,6 +18,21 @@ export const getUserInfo = async (request, response) => {
   }
 }
 
+export const getProfileInfo = async (request, response) => {
+  connectToDb();
+  try {
+    const { id } = request.params;
+    const profile = await Profile.findById(id).populate("user");
+    // const user = await User.findById(profile.user);
+    return response.status(200).json({
+      profile
+    });
+  } catch (error) {
+    console.log(error);
+    return response.status(500).json({ error: error.message });
+  }
+}
+
 export const setUserProfile = async (request, response) => {
   connectToDb();
   try {
