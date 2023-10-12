@@ -30,7 +30,7 @@ const Links: React.FC = () => {
     if (session?.token) {
       fetchLinks();
     }
-  }, [session, fetchData]);
+  }, [session]);
   return (
     <Content
       title="Links"
