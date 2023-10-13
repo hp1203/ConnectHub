@@ -2,7 +2,7 @@ import { renameSync } from "fs";
 import { connectToDb } from "../utils/database.js";
 import User from "../models/user.model.js";
 import Profile from "../models/profile.model.js";
-
+import Link from "../models/link.model.js";
 export const getUserInfo = async (request, response) => {
   connectToDb();
   try {
@@ -22,10 +22,12 @@ export const getProfileInfo = async (request, response) => {
   connectToDb();
   try {
     const { id } = request.params;
-    const profile = await Profile.find({url: id}).populate("user");
+    const profile = await Profile.findOne({url: id}).populate("user");
+    const links = await Link.find({ profile: profile._id });
     // const user = await User.findById(profile.user);
     return response.status(200).json({
-      profile
+      profile,
+      links
     });
   } catch (error) {
     console.log(error);

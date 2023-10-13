@@ -27,7 +27,6 @@ export const getProfileLinks = async (request, response) => {
     const { profileId } = request.params;
     
     const links = await Link.find({ profile: profileId });
-    console.log(links);
     if (links.length <= 0)
       return response.status(404).json({ error: "Links not found" });
 
