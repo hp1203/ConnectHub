@@ -6,13 +6,13 @@ import React, { useState } from "react";
 import { LuBarChart3, LuClipboardEdit, LuShare2, LuTrash2 } from "react-icons/lu";
 import DeleteLink from "./DeleteLink";
 
-const LinkCard: React.FC<LinkType> = ({ title, icon, description, url, isPublic, _id }) => {
+const LinkCard: React.FC<LinkType> = ({ title, icon, description, url, isPublic, _id, tags }) => {
   const [enabled, setEnabled] = useState(isPublic);
   return (
     <div className="flex flex-col shadow rounded-lg bg-white w-full h-fit">
       <div className="flex gap-4 items-center border-b border-gray-100 p-3">
         <div className="bg-gray-50 w-12 h-12 flex items-center justify-center border border-gray-100 rounded-full">
-          <span className="text-2xl">{icon || "\ud83d\ude00"}</span>
+          <span className="text-2xl">{icon?.character || "\ud83d\ude00"}</span>
         </div>
         <div className="flex flex-1 flex-col">
           <p className="font-semibold text-gray-800">{title}</p>
@@ -40,6 +40,11 @@ const LinkCard: React.FC<LinkType> = ({ title, icon, description, url, isPublic,
       </div>
       <div className="p-4 text-gray-600 font-normal text-sm">
         {description}
+      </div>
+      <div className="flex flex-wrap gap-2 px-3 mb-3">
+        {tags && tags.map((tag) => (
+          <p key={tag} className="p-2 rounded-lg bg-gray-100 text-gray-600 font-medium tracking-wide text-xs">#{tag}</p>
+        ))}
       </div>
       <div className="flex border-t border-gray-100 divide-x divide-gray-100">
         <button className="flex items-center justify-center p-3 w-full gap-2">
