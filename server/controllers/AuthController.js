@@ -28,7 +28,7 @@ export const register = async (request, response) => {
       });
       const profile = await Profile.create({
         user: registeredUser._id,
-        url: registeredUser._id.toString(),
+        url: email.split('@')[0],
         category: "6509e819ccb8245ae52f2ac6"
       });
       const token = await createToken(email, registeredUser._id.toString());
