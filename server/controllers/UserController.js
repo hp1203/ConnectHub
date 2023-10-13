@@ -22,7 +22,7 @@ export const getProfileInfo = async (request, response) => {
   connectToDb();
   try {
     const { id } = request.params;
-    const profile = await Profile.findById(id).populate("user");
+    const profile = await Profile.find({url: id}).populate("user");
     // const user = await User.findById(profile.user);
     return response.status(200).json({
       profile
