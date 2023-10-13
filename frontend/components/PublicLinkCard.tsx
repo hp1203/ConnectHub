@@ -19,8 +19,11 @@ const PublicLinkCard: React.FC<LinkType> = ({
       <Disclosure>
         {({ open }) => (
           <>
-            <Disclosure.Button className="flex w-full justify-between rounded-lg bg-white px-4 py-2 text-left text-sm font-semibold text-blue-500 hover:bg-blue-200 focus:outline-none focus-visible:ring focus-visible:ring-blue-500 focus-visible:ring-opacity-75">
-              <span>{title}</span>
+            <Disclosure.Button className="flex w-full justify-between items-center rounded-lg bg-white px-4 py-2 text-left text-sm font-semibold text-blue-500 hover:bg-blue-200 focus:outline-none focus-visible:ring focus-visible:ring-blue-500 focus-visible:ring-opacity-75">
+              <div className="flex items-center gap-2">
+                <span className="text-lg">{icon || "\ud83d\ude00"}</span>
+                <span>{title}</span>
+              </div>
               <LuChevronDown
                 className={`${
                   open ? "rotate-180 transform" : ""
@@ -28,16 +31,27 @@ const PublicLinkCard: React.FC<LinkType> = ({
               />
             </Disclosure.Button>
             <Disclosure.Panel className="text-sm flex flex-col p-2 text-gray-500">
-              <p className="mb-3 text-sm font-normal text-gray-700">
+              <p className="mb-3 py-2 text-sm font-normal text-gray-700">
                 {description}
               </p>
+              <div className="flex flex-wrap gap-2 mb-3">
+                {tags &&
+                  tags.map((tag) => (
+                    <p
+                      key={tag}
+                      className="p-2 rounded-lg bg-gray-100 text-gray-600 font-medium tracking-wide text-xs"
+                    >
+                      #{tag}
+                    </p>
+                  ))}
+              </div>
               <Link
                 href={url}
                 target="_blank"
                 className="w-full text-sm hover:text-blue-500 p-2 border-t text-gray-500 border-gray-100 flex items-center justify-center gap-1"
               >
                 <LuArrowUpRightSquare className="w-4 h-4" />
-                <span className="text-sm">Visit Now</span>
+                <span className="text-sm">Visit</span>
               </Link>
             </Disclosure.Panel>
           </>
