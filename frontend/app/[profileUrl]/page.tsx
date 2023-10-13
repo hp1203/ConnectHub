@@ -64,7 +64,7 @@ const PublicProfile = ({ params }: { params: { profileUrl: string } }) => {
             alt={profile?.profileTitle || profile?.user?.name || ""}
           />
          
-          <div className="flex flex-col gap-3 bg-white shadow-md rounded-lg p-4">
+          <div className="flex flex-1 flex-col gap-3 bg-white shadow-md rounded-lg p-4">
             <h1 className="text-gray-600 font-semibold text-2xl">
               {profile?.profileTitle || profile?.user?.name}
             </h1>
@@ -76,7 +76,7 @@ const PublicProfile = ({ params }: { params: { profileUrl: string } }) => {
                   target="_blank"
                   title="Website"
                 >
-                  <FaGlobe className="w-5 h-5 cursor-pointer text-gray-400 hover:text-blue-600 transition duration-150" />
+                  <FaGlobe className="w-5 h-5 cursor-pointer text-gray-700 hover:text-blue-600 transition duration-150" />
                 </Link>
               )}
               {profile?.socialLinks?.facebook && (
@@ -85,7 +85,7 @@ const PublicProfile = ({ params }: { params: { profileUrl: string } }) => {
                   target="_blank"
                   title="Facebook"
                 >
-                  <FaFacebook className="w-5 h-5 cursor-pointer text-gray-400 hover:text-blue-600 transition duration-150" />
+                  <FaFacebook className="w-5 h-5 cursor-pointer text-gray-700 hover:text-blue-600 transition duration-150" />
                 </Link>
               )}
               {profile?.socialLinks?.twitter && (
@@ -94,7 +94,7 @@ const PublicProfile = ({ params }: { params: { profileUrl: string } }) => {
                   target="_blank"
                   title="Twitter"
                 >
-                  <FaTwitter className="w-5 h-5 cursor-pointer text-gray-400 hover:text-blue-600 transition duration-150" />
+                  <FaTwitter className="w-5 h-5 cursor-pointer text-gray-700 hover:text-blue-600 transition duration-150" />
                 </Link>
               )}
               {profile?.socialLinks?.instagram && (
@@ -103,7 +103,7 @@ const PublicProfile = ({ params }: { params: { profileUrl: string } }) => {
                   target="_blank"
                   title="Instagram"
                 >
-                  <AiFillInstagram className="w-5 h-5 cursor-pointer text-gray-400 hover:text-blue-600 transition duration-150" />
+                  <AiFillInstagram className="w-5 h-5 cursor-pointer text-gray-700 hover:text-blue-600 transition duration-150" />
                 </Link>
               )}
               {profile?.socialLinks?.linkedin && (
@@ -112,15 +112,15 @@ const PublicProfile = ({ params }: { params: { profileUrl: string } }) => {
                   target="_blank"
                   title="LinkedIn"
                 >
-                  <FaLinkedin className="w-5 h-5 cursor-pointer text-gray-400 hover:text-blue-600 transition duration-150" />
+                  <FaLinkedin className="w-5 h-5 cursor-pointer text-gray-700 hover:text-blue-600 transition duration-150" />
                 </Link>
               )}
             </div>
           </div>
         </div>
       }
-        <p className="text-center font-semibold text-gray-700 text-xl pt-3">Get to know more about me</p>
-        <div className="py-4 flex-1 h-full mb-3">
+        <p className="text-center font-semibold text-gray-700 text-xl pt-6 pb-3">Get to know more about me</p>
+        <div className="py-4 flex flex-1 h-full mb-3">
           {links.length > 0 && isLoading == false && (
             <div className="flex flex-1 flex-col gap-4 col-span-3 overflow-y-scroll scrollbar-hide">
               {links.map((link) => (
@@ -143,7 +143,7 @@ const PublicProfile = ({ params }: { params: { profileUrl: string } }) => {
               Elevate Your Online Presence
             </span>
           </div>
-          <div className="flex space-x-6 items-center justify-center">
+          {/* <div className="flex space-x-6 items-center justify-center">
             <Link href="" target="_blank" title="Facebook">
               <FaFacebook className="w-5 h-5 cursor-pointer text-gray-600 hover:text-blue-600 transition duration-150" />
             </Link>
@@ -159,7 +159,7 @@ const PublicProfile = ({ params }: { params: { profileUrl: string } }) => {
             <Link href="" target="_blank" title="Discord">
               <FaDiscord className="w-5 h-5 cursor-pointer text-gray-600 hover:text-blue-600 transition duration-150" />
             </Link>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>

@@ -12,7 +12,7 @@ const LinkCard: React.FC<LinkType> = ({ title, icon, description, url, isPublic,
     <div className="flex flex-col shadow rounded-lg bg-white w-full h-fit">
       <div className="flex gap-4 items-center border-b border-gray-100 p-3">
         <div className="bg-gray-50 w-12 h-12 flex items-center justify-center border border-gray-100 rounded-full">
-          <span className="text-2xl">{icon || "\ud83d\ude00"}</span>
+          <span className="text-2xl">{icon?.character || "\ud83d\ude00"}</span>
         </div>
         <div className="flex flex-1 flex-col">
           <p className="font-semibold text-gray-800">{title}</p>

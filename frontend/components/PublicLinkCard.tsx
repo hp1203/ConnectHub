@@ -2,7 +2,7 @@
 import React from "react";
 import { Disclosure } from "@headlessui/react";
 import { LinkType } from "@/Constants/types";
-import { LuArrowUpRightSquare, LuChevronDown } from "react-icons/lu";
+import { LuChevronDown, LuExternalLink } from "react-icons/lu";
 import Link from "next/link";
 
 const PublicLinkCard: React.FC<LinkType> = ({
@@ -10,7 +10,6 @@ const PublicLinkCard: React.FC<LinkType> = ({
   icon,
   description,
   url,
-  isPublic,
   _id,
   tags,
 }) => {
@@ -21,7 +20,7 @@ const PublicLinkCard: React.FC<LinkType> = ({
           <>
             <Disclosure.Button className="flex w-full justify-between items-center rounded-lg bg-white px-4 py-2 text-left text-sm font-semibold text-blue-500 hover:bg-blue-200 focus:outline-none focus-visible:ring focus-visible:ring-blue-500 focus-visible:ring-opacity-75">
               <div className="flex items-center gap-2">
-                <span className="text-lg">{icon || "\ud83d\ude00"}</span>
+                <span className="text-lg">{icon?.character || "\ud83d\ude00"}</span>
                 <span>{title}</span>
               </div>
               <LuChevronDown
@@ -48,9 +47,9 @@ const PublicLinkCard: React.FC<LinkType> = ({
               <Link
                 href={url}
                 target="_blank"
-                className="w-full text-sm hover:text-blue-500 p-2 border-t text-gray-500 border-gray-100 flex items-center justify-center gap-1"
+                className="w-full text-sm hover:text-blue-500 pt-2 border-t text-gray-500 border-gray-100 flex items-center justify-center gap-1"
               >
-                <LuArrowUpRightSquare className="w-4 h-4" />
+                <LuExternalLink className="w-4 h-4" />
                 <span className="text-sm">Visit</span>
               </Link>
             </Disclosure.Panel>
