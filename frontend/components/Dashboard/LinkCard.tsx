@@ -43,7 +43,7 @@ const LinkCard: React.FC<LinkType> = ({ title, icon, description, url, isPublic,
       </div>
       <div className="flex flex-wrap gap-2 px-3 mb-3">
         {tags && tags.map((tag) => (
-          <p className="p-2 rounded-lg bg-gray-100 text-gray-600 font-medium tracking-wide text-xs">#{tag}</p>
+          <p key={tag} className="p-2 rounded-lg bg-gray-100 text-gray-600 font-medium tracking-wide text-xs">#{tag}</p>
         ))}
       </div>
       <div className="flex border-t border-gray-100 divide-x divide-gray-100">
