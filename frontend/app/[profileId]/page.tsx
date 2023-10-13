@@ -125,8 +125,6 @@ const PublicProfile = ({ params }: { params: { profileId: string } }) => {
               {links.map((link) => (
                 <>
                 <PublicLinkCard {...link} key={link?._id.toString()} />
-                <PublicLinkCard {...link} key={link?._id.toString()} />
-                <PublicLinkCard {...link} key={link?._id.toString()} />
                 </>
               ))}
             </div>
