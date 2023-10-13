@@ -14,7 +14,7 @@ import {
 import { AiFillInstagram } from "react-icons/ai";
 import { LinkType } from "@/Constants/types";
 import PublicLinkCard from "@/components/PublicLinkCard";
-const PublicProfile = ({ params }: { params: { profileId: string } }) => {
+const PublicProfile = ({ params }: { params: { profileUrl: string } }) => {
   const { fetchData } = useApi();
   const [profile, setProfile] = useState<any>(null);
   const [links, setLinks] = useState<LinkType[]>([]);
@@ -22,21 +22,12 @@ const PublicProfile = ({ params }: { params: { profileId: string } }) => {
 
   useEffect(() => {
     const fetchProfileData = () => {
+      console.log(params.profileUrl);
+      
       setIsLoading(true);
-      fetchData("get", `users/profile/${params.profileId}`)
+      fetchData("get", `users/profile/${params.profileUrl}`)
         .then((response) => {
           setProfile(response.data.profile);
-          setIsLoading(false);
-        })
-        .catch((error) => {
-          console.log(error);
-          setIsLoading(false);
-        });
-    };
-    const fetchProfileLinks = () => {
-      setIsLoading(true);
-      fetchData("get", `links/profile/${params.profileId}`)
-        .then((response) => {
           setLinks(response.data.links);
           setIsLoading(false);
         })
@@ -44,14 +35,22 @@ const PublicProfile = ({ params }: { params: { profileId: string } }) => {
           console.log(error);
           setIsLoading(false);
         });
+        console.log(profile);
     };
-    fetchProfileData();
-    fetchProfileLinks();
+    
+    if(params?.profileUrl){
+      fetchProfileData();
+    }
+    
   }, [params]);
+
   return (
     <div className="min-h-screen bg-cover bg-[url(https://images.unsplash.com/photo-1693389107440-afe980ccbb8d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80)] h-full p-12">
       <div className="max-w-3xl mx-auto flex flex-col">
+       {
+            isLoading == false &&
         <div className="flex gap-6">
+         
           <Image
             width={300}
             height={300}
@@ -62,8 +61,9 @@ const PublicProfile = ({ params }: { params: { profileId: string } }) => {
                 profile?.profileTitle || profile?.user?.name
               }&size=250&background=f5f5f5&color=3B82F6`
             }
-            alt={profile?.profileTitle || profile?.user?.name}
+            alt={profile?.profileTitle || profile?.user?.name || ""}
           />
+         
           <div className="flex flex-col gap-3 bg-white shadow-md rounded-lg p-4">
             <h1 className="text-gray-600 font-semibold text-2xl">
               {profile?.profileTitle || profile?.user?.name}
@@ -118,6 +118,7 @@ const PublicProfile = ({ params }: { params: { profileId: string } }) => {
             </div>
           </div>
         </div>
+      }
         <p className="text-center font-semibold text-gray-700 text-xl pt-3">Get to know more about me</p>
         <div className="py-4 flex-1 h-full mb-3">
           {links.length > 0 && isLoading == false && (
