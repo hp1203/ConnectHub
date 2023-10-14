@@ -40,13 +40,13 @@ const EmojiSelector = ({
         leaveFrom="transform opacity-100 scale-100"
         leaveTo="transform opacity-0 scale-95"
       >
-        <div className="absolute z-10 mt-2 w-60 max-h-80 overflow-y-scroll scrollbar-hide rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
-          <div className="p-2 grid grid-cols-6">
+        <div className="absolute z-10 mt-2 w-60 max-h-64 overflow-y-scroll scrollbar-hide rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
+          <div className="p-2 grid grid-cols-5">
             {Emojis.map((emoji) => (
               <button
                 key={emoji.slug}
                 type="button"
-                className="w-full text-left rounded-md p-2 text-lg hover:bg-gray-100 focus:outline-none"
+                className="w-full text-left rounded-md p-2 text-2xl hover:bg-gray-100 focus:outline-none"
                 onClick={() => handleEmojiSelect(emoji)}
               >
                 {`${emoji.character}`}
