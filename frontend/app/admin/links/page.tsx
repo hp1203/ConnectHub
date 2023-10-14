@@ -8,6 +8,7 @@ import useApi from "@/hooks/useApi";
 import { LinkType } from "@/Constants/types";
 import Image from "next/image";
 import { RiLoader3Fill } from "react-icons/ri";
+import Card from "@/UI/Card";
 
 const Links: React.FC = () => {
   const { data: session } = useSession();
@@ -77,10 +78,10 @@ const Links: React.FC = () => {
             ))}
           </div>
         )}
-        <div className="border col-span-2 overflow-y-scroll bg-white rounded-lg shadow scrollbar-hide mt-1">
-          <div className="p-4 border-b border-gray-100">
-            <h1 className="text-base font-semibold text-gray-800">Preview</h1>
-          </div>
+        <div className="col-span-2 mt-1">
+        <Card title="Preview" className="overflow-y-scroll scrollbar-hide">
+            <p>Preview Here</p>
+        </Card>
         </div>
       </div>
     </Content>
