@@ -46,7 +46,7 @@ const PublicProfile = ({ params }: { params: { profileUrl: string } }) => {
 
   return (
     <div className="min-h-screen bg-cover bg-[url(https://images.unsplash.com/photo-1693389107440-afe980ccbb8d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80)] h-full p-12">
-      <div className="max-w-3xl mx-auto flex flex-col">
+      <div className="max-w-3xl mx-auto flex flex-col justify-between">
        {
             isLoading == false &&
         <div className="flex gap-6">
@@ -119,8 +119,8 @@ const PublicProfile = ({ params }: { params: { profileUrl: string } }) => {
           </div>
         </div>
       }
-        <p className="text-center font-semibold text-gray-700 text-xl pt-6 pb-3">Get to know more about me</p>
-        <div className="py-4 flex flex-1 h-full mb-3">
+        <div className="py-4 flex flex-col h-full flex-1 mb-3">
+        <p className="text-center font-semibold text-gray-700 text-xl pt-3 pb-5">Get to know more about me</p>
           {links.length > 0 && isLoading == false && (
             <div className="flex flex-1 flex-col gap-4 col-span-3 overflow-y-scroll scrollbar-hide">
               {links.map((link) => (
@@ -131,7 +131,7 @@ const PublicProfile = ({ params }: { params: { profileUrl: string } }) => {
             </div>
           )}
         </div>
-        <div className="flex flex-col space-y-6 items-center justify-center bottom-0">
+        <div className="flex flex-col space-y-6 items-center justify-center mt-28">
           <div className="flex flex-col justify-center items-center -space-y-6">
             <a
               className="text-gray-700 font-museomoderno text-lg font-bold md:text-2xl mb-6"
