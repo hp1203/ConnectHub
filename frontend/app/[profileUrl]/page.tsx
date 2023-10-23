@@ -3,14 +3,7 @@ import useApi from "@/hooks/useApi";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import {
-  FaFacebook,
-  FaTwitter,
-  FaDiscord,
-  FaSquareThreads,
-  FaLinkedin,
-  FaGlobe,
-} from "react-icons/fa6";
+import { FaFacebook, FaTwitter, FaLinkedin, FaGlobe } from "react-icons/fa6";
 import { AiFillInstagram } from "react-icons/ai";
 import { LinkType } from "@/Constants/types";
 import PublicLinkCard from "@/components/PublicLinkCard";
@@ -19,11 +12,10 @@ const PublicProfile = ({ params }: { params: { profileUrl: string } }) => {
   const [profile, setProfile] = useState<any>(null);
   const [links, setLinks] = useState<LinkType[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [theme, setTheme] = useState<any>(null);
 
   useEffect(() => {
     const fetchProfileData = () => {
-      console.log(params.profileUrl);
-      
       setIsLoading(true);
       fetchData("get", `users/profile/${params.profileUrl}`)
         .then((response) => {
@@ -35,97 +27,182 @@ const PublicProfile = ({ params }: { params: { profileUrl: string } }) => {
           console.log(error);
           setIsLoading(false);
         });
-        console.log(profile);
     };
-    
-    if(params?.profileUrl){
+
+    if (params?.profileUrl) {
       fetchProfileData();
     }
-    
   }, [params]);
 
+  useEffect(() => {
+    const fetchStyle = () => {
+      setIsLoading(true);
+      fetchData("get", `theme/${profile._id}`)
+        .then((response) => {
+          setTheme(response.data.theme);
+          setIsLoading(false);
+        })
+        .catch((error) => {
+          console.log(error);
+          setIsLoading(false);
+        });
+      console.log("Theme", theme);
+    };
+    if (profile) {
+      fetchStyle();
+    }
+  }, [profile]);
+
+  if (isLoading || profile == null || theme == null) {
+    return <p>Loading...</p>;
+  }
+
   return (
-    <div className="min-h-screen bg-cover bg-[url(https://images.unsplash.com/photo-1693389107440-afe980ccbb8d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80)] h-full p-12">
-      <div className="max-w-3xl mx-auto flex flex-col justify-between">
-       {
-            isLoading == false &&
-        <div className="flex gap-6">
-         
-          <Image
-            width={300}
-            height={300}
-            className="h-44 w-44 rounded-lg shadow-md"
-            src={
-              profile?.profilePicture ||
-              `https://eu.ui-avatars.com/api/?name=${
-                profile?.profileTitle || profile?.user?.name
-              }&size=250&background=f5f5f5&color=3B82F6`
-            }
-            alt={profile?.profileTitle || profile?.user?.name || ""}
-          />
-         
-          <div className="flex flex-1 flex-col gap-3 bg-white shadow-md rounded-lg p-4">
-            <h1 className="text-gray-600 font-semibold text-2xl">
-              {profile?.profileTitle || profile?.user?.name}
-            </h1>
-            <p className="text-sm text-gray-500 pr-8 line-clamp-3">{profile?.bio || ""}</p>
-            <div className="flex gap-3 items-center mt-2">
-              {profile?.socialLinks?.website && (
-                <Link
-                  href={profile?.socialLinks?.website}
-                  target="_blank"
-                  title="Website"
-                >
-                  <FaGlobe className="w-5 h-5 cursor-pointer text-gray-700 hover:text-blue-600 transition duration-150" />
-                </Link>
-              )}
-              {profile?.socialLinks?.facebook && (
-                <Link
-                  href={profile?.socialLinks?.facebook}
-                  target="_blank"
-                  title="Facebook"
-                >
-                  <FaFacebook className="w-5 h-5 cursor-pointer text-gray-700 hover:text-blue-600 transition duration-150" />
-                </Link>
-              )}
-              {profile?.socialLinks?.twitter && (
-                <Link
-                  href={profile?.socialLinks?.twitter}
-                  target="_blank"
-                  title="Twitter"
-                >
-                  <FaTwitter className="w-5 h-5 cursor-pointer text-gray-700 hover:text-blue-600 transition duration-150" />
-                </Link>
-              )}
-              {profile?.socialLinks?.instagram && (
-                <Link
-                  href={profile?.socialLinks?.instagram}
-                  target="_blank"
-                  title="Instagram"
-                >
-                  <AiFillInstagram className="w-5 h-5 cursor-pointer text-gray-700 hover:text-blue-600 transition duration-150" />
-                </Link>
-              )}
-              {profile?.socialLinks?.linkedin && (
-                <Link
-                  href={profile?.socialLinks?.linkedin}
-                  target="_blank"
-                  title="LinkedIn"
-                >
-                  <FaLinkedin className="w-5 h-5 cursor-pointer text-gray-700 hover:text-blue-600 transition duration-150" />
-                </Link>
-              )}
+    <div
+      className={`min-h-screen bg-cover ${
+        theme.background.bgType == "color" && `public-profile-flat-bg`
+      } ${
+        theme.background.bgType == "gradient" && `public-profile-gradient-bg`
+      } ${
+        theme.background.bgType == "image" && `public-profile-image-bg`
+      } public-profile h-full p-12`}
+      style={
+        {
+          "--profileFontColor": theme.font.color,
+          "--profileBg": theme.background.color[0],
+          "--profileBg2": theme.background.color[1] || "",
+          "--profileBgImage": theme.background.url
+            ? `url(${theme.background.url})`
+            : null,
+        } as React.CSSProperties
+      }
+    >
+      <div className="max-w-4xl px-8 mx-auto flex flex-col justify-between">
+        {isLoading == false && (
+          <div className="flex gap-6 p-2">
+            <Image
+              width={300}
+              height={300}
+              className="h-44 w-44 rounded-lg shadow-md"
+              src={
+                profile?.profilePicture ||
+                `https://eu.ui-avatars.com/api/?name=${
+                  profile?.profileTitle || profile?.user?.name
+                }&size=250&background=f5f5f5&color=${theme.disclosure.titleColor.slice(
+                  1
+                )}`
+              }
+              alt={profile?.profileTitle || profile?.user?.name || ""}
+            />
+
+            <div className="flex flex-1 flex-col gap-3 bg-white shadow-md rounded-lg p-4">
+              <h1 className=" font-semibold text-2xl">
+                {profile?.profileTitle || profile?.user?.name}
+              </h1>
+              <p className="text-sm  pr-8 line-clamp-3">{profile?.bio || ""}</p>
+              <div className="flex gap-3 items-center mt-2">
+                {profile?.socialLinks?.website && (
+                  <Link
+                    href={profile?.socialLinks?.website}
+                    target="_blank"
+                    title="Website"
+                  >
+                    <FaGlobe
+                      className={`w-5 h-5 cursor-pointer profiles-icon transition duration-150`}
+                      style={
+                        {
+                          "--disclosureTitleColor": theme.disclosure.titleColor,
+                          "--profileFontColor": theme.font.color,
+                        } as React.CSSProperties
+                      }
+                    />
+                  </Link>
+                )}
+                {profile?.socialLinks?.facebook && (
+                  <Link
+                    href={profile?.socialLinks?.facebook}
+                    target="_blank"
+                    title="Facebook"
+                  >
+                    <FaFacebook
+                      className={`w-5 h-5 cursor-pointer profiles-icon transition duration-150`}
+                      style={
+                        {
+                          "--disclosureTitleColor": theme.disclosure.titleColor,
+                          "--profileFontColor": theme.font.color,
+                        } as React.CSSProperties
+                      }
+                    />
+                  </Link>
+                )}
+                {profile?.socialLinks?.twitter && (
+                  <Link
+                    href={profile?.socialLinks?.twitter}
+                    target="_blank"
+                    title="Twitter"
+                  >
+                    <FaTwitter
+                      className={`w-5 h-5 cursor-pointer profiles-icon transition duration-150`}
+                      style={
+                        {
+                          "--disclosureTitleColor": theme.disclosure.titleColor,
+                          "--profileFontColor": theme.font.color,
+                        } as React.CSSProperties
+                      }
+                    />
+                  </Link>
+                )}
+                {profile?.socialLinks?.instagram && (
+                  <Link
+                    href={profile?.socialLinks?.instagram}
+                    target="_blank"
+                    title="Instagram"
+                  >
+                    <AiFillInstagram
+                      className={`w-5 h-5 cursor-pointer profiles-icon transition duration-150`}
+                      style={
+                        {
+                          "--disclosureTitleColor": theme.disclosure.titleColor,
+                          "--profileFontColor": theme.font.color,
+                        } as React.CSSProperties
+                      }
+                    />
+                  </Link>
+                )}
+                {profile?.socialLinks?.linkedin && (
+                  <Link
+                    href={profile?.socialLinks?.linkedin}
+                    target="_blank"
+                    title="LinkedIn"
+                  >
+                    <FaLinkedin
+                      className={`w-5 h-5 cursor-pointer profiles-icon transition duration-150`}
+                      style={
+                        {
+                          "--disclosureTitleColor": theme.disclosure.titleColor,
+                          "--profileFontColor": theme.font.color,
+                        } as React.CSSProperties
+                      }
+                    />
+                  </Link>
+                )}
+              </div>
             </div>
           </div>
-        </div>
-      }
+        )}
         <div className="py-4 flex flex-col h-full flex-1 mb-3">
-        <p className="text-center font-semibold text-gray-700 text-xl pt-3 pb-5">Get to know more about me</p>
+          <p className="text-center font-semibold  text-xl pt-3 pb-5">
+            Get to know more about me
+          </p>
           {links.length > 0 && isLoading == false && (
-            <div className="flex flex-1 flex-col gap-4 col-span-3 overflow-y-scroll scrollbar-hide">
+            <div className="flex flex-1 flex-col gap-4 col-span-3 overflow-y-scroll scrollbar-hide p-2">
               {links.map((link) => (
                 <>
-                <PublicLinkCard {...link} key={link?._id.toString()} />
+                  <PublicLinkCard
+                    {...link}
+                    key={link?._id.toString()}
+                    theme={theme.disclosure}
+                  />
                 </>
               ))}
             </div>
@@ -134,30 +211,30 @@ const PublicProfile = ({ params }: { params: { profileUrl: string } }) => {
         <div className="flex flex-col space-y-6 items-center justify-center mt-28">
           <div className="flex flex-col justify-center items-center -space-y-6">
             <a
-              className="text-gray-700 font-museomoderno text-lg font-bold md:text-2xl mb-6"
+              className=" font-museomoderno text-lg font-bold md:text-2xl mb-6"
               href="#"
             >
               ConnectHub
             </a>
-            <span className="text-gray-600 font-museomoderno text-xs tracking-wider font-light">
+            <span className=" font-museomoderno text-xs tracking-wider font-light">
               Elevate Your Online Presence
             </span>
           </div>
           {/* <div className="flex space-x-6 items-center justify-center">
             <Link href="" target="_blank" title="Facebook">
-              <FaFacebook className="w-5 h-5 cursor-pointer text-gray-600 hover:text-blue-600 transition duration-150" />
+              <FaFacebook className=`w-5 h-5 cursor-pointer  hover:text-[${theme.disclosure.titleColor.slice(1)}] transition duration-150` />
             </Link>
             <Link href="" target="_blank" title="Twitter">
-              <FaTwitter className="w-5 h-5 cursor-pointer text-gray-600 hover:text-blue-600 transition duration-150" />
+              <FaTwitter className=`w-5 h-5 cursor-pointer  hover:text-[${theme.disclosure.titleColor.slice(1)}] transition duration-150` />
             </Link>
             <Link href="" target="_blank" title="Instagram">
-              <AiFillInstagram className="w-5 h-5 cursor-pointer text-gray-600 hover:text-blue-600 transition duration-150" />
+              <AiFillInstagram className=`w-5 h-5 cursor-pointer  hover:text-[${theme.disclosure.titleColor.slice(1)}] transition duration-150` />
             </Link>
             <Link href="" target="_blank" title="Threads">
-              <FaSquareThreads className="w-5 h-5 cursor-pointer text-gray-600 hover:text-blue-600 transition duration-150" />
+              <FaSquareThreads className=`w-5 h-5 cursor-pointer  hover:text-[${theme.disclosure.titleColor.slice(1)}] transition duration-150` />
             </Link>
             <Link href="" target="_blank" title="Discord">
-              <FaDiscord className="w-5 h-5 cursor-pointer text-gray-600 hover:text-blue-600 transition duration-150" />
+              <FaDiscord className=`w-5 h-5 cursor-pointer  hover:text-[${theme.disclosure.titleColor.slice(1)}] transition duration-150` />
             </Link>
           </div> */}
         </div>

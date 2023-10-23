@@ -7,6 +7,7 @@ import userRoutes from "./routes/UserRoutes.js";
 import linksRoutes from "./routes/LinksRoutes.js";
 import analyticsRoutes from "./routes/AnalyticsRoutes.js";
 import categoryRoute from "./routes/CategoryRoutes.js";
+import themeRoutes from "./routes/ThemeRoutes.js";
 
 dotenv.config();
 
@@ -28,6 +29,7 @@ app.use("/api/v1/users", userRoutes);
 app.use("/api/v1/links", linksRoutes);
 app.use("/api/v1/analytics", analyticsRoutes);
 app.use("/api/v1/categories", categoryRoute);
+app.use("/api/v1/theme", themeRoutes);
 
 app.listen(PORT, () => {
   console.log(`Server is running on port: ${PORT}`);

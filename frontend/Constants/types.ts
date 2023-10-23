@@ -8,6 +8,7 @@ export type LinkType = {
   description: string;
   tags: string[];
   isPublic: boolean;
+  theme: any
 };
 
 export type MobileMenuProps = {

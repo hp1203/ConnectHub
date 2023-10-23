@@ -5,6 +5,18 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+    --profileFontColor: #484848;
+    --profileBg: #fdfdfd;
+    --profileBg2: #e9e000;
+    --profileBgImage: url(https://images.unsplash.com/photo-1558591710-4b4a1ae0f04d?auto=format&fit=crop&q=80&w=1587&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D);
+    --disclosureBg: #ffffff;
+    --disclosureFont: #484848;
+    --disclosureTitleColor: #0692d9;
+    --disclosureBtnColor: #ffffff;
+    --disclosureBtnHoverBg: #f5f5f5;
+}
+
 body {
     @apply bg-gray-50 dark:bg-gray-800 font-montserrat
 }
@@ -16,4 +28,42 @@ body {
 .scrollbar-hide {
     -ms-overflow-style: none;
     scrollbar-width: none;
+}
+
+.profiles-icon {
+    color: var(--profileFontColor);
+} 
+
+.profiles-icon:hover {
+    color: var(--disclosureTitleColor);
+} 
+
+.public-profile {
+    color: var(--profileFontColor);
+}
+
+.public-profile-flat-bg {
+    background-color: var(--profileBg);
+}
+
+.public-profile-gradient-bg {
+    background-image: linear-gradient(to bottom right, var(--profileBg) , var(--profileBg2));
+}
+
+.public-profile-image-bg {
+    background-image: var(--profileBgImage);
+}
+
+.disclosure {
+    background-color: var(--disclosureBg);
+    color: var(--disclosureFont);
+}
+
+.disclosure-btn {
+    background-color: var(--disclosureBg);
+    color: var(--disclosureTitleColor);
+}
+
+.disclosure-btn:hover {
+    background-color: var(--disclosureBtnHoverBg);
 }

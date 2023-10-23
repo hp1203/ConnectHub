@@ -12,21 +12,33 @@ const PublicLinkCard: React.FC<LinkType> = ({
   url,
   _id,
   tags,
+  theme
 }) => {
   return (
-    <div className="w-full rounded-lg bg-white p-2 shadow-md border border-gray-100">
+    <div 
+      className={`w-full rounded-lg p-2 shadow-md border m-1 disclosure`}
+      style={{
+        "--disclosureBg": theme.bgColor,
+        "--disclosureFont": theme.fontColor
+      } as React.CSSProperties}
+    >
       <Disclosure>
         {({ open }) => (
           <>
-            <Disclosure.Button className="flex w-full justify-between items-center rounded-lg bg-white px-4 py-2 text-left text-sm font-semibold text-blue-500 hover:bg-blue-200 focus:outline-none focus-visible:ring focus-visible:ring-blue-500 focus-visible:ring-opacity-75">
+            <Disclosure.Button 
+              className={"flex w-full justify-between items-center rounded-lg px-4 py-2 text-left text-sm font-semibold disclosure-btn"}
+              style={{
+                "--disclosureBtnColor": theme.bgColor,
+                "--disclosureTitleColor": theme.titleColor,
+                "--disclosureBtnHoverBg": theme.hoverColor
+              } as React.CSSProperties}
+            >
               <div className="flex items-center gap-2">
                 <span className="text-lg">{icon?.character || "\ud83d\ude00"}</span>
                 <span>{title}</span>
               </div>
               <LuChevronDown
-                className={`${
-                  open ? "rotate-180 transform" : ""
-                } h-5 w-5 text-blue-500`}
+                className={`${open ? "rotate-180 transform" : ""} h-5 w-5`}
               />
             </Disclosure.Button>
             <Disclosure.Panel className="text-sm flex flex-col p-2 text-gray-500">
