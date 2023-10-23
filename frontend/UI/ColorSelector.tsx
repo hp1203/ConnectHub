@@ -23,13 +23,12 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
   };
 
   const handleChange = (color: ColorResult) => {
-    console.log(color);
     onChange(color.hex);
   };
 
   return (
-    <div>
-      <div className="rounded-lg w-fit flex items-center gap-3 border border-gray-100 overflow-hidden">
+    <div className="relative">
+      <div className="rounded-lg w-40 flex items-center gap-3 border border-gray-100 overflow-hidden">
         <div
           onClick={handleClick}
           className={`w-14 h-14 border-r border-gray-100`}
