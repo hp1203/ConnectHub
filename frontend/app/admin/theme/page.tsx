@@ -40,7 +40,7 @@ const Appearance = () => {
   }
 
   return (
-    <Content title="Appearance">
+    <Content title="Edit Theme">
       <div className="h-screen grid grid-cols-1 md:grid-cols-5 gap-6 w-full">
         <div className="flex flex-1 flex-col gap-4 col-span-3 overflow-y-scroll scrollbar-hide p-1">
           <EditBackground

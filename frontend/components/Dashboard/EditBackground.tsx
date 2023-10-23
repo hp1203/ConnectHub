@@ -75,7 +75,12 @@ const EditBackground = ({
         },
       })
     )
-      .then((response) => {})
+      .then((response) => {
+        setIsLoading(false);
+        if(response.data.success){
+            alert(response.data.message);
+        }
+      })
       .catch((error) => {
         console.log("Error", error);
         setIsLoading(false);
