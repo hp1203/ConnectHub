@@ -6,7 +6,7 @@ const Content = ({
   children,
 }: {
   title: string;
-  right: JSX.Element;
+  right?: JSX.Element;
   children: JSX.Element;
 }) => {
   return (

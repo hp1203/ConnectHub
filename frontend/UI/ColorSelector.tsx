@@ -24,7 +24,6 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
 
   const handleChange = (color: ColorResult) => {
     console.log(color);
-
     onChange(color.hex);
   };
 

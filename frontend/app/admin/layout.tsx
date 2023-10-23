@@ -27,9 +27,9 @@ const navigation = [
     icon: <LuComponent className="w-5 h-5" />,
   },
   {
-    name: "Appearance",
-    href: "/admin/appearance",
-    targetSegment: "appearance",
+    name: "Theme",
+    href: "/admin/theme",
+    targetSegment: "theme",
     icon: <LuPencilRuler className="w-5 h-5" />,
   },
   {

@@ -60,17 +60,22 @@ const PublicProfile = ({ params }: { params: { profileUrl: string } }) => {
   return (
     <div
       className={`min-h-screen bg-cover ${
-        theme.background.bgType == "color" &&
-        `public-profile-flat-bg`
+        theme.background.bgType == "color" && `public-profile-flat-bg`
       } ${
-        theme.background.bgType == "gradient" &&
-        `public-profile-gradient-bg`
+        theme.background.bgType == "gradient" && `public-profile-gradient-bg`
       } ${
-        theme.background.bgType == "image" &&
-        `public-profile-image-bg`
+        theme.background.bgType == "image" && `public-profile-image-bg`
       } public-profile h-full p-12`}
-
-      style={{ "--profileFontColor": theme.font.color, "--profileBg": theme.background.color[0], "--profileBg2": theme.background.color[1] || "", "--profileBgImage": theme.background.url ? `url(${theme.background.url})` : null } as React.CSSProperties}
+      style={
+        {
+          "--profileFontColor": theme.font.color,
+          "--profileBg": theme.background.color[0],
+          "--profileBg2": theme.background.color[1] || "",
+          "--profileBgImage": theme.background.url
+            ? `url(${theme.background.url})`
+            : null,
+        } as React.CSSProperties
+      }
     >
       <div className="max-w-4xl px-8 mx-auto flex flex-col justify-between">
         {isLoading == false && (
@@ -104,10 +109,12 @@ const PublicProfile = ({ params }: { params: { profileUrl: string } }) => {
                   >
                     <FaGlobe
                       className={`w-5 h-5 cursor-pointer profiles-icon transition duration-150`}
-                      style={{
-                        "--disclosureTitleColor": theme.disclosure.titleColor,
-                        "--profileFontColor": theme.font.color,
-                      } as React.CSSProperties}
+                      style={
+                        {
+                          "--disclosureTitleColor": theme.disclosure.titleColor,
+                          "--profileFontColor": theme.font.color,
+                        } as React.CSSProperties
+                      }
                     />
                   </Link>
                 )}
@@ -119,10 +126,12 @@ const PublicProfile = ({ params }: { params: { profileUrl: string } }) => {
                   >
                     <FaFacebook
                       className={`w-5 h-5 cursor-pointer profiles-icon transition duration-150`}
-                      style={{
-                        "--disclosureTitleColor": theme.disclosure.titleColor,
-                        "--profileFontColor": theme.font.color,
-                      } as React.CSSProperties}
+                      style={
+                        {
+                          "--disclosureTitleColor": theme.disclosure.titleColor,
+                          "--profileFontColor": theme.font.color,
+                        } as React.CSSProperties
+                      }
                     />
                   </Link>
                 )}
@@ -134,10 +143,12 @@ const PublicProfile = ({ params }: { params: { profileUrl: string } }) => {
                   >
                     <FaTwitter
                       className={`w-5 h-5 cursor-pointer profiles-icon transition duration-150`}
-                      style={{
-                        "--disclosureTitleColor": theme.disclosure.titleColor,
-                        "--profileFontColor": theme.font.color,
-                      } as React.CSSProperties}
+                      style={
+                        {
+                          "--disclosureTitleColor": theme.disclosure.titleColor,
+                          "--profileFontColor": theme.font.color,
+                        } as React.CSSProperties
+                      }
                     />
                   </Link>
                 )}
@@ -149,10 +160,12 @@ const PublicProfile = ({ params }: { params: { profileUrl: string } }) => {
                   >
                     <AiFillInstagram
                       className={`w-5 h-5 cursor-pointer profiles-icon transition duration-150`}
-                      style={{
-                        "--disclosureTitleColor": theme.disclosure.titleColor,
-                        "--profileFontColor": theme.font.color,
-                      } as React.CSSProperties}
+                      style={
+                        {
+                          "--disclosureTitleColor": theme.disclosure.titleColor,
+                          "--profileFontColor": theme.font.color,
+                        } as React.CSSProperties
+                      }
                     />
                   </Link>
                 )}
@@ -164,10 +177,12 @@ const PublicProfile = ({ params }: { params: { profileUrl: string } }) => {
                   >
                     <FaLinkedin
                       className={`w-5 h-5 cursor-pointer profiles-icon transition duration-150`}
-                      style={{
-                        "--disclosureTitleColor": theme.disclosure.titleColor,
-                        "--profileFontColor": theme.font.color,
-                      } as React.CSSProperties}
+                      style={
+                        {
+                          "--disclosureTitleColor": theme.disclosure.titleColor,
+                          "--profileFontColor": theme.font.color,
+                        } as React.CSSProperties
+                      }
                     />
                   </Link>
                 )}
@@ -183,7 +198,11 @@ const PublicProfile = ({ params }: { params: { profileUrl: string } }) => {
             <div className="flex flex-1 flex-col gap-4 col-span-3 overflow-y-scroll scrollbar-hide p-2">
               {links.map((link) => (
                 <>
-                  <PublicLinkCard {...link} key={link?._id.toString()} theme={theme.disclosure} />
+                  <PublicLinkCard
+                    {...link}
+                    key={link?._id.toString()}
+                    theme={theme.disclosure}
+                  />
                 </>
               ))}
             </div>
