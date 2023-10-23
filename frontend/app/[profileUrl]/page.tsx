@@ -79,11 +79,11 @@ const PublicProfile = ({ params }: { params: { profileUrl: string } }) => {
     >
       <div className="max-w-4xl px-8 mx-auto flex flex-col justify-between">
         {isLoading == false && (
-          <div className="flex gap-6 p-2">
+          <div className="flex flex-col items-center justify-center gap-4 p-2">
             <Image
               width={300}
               height={300}
-              className="h-44 w-44 rounded-lg shadow-md"
+              className="h-32 w-32 rounded-full shadow-md"
               src={
                 profile?.profilePicture ||
                 `https://eu.ui-avatars.com/api/?name=${
@@ -95,12 +95,12 @@ const PublicProfile = ({ params }: { params: { profileUrl: string } }) => {
               alt={profile?.profileTitle || profile?.user?.name || ""}
             />
 
-            <div className="flex flex-1 flex-col gap-3 bg-white shadow-md rounded-lg p-4">
-              <h1 className=" font-semibold text-2xl">
+            <div className="flex flex-1 flex-col gap-3">
+              <h1 className="font-semibold text-center text-2xl">
                 {profile?.profileTitle || profile?.user?.name}
               </h1>
-              <p className="text-sm  pr-8 line-clamp-3">{profile?.bio || ""}</p>
-              <div className="flex gap-3 items-center mt-2">
+              <p className="text-sm text-center line-clamp-2 px-8">{profile?.bio || ""}</p>
+              <div className="flex gap-3 items-center justify-center mt-2">
                 {profile?.socialLinks?.website && (
                   <Link
                     href={profile?.socialLinks?.website}
