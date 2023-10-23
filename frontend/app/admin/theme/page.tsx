@@ -6,6 +6,7 @@ import useApi from "@/hooks/useApi";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import EditDisclosure from "@/components/Dashboard/EditDisclosure";
+import EditFont from "@/components/Dashboard/EditFont";
 
 const Appearance = () => {
   const { data: session } = useSession();
@@ -53,6 +54,7 @@ const Appearance = () => {
             initialTitleColor={theme?.disclosure.titleColor}
             initialHoverColor={theme?.disclosure.hoverColor}
           />
+          <EditFont initialFontColor={theme?.font.color}/>
         </div>
         <div className="col-span-2 mt-1">
           <Card title="Preview" className="overflow-y-scroll scrollbar-hide">
