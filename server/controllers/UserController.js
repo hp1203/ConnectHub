@@ -67,7 +67,7 @@ export const updateProfile = async (request, response) => {
     const { profileId } = request.params;
 
     const updatedUser = await Profile.findOneAndUpdate(
-      { _id: profileId, userId: userId },
+      { _id: profileId, user: userId },
       request.body,
       { new: true, upsert: true }
     );
