@@ -99,94 +99,105 @@ const PublicProfile = ({ params }: { params: { profileUrl: string } }) => {
               <h1 className="font-semibold text-center text-2xl">
                 {profile?.profileTitle || profile?.user?.name}
               </h1>
-              <p className="text-sm text-center line-clamp-2 px-8">{profile?.bio || ""}</p>
-              <div className="flex gap-3 items-center justify-center mt-2">
-                {profile?.socialLinks?.website && (
-                  <Link
-                    href={profile?.socialLinks?.website}
-                    target="_blank"
-                    title="Website"
-                  >
-                    <FaGlobe
-                      className={`w-5 h-5 cursor-pointer profiles-icon transition duration-150`}
-                      style={
-                        {
-                          "--disclosureTitleColor": theme.disclosure.titleColor,
-                          "--profileFontColor": theme.font.color,
-                        } as React.CSSProperties
-                      }
-                    />
-                  </Link>
-                )}
-                {profile?.socialLinks?.facebook && (
-                  <Link
-                    href={profile?.socialLinks?.facebook}
-                    target="_blank"
-                    title="Facebook"
-                  >
-                    <FaFacebook
-                      className={`w-5 h-5 cursor-pointer profiles-icon transition duration-150`}
-                      style={
-                        {
-                          "--disclosureTitleColor": theme.disclosure.titleColor,
-                          "--profileFontColor": theme.font.color,
-                        } as React.CSSProperties
-                      }
-                    />
-                  </Link>
-                )}
-                {profile?.socialLinks?.twitter && (
-                  <Link
-                    href={profile?.socialLinks?.twitter}
-                    target="_blank"
-                    title="Twitter"
-                  >
-                    <FaTwitter
-                      className={`w-5 h-5 cursor-pointer profiles-icon transition duration-150`}
-                      style={
-                        {
-                          "--disclosureTitleColor": theme.disclosure.titleColor,
-                          "--profileFontColor": theme.font.color,
-                        } as React.CSSProperties
-                      }
-                    />
-                  </Link>
-                )}
-                {profile?.socialLinks?.instagram && (
-                  <Link
-                    href={profile?.socialLinks?.instagram}
-                    target="_blank"
-                    title="Instagram"
-                  >
-                    <AiFillInstagram
-                      className={`w-5 h-5 cursor-pointer profiles-icon transition duration-150`}
-                      style={
-                        {
-                          "--disclosureTitleColor": theme.disclosure.titleColor,
-                          "--profileFontColor": theme.font.color,
-                        } as React.CSSProperties
-                      }
-                    />
-                  </Link>
-                )}
-                {profile?.socialLinks?.linkedin && (
-                  <Link
-                    href={profile?.socialLinks?.linkedin}
-                    target="_blank"
-                    title="LinkedIn"
-                  >
-                    <FaLinkedin
-                      className={`w-5 h-5 cursor-pointer profiles-icon transition duration-150`}
-                      style={
-                        {
-                          "--disclosureTitleColor": theme.disclosure.titleColor,
-                          "--profileFontColor": theme.font.color,
-                        } as React.CSSProperties
-                      }
-                    />
-                  </Link>
-                )}
-              </div>
+              {profile?.bio && (
+                <p className="text-sm text-center line-clamp-2 px-8">
+                  {profile?.bio || ""}
+                </p>
+              )}
+              {profile?.socialLinks && (
+                <div className="flex gap-3 items-center justify-center mt-2">
+                  {profile?.socialLinks?.website && (
+                    <Link
+                      href={profile?.socialLinks?.website}
+                      target="_blank"
+                      title="Website"
+                    >
+                      <FaGlobe
+                        className={`w-5 h-5 cursor-pointer profiles-icon transition duration-150`}
+                        style={
+                          {
+                            "--disclosureTitleColor":
+                              theme.disclosure.titleColor,
+                            "--profileFontColor": theme.font.color,
+                          } as React.CSSProperties
+                        }
+                      />
+                    </Link>
+                  )}
+                  {profile?.socialLinks?.facebook && (
+                    <Link
+                      href={profile?.socialLinks?.facebook}
+                      target="_blank"
+                      title="Facebook"
+                    >
+                      <FaFacebook
+                        className={`w-5 h-5 cursor-pointer profiles-icon transition duration-150`}
+                        style={
+                          {
+                            "--disclosureTitleColor":
+                              theme.disclosure.titleColor,
+                            "--profileFontColor": theme.font.color,
+                          } as React.CSSProperties
+                        }
+                      />
+                    </Link>
+                  )}
+                  {profile?.socialLinks?.twitter && (
+                    <Link
+                      href={profile?.socialLinks?.twitter}
+                      target="_blank"
+                      title="Twitter"
+                    >
+                      <FaTwitter
+                        className={`w-5 h-5 cursor-pointer profiles-icon transition duration-150`}
+                        style={
+                          {
+                            "--disclosureTitleColor":
+                              theme.disclosure.titleColor,
+                            "--profileFontColor": theme.font.color,
+                          } as React.CSSProperties
+                        }
+                      />
+                    </Link>
+                  )}
+                  {profile?.socialLinks?.instagram && (
+                    <Link
+                      href={profile?.socialLinks?.instagram}
+                      target="_blank"
+                      title="Instagram"
+                    >
+                      <AiFillInstagram
+                        className={`w-5 h-5 cursor-pointer profiles-icon transition duration-150`}
+                        style={
+                          {
+                            "--disclosureTitleColor":
+                              theme.disclosure.titleColor,
+                            "--profileFontColor": theme.font.color,
+                          } as React.CSSProperties
+                        }
+                      />
+                    </Link>
+                  )}
+                  {profile?.socialLinks?.linkedin && (
+                    <Link
+                      href={profile?.socialLinks?.linkedin}
+                      target="_blank"
+                      title="LinkedIn"
+                    >
+                      <FaLinkedin
+                        className={`w-5 h-5 cursor-pointer profiles-icon transition duration-150`}
+                        style={
+                          {
+                            "--disclosureTitleColor":
+                              theme.disclosure.titleColor,
+                            "--profileFontColor": theme.font.color,
+                          } as React.CSSProperties
+                        }
+                      />
+                    </Link>
+                  )}
+                </div>
+              )}
             </div>
           </div>
         )}
