@@ -18,7 +18,9 @@ const EmojiSelector = ({
   };
 
   useEffect(() => {
-    handleEmojiSelect(Emojis[0]);
+    if(value == null){
+      handleEmojiSelect(Emojis[0]);
+    }
   }, []);
 
   return (
