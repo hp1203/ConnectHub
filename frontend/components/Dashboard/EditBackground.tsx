@@ -95,6 +95,7 @@ const EditBackground = ({
               value={option}
               key={option.name}
               className="w-full"
+              disabled={!option.isAllowed}
             >
               {({ checked }) => (
                 <div
