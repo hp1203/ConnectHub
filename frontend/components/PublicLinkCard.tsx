@@ -14,6 +14,7 @@ const PublicLinkCard: React.FC<LinkType> = ({
   tags,
   theme
 }) => {
+  icon = JSON.parse(icon);
   return (
     <div 
       className={`w-full rounded-lg p-2 shadow-md border m-1 disclosure`}
@@ -34,7 +35,7 @@ const PublicLinkCard: React.FC<LinkType> = ({
               } as React.CSSProperties}
             >
               <div className="flex items-center gap-2">
-                <span className="text-lg">{icon?.character || "\ud83d\ude00"}</span>
+                <span className="text-lg">{icon?.character}</span>
                 <span>{title}</span>
               </div>
               <LuChevronDown
