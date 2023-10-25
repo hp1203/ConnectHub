@@ -9,6 +9,7 @@ import EditDisclosure from "@/components/Dashboard/EditDisclosure";
 import EditFont from "@/components/Dashboard/EditFont";
 import EditProfileInfo from "@/components/Dashboard/EditProfileInfo";
 import EditSocialMedia from "@/components/Dashboard/EditSocialMedia";
+import EditProfileImage from "@/components/Dashboard/EditProfileImage";
 
 const Settings = () => {
   const { data: session } = useSession();
@@ -46,6 +47,7 @@ const Settings = () => {
     <Content title="Settings">
       <div className="h-screen grid grid-cols-1 md:grid-cols-5 gap-6 w-full">
         <div className="flex flex-1 flex-col gap-4 col-span-3 overflow-y-scroll scrollbar-hide p-1">
+          <EditProfileImage profilePicture={profile?.profilePicture}/>
           <EditProfileInfo title={profile?.profileTitle} url={profile?.url} description={profile?.bio}/>
           <EditSocialMedia {...profile?.socialLinks}/>
         </div>
