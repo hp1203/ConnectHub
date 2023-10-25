@@ -23,7 +23,7 @@ export const getProfileInfo = async (request, response) => {
   try {
     const { id } = request.params;
     const profile = await Profile.findOne({url: id}).populate("user");
-    const links = await Link.find({ profile: profile._id });
+    const links = await Link.find({ profile: profile?._id });
     // const user = await User.findById(profile.user);
     return response.status(200).json({
       profile,
@@ -61,7 +61,7 @@ export const setUserProfile = async (request, response) => {
 
 export const updateProfile = async (request, response) => {
   connectToDb();
-
+  console.log("Update Profile", request.body);
   try {
     const { userId } = response;
     const { profileId } = request.params;
