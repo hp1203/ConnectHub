@@ -83,9 +83,10 @@ const PublicProfile = ({ params }: { params: { profileUrl: string } }) => {
             <Image
               width={300}
               height={300}
-              className="h-32 w-32 rounded-full shadow-md"
+              className="h-32 w-32 rounded-full shadow-md object-cover"
               src={
-                profile?.profilePicture ||
+                (profile?.profilePicture &&
+                  process.env.NEXT_PUBLIC_BACKEND_URL + profile?.profilePicture) ||
                 `https://eu.ui-avatars.com/api/?name=${
                   profile?.profileTitle || profile?.user?.name
                 }&size=250&background=f5f5f5&color=${theme.disclosure.titleColor.slice(
