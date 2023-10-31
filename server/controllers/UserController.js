@@ -82,10 +82,10 @@ export const updateProfile = async (request, response) => {
   }
 };
 
-export const updateProfileImage = async (request, response) => {
+export const updateProfileImage = async (request, response, next) => {
   connectToDb();
   try {
-    const { file } = request;
+    const file = request.file;
     const { userId, email } = response;
     const { profileId } = request.params;
 
@@ -96,13 +96,13 @@ export const updateProfileImage = async (request, response) => {
     renameSync(request.file.path, fileName);
 
     const updatedProfile = await Profile.findOneAndUpdate(
-      { _id: profileId, userId: userId },
+      { _id: profileId, user: userId },
       { profilePicture: fileName },
       { new: true, upsert: true }
     );
 
     return response.status(201).json({
-      user: updatedProfile,
+      profile: updatedProfile,
       success: true,
       message: "Profile updated successfully!",
     });

@@ -1,11 +1,5 @@
 import React, { useState } from "react";
 import Card from "@/UI/Card";
-import ColorPicker from "@/UI/ColorSelector";
-import { RadioGroup } from "@headlessui/react";
-import { IoMdColorFilter } from "react-icons/io";
-import { IoImageOutline } from "react-icons/io5";
-import { MdGradient, MdOutlineOndemandVideo } from "react-icons/md";
-import UpgradePlan from "./UpgradePlan";
 import Button from "@/UI/Button";
 import useApi from "@/hooks/useApi";
 import { useSession } from "next-auth/react";
@@ -30,7 +24,6 @@ const EditProfileInfo = ({
     url: url,
     bio: description,
   });
-  console.log("PRofile", profileInfo);
 
   const handleUpdate = async () => {
     setIsLoading(true);

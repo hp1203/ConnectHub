@@ -1,12 +1,9 @@
 "use client";
 import Content from "@/components/Dashboard/Content";
 import Card from "@/UI/Card";
-import EditBackground from "@/components/Dashboard/EditBackground";
 import useApi from "@/hooks/useApi";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
-import EditDisclosure from "@/components/Dashboard/EditDisclosure";
-import EditFont from "@/components/Dashboard/EditFont";
 import EditProfileInfo from "@/components/Dashboard/EditProfileInfo";
 import EditSocialMedia from "@/components/Dashboard/EditSocialMedia";
 import EditProfileImage from "@/components/Dashboard/EditProfileImage";
