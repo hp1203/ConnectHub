@@ -80,7 +80,8 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ menus, user }) => {
                             width={100}
                             height={100}
                             src={
-                              user?.image ||
+                              (user?.image &&
+                                process.env.NEXT_PUBLIC_BACKEND_URL + user?.image) ||
                               `https://eu.ui-avatars.com/api/?name=${user?.name}&size=250&background=f5f5f5&color=3B82F6`
                             }
                             alt=""

@@ -12,6 +12,8 @@ import {
 } from "react-icons/lu";
 import MobileMenu from "@/components/Dashboard/MobileMenu";
 import { useSelectedLayoutSegment } from "next/navigation";
+import useApi from "@/hooks/useApi";
+import { useEffect, useState } from "react";
 
 const navigation = [
   {
@@ -51,6 +53,35 @@ export default function DashboardLayout({
 }) {
   const { data: session } = useSession();
   const activeSegment = useSelectedLayoutSegment();
+  const { fetchData } = useApi(session?.token);
+
+  const [isLoading, setIsLoading] = useState(false);
+  const [profile, setProfile] = useState<any>(null);
+  
+  useEffect(() => {
+    const fetchProfile = () => {
+      setIsLoading(true);
+      fetchData("get", `users/profile/${session?.user?.profiles[0]?.url}`)
+        .then((response) => {
+          setProfile(response.data.profile);
+          setIsLoading(false);
+        })
+        .catch((error) => {
+          console.log("Error", error);
+          setIsLoading(false);
+        });
+        console.log("pro",profile);
+        
+    };
+
+    if (session?.token) {
+      fetchProfile();
+    }
+  }, [session]);
+
+  if (isLoading) {
+    return <p>Loading...</p>;
+  }
 
   return (
     <>
@@ -63,9 +94,9 @@ export default function DashboardLayout({
                   <MobileMenu
                     menus={navigation}
                     user={{
-                      name: session?.user?.name ?? "",
-                      email: session?.user?.email ?? "",
-                      image: session?.user?.image ?? "",
+                      name: profile?.user?.name ?? "",
+                      email: profile?.user?.email ?? "",
+                      image: profile?.profilePicture ?? "",
                     }}
                   />
                   <div className="flex-shrink-0">
@@ -100,9 +131,9 @@ export default function DashboardLayout({
                 <div className="hidden md:block">
                   <div className="ml-4 flex items-center md:ml-6">
                     <UserProfileDropdown
-                      name={session?.user?.name ?? ""}
-                      email={session?.user?.email ?? ""}
-                      image={session?.user?.image ?? ""}
+                      name={profile?.user?.name ?? ""}
+                      email={profile?.user?.email ?? ""}
+                      image={profile?.profilePicture ?? ""}
                     />
                   </div>
                 </div>

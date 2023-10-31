@@ -32,7 +32,8 @@ const UserProfileDropdown: React.FC<UserProfileProps> = ({
                 height={40}
                 className="h-10 w-10 rounded-full"
                 src={
-                  image ||
+                  (image &&
+                    process.env.NEXT_PUBLIC_BACKEND_URL + image) ||
                   `https://eu.ui-avatars.com/api/?name=${name}&size=250&background=f5f5f5&color=3B82F6`
                 }
                 alt={name}
@@ -64,7 +65,8 @@ const UserProfileDropdown: React.FC<UserProfileProps> = ({
                     width={40}
                     height={40}
                     src={
-                      image ||
+                      (image &&
+                        process.env.NEXT_PUBLIC_BACKEND_URL + image) ||
                       `https://eu.ui-avatars.com/api/?name=${name}&size=250&background=f5f5f5&color=3B82F6`
                     }
                     alt={name}
