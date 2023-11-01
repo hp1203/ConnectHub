@@ -12,9 +12,6 @@ import {
 } from "react-icons/lu";
 import MobileMenu from "@/components/Dashboard/MobileMenu";
 import { useSelectedLayoutSegment } from "next/navigation";
-import useApi from "@/hooks/useApi";
-import { useEffect, useState } from "react";
-import Loading from "@/components/Dashboard/Loading";
 import { FiExternalLink } from "react-icons/fi";
 
 const navigation = [
