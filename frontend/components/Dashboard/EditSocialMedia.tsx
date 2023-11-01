@@ -62,7 +62,7 @@ const EditSocialMedia = ({
     <Card title="Social Media">
       <div className="flex flex-col gap-3">
         <div>
-          <label className="block text-gray-700 font-semibold">
+          <label className="block text-gray-600 font-semibold">
             Website
           </label>
           <Input
@@ -71,11 +71,11 @@ const EditSocialMedia = ({
             placeholder="Enter Website URL"
             value={socialLinks.website}
             onChange={handleOnChange}
-            icon={<FaGlobe className="w-6 h-6 text-gray-500" />}
+            icon={<FaGlobe className="w-5 h-5 text-gray-500" />}
           />
         </div>
         <div>
-          <label className="block text-gray-700 font-semibold">
+          <label className="block text-gray-600 font-semibold">
             LinkedIn
           </label>
           <Input
@@ -84,11 +84,11 @@ const EditSocialMedia = ({
             placeholder="Enter linkedin URL"
             value={socialLinks.linkedin}
             onChange={handleOnChange}
-            icon={<FaLinkedin className="w-6 h-6 text-gray-500" />}
+            icon={<FaLinkedin className="w-5 h-5 text-gray-500" />}
           />
         </div>
         <div>
-          <label className="block text-gray-700 font-semibold">
+          <label className="block text-gray-600 font-semibold">
             Facebook
           </label>
           <Input
@@ -97,11 +97,11 @@ const EditSocialMedia = ({
             placeholder="Enter facebook URL"
             value={socialLinks.facebook}
             onChange={handleOnChange}
-            icon={<FaFacebook className="w-6 h-6 text-gray-500" />}
+            icon={<FaFacebook className="w-5 h-5 text-gray-500" />}
           />
         </div>
         <div>
-          <label className="block text-gray-700 font-semibold">
+          <label className="block text-gray-600 font-semibold">
             Instagram
           </label>
           <Input
@@ -110,11 +110,11 @@ const EditSocialMedia = ({
             placeholder="Enter instagram URL"
             value={socialLinks.instagram}
             onChange={handleOnChange}
-            icon={<AiFillInstagram className="w-7 h-7 text-gray-500" />}
+            icon={<AiFillInstagram className="w-6 h-6 text-gray-500" />}
           />
         </div>
         <div>
-          <label className="block text-gray-700 font-semibold">
+          <label className="block text-gray-600 font-semibold">
             Twitter
           </label>
           <Input
@@ -123,7 +123,7 @@ const EditSocialMedia = ({
             placeholder="Enter twitter URL"
             value={socialLinks.twitter}
             onChange={handleOnChange}
-            icon={<FaTwitter className="w-6 h-6 text-gray-500" />}
+            icon={<FaTwitter className="w-5 h-5 text-gray-500" />}
           />
         </div>
 
