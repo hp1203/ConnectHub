@@ -11,6 +11,11 @@ const EditProfileImage = ({ profilePicture }: { profilePicture: string }) => {
   const [isDragging, setIsDragging] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const { data: session, update: sessionUpdate } = useSession();
+  const [imageError, setImageError] = useState(false);
+
+  const handleImageError = () => {
+    setImageError(true);
+  };
 
   const handleImageChange = (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -84,18 +89,33 @@ const EditProfileImage = ({ profilePicture }: { profilePicture: string }) => {
   return (
     <Card title="Profile Picture">
       <div className="flex gap-3">
-        <Image
-          src={
-            (selectedImage && selectedImage) ||
-            (profilePicture &&
-              process.env.NEXT_PUBLIC_BACKEND_URL + profilePicture) ||
-            `https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQw7Dh7qCWBSGcz4WlVVeVvK9A3cotmHme5aQ&usqp=CAU`
-          }
-          alt="Selected"
-          width={300}
-          height={300}
-          className="w-auto h-44 border rounded-lg border-gray-200 shadow-sm object-cover"
-        />
+        {
+          imageError ? (
+            <Image
+              src={
+                `https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQw7Dh7qCWBSGcz4WlVVeVvK9A3cotmHme5aQ&usqp=CAU`
+              }
+              alt="Selected"
+              width={300}
+              height={300}
+              className="w-auto h-44 border rounded-lg border-gray-200 shadow-sm object-cover"
+            />
+          ) : (
+            <Image
+              src={
+                (selectedImage && selectedImage) ||
+                (profilePicture &&
+                  process.env.NEXT_PUBLIC_BACKEND_URL + profilePicture) ||
+                `https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQw7Dh7qCWBSGcz4WlVVeVvK9A3cotmHme5aQ&usqp=CAU`
+              }
+              alt="Selected"
+              width={300}
+              height={300}
+              className="w-auto h-44 border rounded-lg border-gray-200 shadow-sm object-cover"
+              onError={handleImageError}
+            />
+          )
+        }
         <div
           className={`border-2 border-dotted rounded-lg w-full h-44 flex flex-col items-center justify-center ${
             isDragging ? "border-blue-500" : "border-gray-200 "
