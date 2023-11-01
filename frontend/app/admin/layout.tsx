@@ -103,16 +103,9 @@ export default function DashboardLayout({
                   </div>
                 </div>
                 <div className="flex items-center">
-                  {/* <Link
-                    href={`/${session?.user?.profiles[0]?.url}`}
-                    target="_blank"
-                    title="Visit Profile"
-                    className="flex text-white items-center justify-center gap-2 p-2 px-3 rounded-lg text-sm"
-                  >
-                    <FiExternalLink className="w-5 h-5 font-semibold" />
-                  </Link> */}
                   <Link
                     href={`/${session?.user?.profiles[0]?.url}`}
+                    target="_blank"
                     className={classNames(
                       "text-gray-100 hover:bg-blue-600 hover:text-white",
                       "rounded-md px-3 py-2 text-sm font-medium flex items-center gap-2"
