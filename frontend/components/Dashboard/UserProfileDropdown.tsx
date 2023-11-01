@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Fragment } from "react";
 import { Menu, Transition } from "@headlessui/react";
 import Link from "next/link";
@@ -19,25 +19,42 @@ const UserProfileDropdown: React.FC<UserProfileProps> = ({
   email = "",
   image = "",
 }) => {
+  const [imageError, setImageError] = useState(false);
+
+  const handleImageError = () => {
+    setImageError(true);
+  };
   return (
     <div>
-      <Menu as="div" className="relative ml-3">
+      <Menu as="div" className="relative">
         <div>
           <Menu.Button className="relative flex max-w-xs items-center bg-blue-500 text-sm focus:outline-none focus:ring-none focus:ring-none focus:ring-offset-2 focus:ring-offset-blue-600">
             <span className="absolute -inset-1.5" />
             <span className="sr-only">Open user menu</span>
             <div className="flex items-center gap-3">
-              <Image
-                width={40}
-                height={40}
-                className="h-10 w-10 rounded-full"
-                src={
-                  (image &&
-                    process.env.NEXT_PUBLIC_BACKEND_URL + image) ||
-                  `https://eu.ui-avatars.com/api/?name=${name}&size=250&background=f5f5f5&color=3B82F6`
-                }
-                alt={name}
-              />
+              {
+                imageError ? (
+                  <Image
+                    width={40}
+                    height={40}
+                    className="h-10 w-10 rounded-full border"
+                    src={`https://eu.ui-avatars.com/api/?name=${name}&size=250&background=f5f5f5&color=3B82F6`}
+                    alt={name}
+                  />
+                ) : (
+                  <Image
+                    width={40}
+                    height={40}
+                    className="h-10 w-10 rounded-full border"
+                    src={
+                      image ?
+                        `${process.env.NEXT_PUBLIC_BACKEND_URL + image}` : `https://eu.ui-avatars.com/api/?name=${name}&size=250&background=f5f5f5&color=3B82F6`
+                    }
+                    alt={name}
+                    onError={handleImageError}
+                  />
+                )
+              }
             </div>
           </Menu.Button>
         </div>

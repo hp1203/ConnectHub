@@ -10,7 +10,7 @@ const EditProfileImage = ({ profilePicture }: { profilePicture: string }) => {
   const [file, setFile] = useState<any>(null);
   const [isDragging, setIsDragging] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const { data: session } = useSession();
+  const { data: session, update: sessionUpdate } = useSession();
 
   const handleImageChange = (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -58,6 +58,20 @@ const EditProfileImage = ({ profilePicture }: { profilePicture: string }) => {
       .then((response) => {
         setIsLoading(false);
         if (response.data.success) {
+          let sessionProfiles = session?.user.profiles;
+          console.log("ProfileSess1", sessionProfiles);
+          sessionProfiles[0] = {...sessionProfiles[0], profilePicture: response.data.profile.profilePicture};
+          console.log("ProfileSess", sessionProfiles);
+          
+          sessionUpdate({
+            user: {
+              ...session?.user,
+              profiles: sessionProfiles
+            }
+          })
+
+          console.log("Session", session);
+          
           alert(response.data.message);
         }
       })

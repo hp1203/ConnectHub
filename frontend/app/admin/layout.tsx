@@ -14,6 +14,8 @@ import MobileMenu from "@/components/Dashboard/MobileMenu";
 import { useSelectedLayoutSegment } from "next/navigation";
 import useApi from "@/hooks/useApi";
 import { useEffect, useState } from "react";
+import Loading from "@/components/Dashboard/Loading";
+import { FiExternalLink } from "react-icons/fi";
 
 const navigation = [
   {
@@ -53,35 +55,7 @@ export default function DashboardLayout({
 }) {
   const { data: session } = useSession();
   const activeSegment = useSelectedLayoutSegment();
-  const { fetchData } = useApi(session?.token);
-
-  const [isLoading, setIsLoading] = useState(false);
-  const [profile, setProfile] = useState<any>(null);
-  
-  useEffect(() => {
-    const fetchProfile = () => {
-      setIsLoading(true);
-      fetchData("get", `users/profile/${session?.user?.profiles[0]?.url}`)
-        .then((response) => {
-          setProfile(response.data.profile);
-          setIsLoading(false);
-        })
-        .catch((error) => {
-          console.log("Error", error);
-          setIsLoading(false);
-        });
-        console.log("pro",profile);
-        
-    };
-
-    if (session?.token) {
-      fetchProfile();
-    }
-  }, [session]);
-
-  if (isLoading) {
-    return <p>Loading...</p>;
-  }
+  console.log("ProfileDropdownSession", session);
 
   return (
     <>
@@ -94,9 +68,9 @@ export default function DashboardLayout({
                   <MobileMenu
                     menus={navigation}
                     user={{
-                      name: profile?.user?.name ?? "",
-                      email: profile?.user?.email ?? "",
-                      image: profile?.profilePicture ?? "",
+                      name: session?.user?.name ?? "",
+                      email: session?.user?.email ?? "",
+                      image: session?.user?.profiles[0]?.profilePicture ?? "",
                     }}
                   />
                   <div className="flex-shrink-0">
@@ -128,13 +102,37 @@ export default function DashboardLayout({
                     </div>
                   </div>
                 </div>
-                <div className="hidden md:block">
-                  <div className="ml-4 flex items-center md:ml-6">
-                    <UserProfileDropdown
-                      name={profile?.user?.name ?? ""}
-                      email={profile?.user?.email ?? ""}
-                      image={profile?.profilePicture ?? ""}
-                    />
+                <div className="flex items-center">
+                  {/* <Link
+                    href={`/${session?.user?.profiles[0]?.url}`}
+                    target="_blank"
+                    title="Visit Profile"
+                    className="flex text-white items-center justify-center gap-2 p-2 px-3 rounded-lg text-sm"
+                  >
+                    <FiExternalLink className="w-5 h-5 font-semibold" />
+                  </Link> */}
+                  <Link
+                    href={`/${session?.user?.profiles[0]?.url}`}
+                    className={classNames(
+                      "text-gray-100 hover:bg-blue-600 hover:text-white",
+                      "rounded-md px-3 py-2 text-sm font-medium flex items-center gap-2"
+                    )}
+                  >
+                    <span>
+                      <FiExternalLink className="w-5 h-5 font-semibold" />
+                    </span>
+                    <span className="text-base font-medium tracking-wide">
+                      Visit
+                    </span>
+                  </Link>
+                  <div className="hidden md:block">
+                    <div className="ml-4 flex items-center md:ml-6">
+                      <UserProfileDropdown
+                        name={session?.user?.name ?? ""}
+                        email={session?.user?.email ?? ""}
+                        image={session?.user?.profiles[0]?.profilePicture ?? ""}
+                      />
+                    </div>
                   </div>
                 </div>
               </div>
