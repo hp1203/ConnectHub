@@ -4,7 +4,9 @@ import {
   LuAlignJustify,
   LuBarChartBig,
   LuLogOut,
+  LuMessageCircle,
   LuSettings2,
+  LuUserCircle,
   LuUsers2,
   LuX,
 } from "react-icons/lu";
@@ -12,9 +14,21 @@ import Link from "next/link";
 import Image from "next/image";
 import { signOut } from "next-auth/react";
 import { MobileMenuProps } from "@/Constants/types";
+import { useSelectedLayoutSegment } from "next/navigation";
+
+function classNames(...classes: string[]) {
+  return classes.filter(Boolean).join(" ");
+}
 
 const MobileMenu: React.FC<MobileMenuProps> = ({ menus, user }) => {
   const [open, setOpen] = useState(false);
+  const activeSegment = useSelectedLayoutSegment();
+  const [imageError, setImageError] = useState(false);
+
+  const handleImageError = () => {
+    setImageError(true);
+  };
+
   return (
     <>
       <div className="mr-2 flex md:hidden">
@@ -75,16 +89,32 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ menus, user }) => {
                             "flex flex-col justify-center items-center gap-3 px-4 py-5 border-b border-gray-100 text-sm text-gray-700"
                           }
                         >
-                          <Image
-                            className="h-16 w-16 rounded-full"
-                            width={100}
-                            height={100}
-                            src={
-                              user?.image ||
-                              `https://eu.ui-avatars.com/api/?name=${user?.name}&size=250&background=f5f5f5&color=3B82F6`
-                            }
-                            alt=""
-                          />
+                          {imageError ? (
+                            <Image
+                              width={100}
+                              height={100}
+                              className="h-16 w-16 rounded-full border"
+                              src={`https://eu.ui-avatars.com/api/?name=${user?.name}&size=250&background=f5f5f5&color=3B82F6`}
+                              alt={user?.name}
+                            />
+                          ) : (
+                            <Image
+                              width={100}
+                              height={100}
+                              className="h-16 w-16 rounded-full border"
+                              src={
+                                user?.image
+                                  ? `${
+                                      process.env.NEXT_PUBLIC_BACKEND_URL +
+                                      user?.image
+                                    }`
+                                  : `https://eu.ui-avatars.com/api/?name=${user?.name}&size=250&background=f5f5f5&color=3B82F6`
+                              }
+                              alt={user?.name}
+                              onError={handleImageError}
+                            />
+                          )}
+
                           <div className="text-base font-semibold leading-none text-gray-700">
                             {user?.name}
                           </div>
@@ -99,30 +129,35 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ menus, user }) => {
                           <Link
                             href={menu.href}
                             key={menu.name}
-                            className="flex items-center py-3 px-4 gap-3 text-gray-700 hover:bg-gray-100 duration-150"
+                            onClick={() => setOpen(false)}
+                            className={classNames(
+                              activeSegment === menu.targetSegment
+                                ? " text-blue-500"
+                                : "text-gray-700 hover:bg-gray-100 duration-150",
+                              "flex items-center py-3 px-4 gap-3 hover:bg-gray-100 duration-150"
+                            )}
                           >
-                            <span className="text-gray-500">{menu.icon}</span>
+                            <span>{menu.icon}</span>
                             <span className="text-base font-medium tracking-wide">
                               {menu.name}
                             </span>
                           </Link>
                         ))}
                         <p className="text-gray-400 text-sm font-bold px-4 mt-2">
-                          OTHER
+                          Account
                         </p>
 
-                        {/* <Link
-                          href="/profile"
+                        <Link
+                          href="/account"
                           className="flex items-center py-3 px-4 gap-3 text-gray-700 hover:bg-gray-100 duration-150"
                         >
                           <span className="text-gray-500">
-                            <LuSettings2 className="w-5 h-5" />
+                            <LuUserCircle className="w-5 h-5" />
                           </span>
                           <span className="text-base font-medium tracking-wide">
-                            Settings
+                            My Account
                           </span>
-                        </Link> */}
-
+                        </Link>
                         <Link
                           href="/profile"
                           className="flex items-center py-3 px-4 gap-3 text-gray-700 hover:bg-gray-100 duration-150"
@@ -134,7 +169,20 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ menus, user }) => {
                             Upgrade Plan
                           </span>
                         </Link>
-
+                        <p className="text-gray-400 text-sm font-bold px-4 mt-2">
+                          OTHER
+                        </p>
+                        <Link
+                          href="/account"
+                          className="flex items-center py-3 px-4 gap-3 text-gray-700 hover:bg-gray-100 duration-150"
+                        >
+                          <span className="text-gray-500">
+                            <LuMessageCircle className="w-5 h-5" />
+                          </span>
+                          <span className="text-base font-medium tracking-wide">
+                            Submit Feedback
+                          </span>
+                        </Link>
                         <Link
                           href="/profile"
                           className="flex items-center py-3 px-4 gap-3 text-gray-700 hover:bg-gray-100 duration-150"

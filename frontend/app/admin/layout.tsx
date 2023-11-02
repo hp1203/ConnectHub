@@ -12,6 +12,7 @@ import {
 } from "react-icons/lu";
 import MobileMenu from "@/components/Dashboard/MobileMenu";
 import { useSelectedLayoutSegment } from "next/navigation";
+import { FiExternalLink } from "react-icons/fi";
 
 const navigation = [
   {
@@ -51,6 +52,7 @@ export default function DashboardLayout({
 }) {
   const { data: session } = useSession();
   const activeSegment = useSelectedLayoutSegment();
+  console.log("ProfileDropdownSession", session);
 
   return (
     <>
@@ -65,7 +67,7 @@ export default function DashboardLayout({
                     user={{
                       name: session?.user?.name ?? "",
                       email: session?.user?.email ?? "",
-                      image: session?.user?.image ?? "",
+                      image: session?.user?.profiles[0]?.profilePicture ?? "",
                     }}
                   />
                   <div className="flex-shrink-0">
@@ -97,13 +99,30 @@ export default function DashboardLayout({
                     </div>
                   </div>
                 </div>
-                <div className="hidden md:block">
-                  <div className="ml-4 flex items-center md:ml-6">
-                    <UserProfileDropdown
-                      name={session?.user?.name ?? ""}
-                      email={session?.user?.email ?? ""}
-                      image={session?.user?.image ?? ""}
-                    />
+                <div className="flex items-center">
+                  <Link
+                    href={`/${session?.user?.profiles[0]?.url}`}
+                    target="_blank"
+                    className={classNames(
+                      "text-gray-100 hover:bg-blue-600 hover:text-white",
+                      "rounded-md px-3 py-2 text-sm font-medium flex items-center gap-2"
+                    )}
+                  >
+                    <span>
+                      <FiExternalLink className="w-5 h-5 font-semibold" />
+                    </span>
+                    <span className="text-base font-medium tracking-wide">
+                      Visit
+                    </span>
+                  </Link>
+                  <div className="hidden md:block">
+                    <div className="ml-4 flex items-center md:ml-6">
+                      <UserProfileDropdown
+                        name={session?.user?.name ?? ""}
+                        email={session?.user?.email ?? ""}
+                        image={session?.user?.profiles[0]?.profilePicture ?? ""}
+                      />
+                    </div>
                   </div>
                 </div>
               </div>

@@ -7,12 +7,18 @@ import { FaFacebook, FaTwitter, FaLinkedin, FaGlobe } from "react-icons/fa6";
 import { AiFillInstagram } from "react-icons/ai";
 import { LinkType } from "@/Constants/types";
 import PublicLinkCard from "@/components/PublicLinkCard";
+import Loading from "@/components/Dashboard/Loading";
 const PublicProfile = ({ params }: { params: { profileUrl: string } }) => {
   const { fetchData } = useApi();
   const [profile, setProfile] = useState<any>(null);
   const [links, setLinks] = useState<LinkType[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [theme, setTheme] = useState<any>(null);
+  const [imageError, setImageError] = useState(false);
+
+  const handleImageError = () => {
+    setImageError(true);
+  };
 
   useEffect(() => {
     const fetchProfileData = () => {
@@ -54,7 +60,7 @@ const PublicProfile = ({ params }: { params: { profileUrl: string } }) => {
   }, [profile]);
 
   if (isLoading || profile == null || theme == null) {
-    return <p>Loading...</p>;
+    return <Loading title="Getting Profile..." subtitle="Hold on! We're getting the profile info."/>;
   }
 
   return (
@@ -77,23 +83,41 @@ const PublicProfile = ({ params }: { params: { profileUrl: string } }) => {
         } as React.CSSProperties
       }
     >
-      <div className="max-w-4xl px-8 mx-auto flex flex-col justify-between">
+      <div className="max-w-4xl px-2 md:px-8 mx-auto flex flex-col justify-between">
         {isLoading == false && (
           <div className="flex flex-col items-center justify-center gap-4 p-2">
-            <Image
-              width={300}
-              height={300}
-              className="h-32 w-32 rounded-full shadow-md"
-              src={
-                profile?.profilePicture ||
-                `https://eu.ui-avatars.com/api/?name=${
-                  profile?.profileTitle || profile?.user?.name
-                }&size=250&background=f5f5f5&color=${theme.disclosure.titleColor.slice(
-                  1
-                )}`
-              }
-              alt={profile?.profileTitle || profile?.user?.name || ""}
-            />
+            {imageError ? (
+              <Image
+                width={300}
+                height={300}
+                className="h-32 w-32 rounded-full shadow-md object-cover"
+                src={`https://eu.ui-avatars.com/api/?name=${
+                    profile?.profileTitle || profile?.user?.name
+                  }&size=250&background=f5f5f5&color=${theme.disclosure.titleColor.slice(
+                    1
+                  )}`
+                }
+                alt={profile?.profileTitle || profile?.user?.name || ""}
+              />
+            ) : (
+              <Image
+                width={300}
+                height={300}
+                className="h-32 w-32 rounded-full shadow-md object-cover"
+                src={
+                  (profile?.profilePicture &&
+                    process.env.NEXT_PUBLIC_BACKEND_URL +
+                      profile?.profilePicture) ||
+                  `https://eu.ui-avatars.com/api/?name=${
+                    profile?.profileTitle || profile?.user?.name
+                  }&size=250&background=f5f5f5&color=${theme.disclosure.titleColor.slice(
+                    1
+                  )}`
+                }
+                alt={profile?.profileTitle || profile?.user?.name || ""}
+                onError={handleImageError}
+              />
+            )}
 
             <div className="flex flex-1 flex-col gap-3">
               <h1 className="font-semibold text-center text-2xl">

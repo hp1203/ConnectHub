@@ -23,7 +23,7 @@ export const getProfileInfo = async (request, response) => {
   try {
     const { id } = request.params;
     const profile = await Profile.findOne({url: id}).populate("user");
-    const links = await Link.find({ profile: profile._id });
+    const links = await Link.find({ profile: profile?._id });
     // const user = await User.findById(profile.user);
     return response.status(200).json({
       profile,
@@ -61,13 +61,13 @@ export const setUserProfile = async (request, response) => {
 
 export const updateProfile = async (request, response) => {
   connectToDb();
-
+  console.log("Update Profile", request.body);
   try {
     const { userId } = response;
     const { profileId } = request.params;
 
     const updatedUser = await Profile.findOneAndUpdate(
-      { _id: profileId, userId: userId },
+      { _id: profileId, user: userId },
       request.body,
       { new: true, upsert: true }
     );
@@ -82,10 +82,10 @@ export const updateProfile = async (request, response) => {
   }
 };
 
-export const updateProfileImage = async (request, response) => {
+export const updateProfileImage = async (request, response, next) => {
   connectToDb();
   try {
-    const { file } = request;
+    const file = request.file;
     const { userId, email } = response;
     const { profileId } = request.params;
 
@@ -96,13 +96,13 @@ export const updateProfileImage = async (request, response) => {
     renameSync(request.file.path, fileName);
 
     const updatedProfile = await Profile.findOneAndUpdate(
-      { _id: profileId, userId: userId },
+      { _id: profileId, user: userId },
       { profilePicture: fileName },
       { new: true, upsert: true }
     );
 
     return response.status(201).json({
-      user: updatedProfile,
+      profile: updatedProfile,
       success: true,
       message: "Profile updated successfully!",
     });

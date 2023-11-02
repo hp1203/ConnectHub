@@ -9,6 +9,7 @@ import { LinkType } from "@/Constants/types";
 import Image from "next/image";
 import { RiLoader3Fill } from "react-icons/ri";
 import Card from "@/UI/Card";
+import Loading from "@/components/Dashboard/Loading";
 
 const Links: React.FC = () => {
   const { data: session } = useSession();
@@ -44,13 +45,7 @@ const Links: React.FC = () => {
       <div className="h-screen grid grid-cols-1 md:grid-cols-5 gap-6 w-full">
         {isLoading && (
           <div className="flex flex-1 flex-col col-span-3 rounded-lg border border-gray-200 mt-1 items-center justify-center gap-3">
-            <RiLoader3Fill className="w-16 h-16 animate-spin text-blue-500" />
-            <p className="text-2xl text-gray-700 font-semibold">
-              Fetching Links...
-            </p>
-            <p className="text-gray-500 font-normal max-w-md text-center">
-              {`Hold on! We're getting your links.`}
-            </p>
+            <Loading title="Fetching Links..." subtitle="Hold on! We're getting your links."/>
           </div>
         )}
         {links.length <= 0 && isLoading == false && (

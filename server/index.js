@@ -8,7 +8,6 @@ import linksRoutes from "./routes/LinksRoutes.js";
 import analyticsRoutes from "./routes/AnalyticsRoutes.js";
 import categoryRoute from "./routes/CategoryRoutes.js";
 import themeRoutes from "./routes/ThemeRoutes.js";
-
 dotenv.config();
 
 const app = express();
@@ -21,6 +20,7 @@ app.use(
     // credentials: true,
   })
 );
+app.use("/uploads",express.static("uploads"));
 
 app.use(express.json());
 
