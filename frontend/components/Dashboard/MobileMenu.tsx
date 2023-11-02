@@ -4,7 +4,9 @@ import {
   LuAlignJustify,
   LuBarChartBig,
   LuLogOut,
+  LuMessageCircle,
   LuSettings2,
+  LuUserCircle,
   LuUsers2,
   LuX,
 } from "react-icons/lu";
@@ -142,21 +144,20 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ menus, user }) => {
                           </Link>
                         ))}
                         <p className="text-gray-400 text-sm font-bold px-4 mt-2">
-                          OTHER
+                          Account
                         </p>
 
-                        {/* <Link
-                          href="/profile"
+                        <Link
+                          href="/account"
                           className="flex items-center py-3 px-4 gap-3 text-gray-700 hover:bg-gray-100 duration-150"
                         >
                           <span className="text-gray-500">
-                            <LuSettings2 className="w-5 h-5" />
+                            <LuUserCircle className="w-5 h-5" />
                           </span>
                           <span className="text-base font-medium tracking-wide">
-                            Settings
+                            My Account
                           </span>
-                        </Link> */}
-
+                        </Link>
                         <Link
                           href="/profile"
                           className="flex items-center py-3 px-4 gap-3 text-gray-700 hover:bg-gray-100 duration-150"
@@ -168,7 +169,20 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ menus, user }) => {
                             Upgrade Plan
                           </span>
                         </Link>
-
+                        <p className="text-gray-400 text-sm font-bold px-4 mt-2">
+                          OTHER
+                        </p>
+                        <Link
+                          href="/account"
+                          className="flex items-center py-3 px-4 gap-3 text-gray-700 hover:bg-gray-100 duration-150"
+                        >
+                          <span className="text-gray-500">
+                            <LuMessageCircle className="w-5 h-5" />
+                          </span>
+                          <span className="text-base font-medium tracking-wide">
+                            Submit Feedback
+                          </span>
+                        </Link>
                         <Link
                           href="/profile"
                           className="flex items-center py-3 px-4 gap-3 text-gray-700 hover:bg-gray-100 duration-150"

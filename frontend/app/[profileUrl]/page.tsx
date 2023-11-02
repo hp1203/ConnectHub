@@ -7,6 +7,7 @@ import { FaFacebook, FaTwitter, FaLinkedin, FaGlobe } from "react-icons/fa6";
 import { AiFillInstagram } from "react-icons/ai";
 import { LinkType } from "@/Constants/types";
 import PublicLinkCard from "@/components/PublicLinkCard";
+import Loading from "@/components/Dashboard/Loading";
 const PublicProfile = ({ params }: { params: { profileUrl: string } }) => {
   const { fetchData } = useApi();
   const [profile, setProfile] = useState<any>(null);
@@ -59,7 +60,7 @@ const PublicProfile = ({ params }: { params: { profileUrl: string } }) => {
   }, [profile]);
 
   if (isLoading || profile == null || theme == null) {
-    return <p>Loading...</p>;
+    return <Loading title="Getting Profile..." subtitle="Hold on! We're getting the profile info."/>;
   }
 
   return (
@@ -82,7 +83,7 @@ const PublicProfile = ({ params }: { params: { profileUrl: string } }) => {
         } as React.CSSProperties
       }
     >
-      <div className="max-w-4xl px-8 mx-auto flex flex-col justify-between">
+      <div className="max-w-4xl px-2 md:px-8 mx-auto flex flex-col justify-between">
         {isLoading == false && (
           <div className="flex flex-col items-center justify-center gap-4 p-2">
             {imageError ? (

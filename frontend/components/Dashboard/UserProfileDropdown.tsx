@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Fragment } from "react";
 import { Menu, Transition } from "@headlessui/react";
 import Link from "next/link";
-import { LuSettings2, LuLogOut, LuBarChartBig, LuUsers2 } from "react-icons/lu";
+import { LuSettings2, LuLogOut, LuBarChartBig, LuUsers2, LuUserCircle, LuMessageCircle } from "react-icons/lu";
 import { signOut } from "next-auth/react";
 import Image from "next/image";
 interface UserProfileProps {
@@ -32,29 +32,28 @@ const UserProfileDropdown: React.FC<UserProfileProps> = ({
             <span className="absolute -inset-1.5" />
             <span className="sr-only">Open user menu</span>
             <div className="flex items-center gap-3">
-              {
-                imageError ? (
-                  <Image
-                    width={40}
-                    height={40}
-                    className="h-10 w-10 rounded-full border"
-                    src={`https://eu.ui-avatars.com/api/?name=${name}&size=250&background=f5f5f5&color=3B82F6`}
-                    alt={name}
-                  />
-                ) : (
-                  <Image
-                    width={40}
-                    height={40}
-                    className="h-10 w-10 rounded-full border"
-                    src={
-                      image ?
-                        `${process.env.NEXT_PUBLIC_BACKEND_URL + image}` : `https://eu.ui-avatars.com/api/?name=${name}&size=250&background=f5f5f5&color=3B82F6`
-                    }
-                    alt={name}
-                    onError={handleImageError}
-                  />
-                )
-              }
+              {imageError ? (
+                <Image
+                  width={40}
+                  height={40}
+                  className="h-10 w-10 rounded-full border"
+                  src={`https://eu.ui-avatars.com/api/?name=${name}&size=250&background=f5f5f5&color=3B82F6`}
+                  alt={name}
+                />
+              ) : (
+                <Image
+                  width={40}
+                  height={40}
+                  className="h-10 w-10 rounded-full border"
+                  src={
+                    image
+                      ? `${process.env.NEXT_PUBLIC_BACKEND_URL + image}`
+                      : `https://eu.ui-avatars.com/api/?name=${name}&size=250&background=f5f5f5&color=3B82F6`
+                  }
+                  alt={name}
+                  onError={handleImageError}
+                />
+              )}
             </div>
           </Menu.Button>
         </div>
@@ -77,17 +76,28 @@ const UserProfileDropdown: React.FC<UserProfileProps> = ({
                     "flex items-center gap-3 px-4 py-5 border-b border-gray-100 text-sm text-gray-700"
                   )}
                 >
-                  <Image
-                    className="h-9 w-9 rounded-full"
-                    width={40}
-                    height={40}
-                    src={
-                      (image &&
-                        process.env.NEXT_PUBLIC_BACKEND_URL + image) ||
-                      `https://eu.ui-avatars.com/api/?name=${name}&size=250&background=f5f5f5&color=3B82F6`
-                    }
-                    alt={name}
-                  />
+                  {imageError ? (
+                    <Image
+                      width={40}
+                      height={40}
+                      className="h-10 w-10 rounded-full border"
+                      src={`https://eu.ui-avatars.com/api/?name=${name}&size=250&background=f5f5f5&color=3B82F6`}
+                      alt={name}
+                    />
+                  ) : (
+                    <Image
+                      width={40}
+                      height={40}
+                      className="h-10 w-10 rounded-full border"
+                      src={
+                        image
+                          ? `${process.env.NEXT_PUBLIC_BACKEND_URL + image}`
+                          : `https://eu.ui-avatars.com/api/?name=${name}&size=250&background=f5f5f5&color=3B82F6`
+                      }
+                      alt={name}
+                      onError={handleImageError}
+                    />
+                  )}
                   <div className=" hidden md:flex flex-col items-start justify-start gap-1">
                     <div className="text-sm font-medium leading-none text-gray-800">
                       {name}
@@ -102,18 +112,18 @@ const UserProfileDropdown: React.FC<UserProfileProps> = ({
             <Menu.Item>
               {({ active }) => (
                 <Link
-                  href="/profile"
+                  href="/account"
                   className={classNames(
                     active ? "bg-gray-100" : "",
                     "text-sm text-gray-700 flex items-center p-3 gap-3"
                   )}
                 >
-                  <LuSettings2 className="w-5 h-5" />
-                  <span className="fonr-medium text-gray-800">Settings</span>
+                  <LuUserCircle className="w-5 h-5" />
+                  <span className="fonr-medium text-gray-800">My Account</span>
                 </Link>
               )}
             </Menu.Item>
-            {/* <Menu.Item>
+            <Menu.Item>
               {({ active }) => (
                 <Link
                   href="/profile"
@@ -128,7 +138,23 @@ const UserProfileDropdown: React.FC<UserProfileProps> = ({
                   </span>
                 </Link>
               )}
-            </Menu.Item> */}
+            </Menu.Item>
+            <Menu.Item>
+              {({ active }) => (
+                <Link
+                  href="/profile"
+                  className={classNames(
+                    active ? "bg-gray-100" : "",
+                    "text-sm text-gray-700 flex items-center p-3 gap-3 border-t border-gray-100"
+                  )}
+                >
+                  <LuUsers2 className="w-5 h-5" />
+                  <span className="fonr-medium text-gray-800">
+                    Refer & Earn
+                  </span>
+                </Link>
+              )}
+            </Menu.Item>
             <Menu.Item>
               {({ active }) => (
                 <Link
@@ -138,9 +164,9 @@ const UserProfileDropdown: React.FC<UserProfileProps> = ({
                     "text-sm text-gray-700 flex items-center p-3 gap-3"
                   )}
                 >
-                  <LuUsers2 className="w-5 h-5" />
+                  <LuMessageCircle className="w-5 h-5" />
                   <span className="fonr-medium text-gray-800">
-                    Refer & Earn
+                    Submit Feedback
                   </span>
                 </Link>
               )}
