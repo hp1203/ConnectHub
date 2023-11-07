@@ -36,10 +36,6 @@ const Settings = () => {
     }
   }, [session]);
 
-  if (isLoading) {
-    return <p>Loading...</p>;
-  }
-
   return (
     <Content title="Settings">
       <div className="h-screen grid grid-cols-1 md:grid-cols-5 gap-6 w-full">
