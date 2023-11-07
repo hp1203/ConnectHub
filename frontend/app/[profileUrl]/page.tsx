@@ -83,7 +83,7 @@ const PublicProfile = ({ params }: { params: { profileUrl: string } }) => {
         } as React.CSSProperties
       }
     >
-      <div className="max-w-4xl px-2 md:px-8 mx-auto flex flex-col justify-between">
+      <div className="max-w-4xl md:px-8 mx-auto flex flex-col justify-between">
         {isLoading == false && (
           <div className="flex flex-col items-center justify-center gap-4 p-2">
             {imageError ? (
@@ -226,19 +226,19 @@ const PublicProfile = ({ params }: { params: { profileUrl: string } }) => {
           </div>
         )}
         <div className="py-4 flex flex-col h-full flex-1 mb-3">
-          <p className="text-center font-semibold  text-xl pt-3 pb-5">
+          <p className="text-center font-semibold text-xl pt-3 pb-5">
             Get to know more about me
           </p>
           {links.length > 0 && isLoading == false && (
-            <div className="flex flex-1 flex-col gap-4 col-span-3 overflow-y-scroll scrollbar-hide p-2">
+            <div className="flex flex-1 flex-col space-y-4 col-span-3 overflow-y-scroll scrollbar-hide pr-2">
               {links.map((link) => (
-                <>
+
                   <PublicLinkCard
                     {...link}
                     key={link?._id.toString()}
                     theme={theme.disclosure}
                   />
-                </>
+
               ))}
             </div>
           )}
