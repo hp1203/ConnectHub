@@ -124,8 +124,8 @@ const EditProfileImage = ({ profilePicture }: { profilePicture: string }) => {
           onDragLeave={handleDragLeave}
           onDrop={handleDrop}
         >
-          <span className="text-gray-500">
-            Drag and drop an image or click to select
+          <span className="text-gray-500 text-center">
+            Drag and drop an image
           </span>
         
         <input

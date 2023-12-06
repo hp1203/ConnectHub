@@ -4,6 +4,7 @@ import { Disclosure } from "@headlessui/react";
 import { LinkType } from "@/Constants/types";
 import { LuChevronDown, LuExternalLink } from "react-icons/lu";
 import Link from "next/link";
+import useAnalytics from "@/hooks/useAnalytics";
 
 const PublicLinkCard: React.FC<LinkType> = ({
   title,
@@ -15,6 +16,7 @@ const PublicLinkCard: React.FC<LinkType> = ({
   theme
 }) => {
   icon = JSON.parse(icon);
+  const { registerEvent } = useAnalytics();
   return (
     <div 
       className={`w-full rounded-lg p-2 shadow-md border m-1 disclosure`}
@@ -61,6 +63,7 @@ const PublicLinkCard: React.FC<LinkType> = ({
                 href={url}
                 target="_blank"
                 className="w-full text-sm hover:text-blue-500 pt-2 border-t text-gray-500 border-gray-100 flex items-center justify-center gap-1"
+                onClick={() => registerEvent(_id, "click")}
               >
                 <LuExternalLink className="w-4 h-4" />
                 <span className="text-sm">Visit</span>
