@@ -52,7 +52,6 @@ const PublicProfile = ({ params }: { params: { profileUrl: string } }) => {
           console.log(error);
           setIsLoading(false);
         });
-      console.log("Theme", theme);
     };
     if (profile) {
       fetchStyle();

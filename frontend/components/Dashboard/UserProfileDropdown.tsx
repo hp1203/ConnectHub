@@ -70,7 +70,7 @@ const UserProfileDropdown: React.FC<UserProfileProps> = ({
             <Menu.Item>
               {({ active }) => (
                 <Link
-                  href="/profile"
+                  href="/admin/settings"
                   className={classNames(
                     active ? "bg-gray-100" : "",
                     "flex items-center gap-3 px-4 py-5 border-b border-gray-100 text-sm text-gray-700"
@@ -112,7 +112,7 @@ const UserProfileDropdown: React.FC<UserProfileProps> = ({
             <Menu.Item>
               {({ active }) => (
                 <Link
-                  href="/account"
+                  href="/admin/account"
                   className={classNames(
                     active ? "bg-gray-100" : "",
                     "text-sm text-gray-700 flex items-center p-3 gap-3"
@@ -126,7 +126,7 @@ const UserProfileDropdown: React.FC<UserProfileProps> = ({
             <Menu.Item>
               {({ active }) => (
                 <Link
-                  href="/profile"
+                  href="/admin/billing"
                   className={classNames(
                     active ? "bg-gray-100" : "",
                     "text-sm text-gray-700 flex items-center p-3 gap-3"
@@ -142,7 +142,7 @@ const UserProfileDropdown: React.FC<UserProfileProps> = ({
             <Menu.Item>
               {({ active }) => (
                 <Link
-                  href="/profile"
+                  href="/admin/profile"
                   className={classNames(
                     active ? "bg-gray-100" : "",
                     "text-sm text-gray-700 flex items-center p-3 gap-3 border-t border-gray-100"
@@ -158,7 +158,7 @@ const UserProfileDropdown: React.FC<UserProfileProps> = ({
             <Menu.Item>
               {({ active }) => (
                 <Link
-                  href="/profile"
+                  href="/admin/feedback"
                   className={classNames(
                     active ? "bg-gray-100" : "",
                     "text-sm text-gray-700 flex items-center p-3 gap-3"

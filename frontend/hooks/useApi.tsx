@@ -1,4 +1,4 @@
-import axios, { AxiosResponse } from "axios";
+import axios from "axios";
 
 const useApi = (auth_token = "") => {
   const uri = process.env.NEXT_PUBLIC_API_URL;

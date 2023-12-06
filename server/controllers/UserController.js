@@ -16,6 +16,26 @@ export const getUserInfo = async (request, response) => {
     console.log(error);
     return response.status(500).json({ error: error.message });
   }
+};
+
+export const updateUserInfo = async (request, response) => {
+  connectToDb();
+  try {
+    const { id } = request.params;
+    const updatedUserInfo = await User.findByIdAndUpdate(
+      id,
+      request.body,
+      { new: true, upsert: true }
+    );
+    return response.status(201).json({
+      user: updatedUserInfo,
+      success: true,
+      message: "User info updated successfully!",
+    });
+  } catch (error) {
+    console.log(error);
+    return response.status(500).json({ error: error.message });
+  }
 }
 
 export const getProfileInfo = async (request, response) => {
@@ -61,7 +81,7 @@ export const setUserProfile = async (request, response) => {
 
 export const updateProfile = async (request, response) => {
   connectToDb();
-  console.log("Update Profile", request.body);
+  // console.log("Update Profile", request.body);
   try {
     const { userId } = response;
     const { profileId } = request.params;
