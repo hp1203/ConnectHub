@@ -29,7 +29,7 @@ const Account = () => {
       console.log("pro", profile);
     };
 
-    if (session?.token) {
+    if (session?.token && profile == null) {
       fetchProfile();
     }
   }, [session]);

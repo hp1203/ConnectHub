@@ -30,11 +30,11 @@ const Appearance = () => {
         });
     };
 
-    if (session?.token) {
+    if (session?.token && theme == null) {
       fetchTheme();
     }
     console.log("Theme", theme);
-  }, [session]);
+  }, []);
 
 
   return (
