@@ -29,7 +29,7 @@ const Links: React.FC = () => {
           setIsLoading(false);
         });
     };
-    if (session?.token) {
+    if (session?.token && links.length <= 0) {
       fetchLinks();
     }
   }, [session]);

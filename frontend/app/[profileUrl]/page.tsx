@@ -35,7 +35,7 @@ const PublicProfile = ({ params }: { params: { profileUrl: string } }) => {
         });
     };
 
-    if (params?.profileUrl) {
+    if (params?.profileUrl && profile == null) {
       fetchProfileData();
     }
   }, [params]);
