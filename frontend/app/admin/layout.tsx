@@ -13,6 +13,7 @@ import {
 import MobileMenu from "@/components/Dashboard/MobileMenu";
 import { useSelectedLayoutSegment } from "next/navigation";
 import { FiExternalLink } from "react-icons/fi";
+import { IoMdHeart } from "react-icons/io";
 
 const navigation = [
   {
@@ -131,6 +132,16 @@ export default function DashboardLayout({
         </Disclosure>
 
         <main>{children}</main>
+
+        <footer className="flex py-10 items-center justify-center border-t mt-4">
+          <div className="flex flex-col items-center space-y-2">
+            <h1 className="text-gray-500 font-museomoderno text-xl font-bold md:text-2xl">
+              ConnectHub
+            </h1>
+            <p className="flex items-center space-x-1 font-semibold text-gray-600"><span>Made with</span> <IoMdHeart className="text-red-500"/> <span className="">in INDIA</span></p>
+            <p className="text-gray-600 text-sm">Copyright &copy; ConnectHub {new Date().getFullYear()}. All rights reserved.</p>
+          </div>
+        </footer>
       </div>
     </>
   );
