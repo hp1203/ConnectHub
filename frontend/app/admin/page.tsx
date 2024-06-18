@@ -58,7 +58,7 @@ const Dashboard: React.FC = () => {
                 Hello {session?.user?.name.split(" ")[0]}! 👋
               </h1>
               <p className="text-gray-400 text-sm">
-                We hope you're having a great day.
+                {`We hope you're having a great day.`}
               </p>
             </div>
           </div>
