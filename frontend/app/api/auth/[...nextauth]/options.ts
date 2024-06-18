@@ -25,6 +25,8 @@ export const options: NextAuthOptions = {
         },
       },
       async authorize(credentials, req) {
+        console.log(req, credentials);
+        
         const response = await axios({
           method: 'POST',
           url: `${process.env.NEXT_PUBLIC_API_URL}auth/login`,
@@ -36,6 +38,7 @@ export const options: NextAuthOptions = {
             "Content-Type": "application/json",
           }
         });
+        console.log("res", response);
         
         if(response?.data){
           return response?.data;
