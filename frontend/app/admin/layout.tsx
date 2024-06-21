@@ -53,7 +53,7 @@ export default function DashboardLayout({
 }) {
   const { data: session } = useSession();
   const activeSegment = useSelectedLayoutSegment();
-  console.log("ProfileDropdownSession", session);
+  // console.log("ProfileDropdownSession", session);
 
   return (
     <>

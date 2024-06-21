@@ -16,6 +16,7 @@ type AnalyticsData = {
 const useAnalytics = () => {
   const [ipAddress, setIPAddress] = useState('');
   const [userAgent, setUserAgent] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
   const uri = process.env.NEXT_PUBLIC_API_URL;
   const header = {
     "Content-Type": "application/json",
@@ -26,11 +27,14 @@ const useAnalytics = () => {
 
   // Fetch analytics data from the API
   const fetchAnalyticsData = async (profileId: string) => {
+    setIsLoading(true);
     try {
       const response = await axios.get(`${uri}analytics`);
       setAnalyticsData(response.data);
+      setIsLoading(false);
     } catch (error) {
       console.error("Error fetching analytics data:", error);
+      setIsLoading(false);
     }
   };
 
@@ -71,7 +75,8 @@ const useAnalytics = () => {
   return {
     analyticsData,
     registerEvent,
-    fetchAnalyticsData
+    fetchAnalyticsData,
+    isLoading
   };
 };
 

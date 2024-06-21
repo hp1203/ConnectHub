@@ -4,7 +4,7 @@ import Content from "@/components/Dashboard/Content";
 import DateSelector from "@/components/Dashboard/DateSelector";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FiLink } from "react-icons/fi";
 import { FaAndroid, FaApple, FaDesktop, FaLink, FaMousePointer, FaUser, FaUserCheck } from "react-icons/fa";
 import {
@@ -15,14 +15,26 @@ import {
   LuUserCheck,
 } from "react-icons/lu";
 import PieChart from "@/components/Dashboard/PieChart";
+import useAnalytics from "@/hooks/useAnalytics";
 const Dashboard: React.FC = () => {
+
   const { data: session } = useSession();
   const [imageError, setImageError] = useState(false);
   const [selectedPeriod, setSelectedPeriod] = useState("today");
+  const { isLoading, fetchAnalyticsData, analyticsData } = useAnalytics();
 
+  useEffect(() => {
+    if (session?.token && analyticsData.events.length <= 0) {
+      fetchAnalyticsData(session?.user?.profiles[0]?._id);
+    }
+    console.log("Loading", isLoading);
+    console.log("Analytics Data", analyticsData);
+  },[]);
+  
   const handleImageError = () => {
     setImageError(true);
   };
+
   return (
     <Content title="Dashboard" right={<></>}>
       <div className="flex flex-col gap-5">
@@ -98,7 +110,7 @@ const Dashboard: React.FC = () => {
           </div>
         </div>
         <div className="flex md:flex-row gap-5">
-          <div className="flex flex-[0.6] flex-col w-full bg-white shadow rounded-lg">
+          <div className="flex flex-col w-full bg-white shadow rounded-lg">
             <div className="border-b border-gray-100 p-3 px-4">
               <p className="text-gray-500 text-sm font-semibold uppercase">
                 Click Trends
@@ -145,7 +157,7 @@ const Dashboard: React.FC = () => {
                 </thead>
                 <tbody>
                   <tr>
-                    <td className="px-4 py-3">Start</td>
+                    <td className="px-4 py-3">1</td>
                     <td className="px-4 py-3">5 Mb/s</td>
                     <td className="px-4 py-3">15 GB</td>
                   </tr>

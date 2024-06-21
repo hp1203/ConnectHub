@@ -4,10 +4,11 @@ import Card from "@/UI/Card";
 import EditBackground from "@/components/Dashboard/EditBackground";
 import useApi from "@/hooks/useApi";
 import { useSession } from "next-auth/react";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import EditDisclosure from "@/components/Dashboard/EditDisclosure";
 import EditFont from "@/components/Dashboard/EditFont";
 import Loading from "@/components/Dashboard/Loading";
+import LivePreview, { LivePreviewRef } from "@/components/Dashboard/Preview";
 
 const Appearance = () => {
   const { data: session } = useSession();
@@ -15,6 +16,15 @@ const Appearance = () => {
 
   const [theme, setTheme] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(true);
+
+  const livePreviewRef = useRef<LivePreviewRef>(null);
+
+  const setUrlAndReload = () => {
+    if (livePreviewRef.current) {
+      livePreviewRef.current.setUrl(`${window.location.origin}/${session?.user?.profiles[0]?.url}`);
+      livePreviewRef.current.reloadIframe();
+    }
+  };
 
   useEffect(() => {
     const fetchTheme = () => {
@@ -32,8 +42,8 @@ const Appearance = () => {
 
     if (session?.token && theme == null) {
       fetchTheme();
+      setUrlAndReload();
     }
-    console.log("Theme", theme);
   }, []);
 
 
@@ -64,9 +74,7 @@ const Appearance = () => {
           </div>
         )}
         <div className="col-span-2 mt-1">
-          <Card title="Preview" className="overflow-y-scroll scrollbar-hide">
-            <p>Preview Here</p>
-          </Card>
+          <LivePreview ref={livePreviewRef} />
         </div>
       </div>
     </Content>
