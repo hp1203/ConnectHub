@@ -8,7 +8,7 @@ import { useEffect, useRef, useState } from "react";
 import EditDisclosure from "@/components/Dashboard/EditDisclosure";
 import EditFont from "@/components/Dashboard/EditFont";
 import Loading from "@/components/Dashboard/Loading";
-import LivePreview, { LivePreviewRef } from "@/components/Dashboard/Preview";
+import LivePreview from "@/components/Dashboard/Preview";
 
 const Appearance = () => {
   const { data: session } = useSession();
@@ -16,15 +16,18 @@ const Appearance = () => {
 
   const [theme, setTheme] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [url, setUrl] = useState<string>(`${window.location.origin}/${session?.user?.profiles[0]?.url}`);
+  const [reload, setReload] = useState<boolean>(false);
 
-  const livePreviewRef = useRef<LivePreviewRef>(null);
+  // Simulate URL change and reload trigger
+  useEffect(() => {
+    setUrl(`${window.location.origin}/${session?.user?.profiles[0]?.url}`);
+    setReload(true);
 
-  const setUrlAndReload = () => {
-    if (livePreviewRef.current) {
-      livePreviewRef.current.setUrl(`${window.location.origin}/${session?.user?.profiles[0]?.url}`);
-      livePreviewRef.current.reloadIframe();
-    }
-  };
+    // Reset reload flag after useEffect to allow future reloads
+    const timer = setTimeout(() => setReload(false), 1000);
+    return () => clearTimeout(timer);
+  }, [url]);
 
   useEffect(() => {
     const fetchTheme = () => {
@@ -42,7 +45,6 @@ const Appearance = () => {
 
     if (session?.token && theme == null) {
       fetchTheme();
-      setUrlAndReload();
     }
   }, []);
 
@@ -74,7 +76,7 @@ const Appearance = () => {
           </div>
         )}
         <div className="col-span-2 mt-1">
-          <LivePreview ref={livePreviewRef} />
+          <LivePreview url={`${window.location.origin}/${session?.user?.profiles[0]?.url}`} reload={reload}/>
         </div>
       </div>
     </Content>
