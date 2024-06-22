@@ -4,9 +4,17 @@ import Content from "@/components/Dashboard/Content";
 import DateSelector from "@/components/Dashboard/DateSelector";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FiLink } from "react-icons/fi";
-import { FaAndroid, FaApple, FaDesktop, FaLink, FaMousePointer, FaUser, FaUserCheck } from "react-icons/fa";
+import {
+  FaAndroid,
+  FaApple,
+  FaDesktop,
+  FaLink,
+  FaMousePointer,
+  FaUser,
+  FaUserCheck,
+} from "react-icons/fa";
 import {
   LuLink,
   LuMousePointer,
@@ -15,14 +23,26 @@ import {
   LuUserCheck,
 } from "react-icons/lu";
 import PieChart from "@/components/Dashboard/PieChart";
+import useAnalytics from "@/hooks/useAnalytics";
+import Card from "@/UI/Card";
 const Dashboard: React.FC = () => {
   const { data: session } = useSession();
   const [imageError, setImageError] = useState(false);
   const [selectedPeriod, setSelectedPeriod] = useState("today");
+  const { isLoading, fetchAnalyticsData, analyticsData } = useAnalytics();
+
+  useEffect(() => {
+    if (session?.token && analyticsData.events.length <= 0) {
+      fetchAnalyticsData(session?.user?.profiles[0]?._id);
+    }
+    console.log("Loading", isLoading);
+    console.log("Analytics Data", analyticsData);
+  }, []);
 
   const handleImageError = () => {
     setImageError(true);
   };
+
   return (
     <Content title="Dashboard" right={<></>}>
       <div className="flex flex-col gap-5">
@@ -98,187 +118,130 @@ const Dashboard: React.FC = () => {
           </div>
         </div>
         <div className="flex md:flex-row gap-5">
-          <div className="flex flex-[0.6] flex-col w-full bg-white shadow rounded-lg">
-            <div className="border-b border-gray-100 p-3 px-4">
-              <p className="text-gray-500 text-sm font-semibold uppercase">
-                Click Trends
-              </p>
-            </div>
-            <div className="flex p-4">
-              <Chart />
-            </div>
-          </div>
-          <div className="flex flex-[0.4] flex-col w-full bg-white shadow rounded-lg">
-            <div className="border-b border-gray-100 p-3 px-4">
-              <p className="text-gray-500 text-sm font-semibold uppercase">
-                Device Breakdown
-              </p>
-            </div>
-            <div className="flex justify-center items-center max-h-96 p-4">
-              <div>
-                <PieChart />
-              </div>
-            </div>
-          </div>
+          <Card title="Click Trends">
+            <Chart />
+          </Card>
+          <Card title="Device Breakdown">
+            <PieChart />
+          </Card>
         </div>
         <div className="flex md:flex-row gap-5">
-          <div className="flex flex-col w-full bg-white shadow rounded-lg">
-            <div className="border-b border-gray-100 p-3 px-4">
-              <p className="text-gray-500 text-sm font-semibold uppercase">
-                Top Links
-              </p>
-            </div>
-            <div className="flex p-4">
-              <table className="table-auto w-full text-left whitespace-no-wrap">
-                <thead>
-                  <tr>
-                    <th className="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100 rounded-tl rounded-bl">
-                      S. No.
-                    </th>
-                    <th className="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">
-                      Link
-                    </th>
-                    <th className="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">
-                      Clicks
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td className="px-4 py-3">Start</td>
-                    <td className="px-4 py-3">5 Mb/s</td>
-                    <td className="px-4 py-3">15 GB</td>
-                  </tr>
-                  <tr>
-                    <td className="border-t-2 border-gray-200 px-4 py-3">
-                      Pro
-                    </td>
-                    <td className="border-t-2 border-gray-200 px-4 py-3">
-                      25 Mb/s
-                    </td>
-                    <td className="border-t-2 border-gray-200 px-4 py-3">
-                      25 GB
-                    </td>
-                  </tr>
-                  <tr>
-                    <td className="border-t-2 border-gray-200 px-4 py-3">
-                      Business
-                    </td>
-                    <td className="border-t-2 border-gray-200 px-4 py-3">
-                      36 Mb/s
-                    </td>
-                    <td className="border-t-2 border-gray-200 px-4 py-3">
-                      40 GB
-                    </td>
-                  </tr>
-                  <tr>
-                    <td className="border-t-2 border-b-2 border-gray-200 px-4 py-3">
-                      Exclusive
-                    </td>
-                    <td className="border-t-2 border-b-2 border-gray-200 px-4 py-3">
-                      48 Mb/s
-                    </td>
-                    <td className="border-t-2 border-b-2 border-gray-200 px-4 py-3">
-                      120 GB
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-          <div className="flex flex-col w-full bg-white shadow rounded-lg">
-            <div className="border-b border-gray-100 p-3 px-4">
-              <p className="text-gray-500 text-sm font-semibold uppercase">
-                Recent Visitors
-              </p>
-            </div>
-            <div className="flex p-4">
-              <table className="table-auto w-full text-left whitespace-no-wrap">
-                <thead>
-                  <tr>
-                    <th className="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100 rounded-tl rounded-bl">
-                      S. No.
-                    </th>
-                    <th className="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">
-                      Location
-                    </th>
-                    <th className="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">
-                      Device
-                    </th>
-                    <th className="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">
-                      Session
-                    </th>
-                    <th className="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">
-                      Clicks
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td className="px-4 py-3">1</td>
-                    <td className="px-4 py-3">
-                      London, UK
-                    </td>
-                    <td className="px-4 py-3">
-                      <FaDesktop className="w-5 h-5 text-gray-600"/>
-                    </td>
-                    <td className="px-4 py-3">
-                      1hr 21min
-                    </td>
-                    <td className="px-4 py-3">
-                      23
-                    </td>
-                  </tr>
-                  <tr>
-                    <td className="px-4 py-3">2</td>
-                    <td className="px-4 py-3">
-                      London, UK
-                    </td>
-                    <td className="px-4 py-3">
-                      <FaDesktop className="w-5 h-5 text-gray-600"/>
-                    </td>
-                    <td className="px-4 py-3">
-                      1hr 21min
-                    </td>
-                    <td className="px-4 py-3">
-                      23
-                    </td>
-                  </tr>
-                  <tr>
-                    <td className="px-4 py-3">3</td>
-                    <td className="px-4 py-3">
-                      London, UK
-                    </td>
-                    <td className="px-4 py-3">
-                      <FaApple className="w-5 h-5 text-gray-600"/>
-                    </td>
-                    <td className="px-4 py-3">
-                      1hr 21min
-                    </td>
-                    <td className="px-4 py-3">
-                      23
-                    </td>
-                  </tr>
-                  <tr>
-                    <td className="px-4 py-3">4</td>
-                    <td className="px-4 py-3">
-                      Mumbai, IN
-                    </td>
-                    <td className="px-4 py-3">
-                      <FaAndroid className="w-5 h-5 text-gray-600"/>
-                    </td>
-                    <td className="px-4 py-3">
-                      1hr 21min
-                    </td>
-                    <td className="px-4 py-3">
-                      23
-                    </td>
-                  </tr>
-                  
-                </tbody>
-              </table>
-            </div>
-          </div>
+          <Card title="Top Links">
+            <table className="table-auto w-full text-left whitespace-no-wrap">
+              <thead>
+                <tr>
+                  <th className="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100 rounded-tl rounded-bl">
+                    S. No.
+                  </th>
+                  <th className="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">
+                    Link
+                  </th>
+                  <th className="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">
+                    Clicks
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td className="px-4 py-3">1</td>
+                  <td className="px-4 py-3">5 Mb/s</td>
+                  <td className="px-4 py-3">15 GB</td>
+                </tr>
+                <tr>
+                  <td className="border-t-2 border-gray-200 px-4 py-3">Pro</td>
+                  <td className="border-t-2 border-gray-200 px-4 py-3">
+                    25 Mb/s
+                  </td>
+                  <td className="border-t-2 border-gray-200 px-4 py-3">
+                    25 GB
+                  </td>
+                </tr>
+                <tr>
+                  <td className="border-t-2 border-gray-200 px-4 py-3">
+                    Business
+                  </td>
+                  <td className="border-t-2 border-gray-200 px-4 py-3">
+                    36 Mb/s
+                  </td>
+                  <td className="border-t-2 border-gray-200 px-4 py-3">
+                    40 GB
+                  </td>
+                </tr>
+                <tr>
+                  <td className="border-t-2 border-b-2 border-gray-200 px-4 py-3">
+                    Exclusive
+                  </td>
+                  <td className="border-t-2 border-b-2 border-gray-200 px-4 py-3">
+                    48 Mb/s
+                  </td>
+                  <td className="border-t-2 border-b-2 border-gray-200 px-4 py-3">
+                    120 GB
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </Card>
+          <Card title="Recent Visitors">
+            <table className="table-auto w-full text-left whitespace-no-wrap">
+              <thead>
+                <tr>
+                  <th className="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100 rounded-tl rounded-bl">
+                    S. No.
+                  </th>
+                  <th className="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">
+                    Location
+                  </th>
+                  <th className="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">
+                    Device
+                  </th>
+                  <th className="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">
+                    Session
+                  </th>
+                  <th className="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">
+                    Clicks
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td className="px-4 py-3">1</td>
+                  <td className="px-4 py-3">London, UK</td>
+                  <td className="px-4 py-3">
+                    <FaDesktop className="w-5 h-5 text-gray-600" />
+                  </td>
+                  <td className="px-4 py-3">1hr 21min</td>
+                  <td className="px-4 py-3">23</td>
+                </tr>
+                <tr>
+                  <td className="px-4 py-3">2</td>
+                  <td className="px-4 py-3">London, UK</td>
+                  <td className="px-4 py-3">
+                    <FaDesktop className="w-5 h-5 text-gray-600" />
+                  </td>
+                  <td className="px-4 py-3">1hr 21min</td>
+                  <td className="px-4 py-3">23</td>
+                </tr>
+                <tr>
+                  <td className="px-4 py-3">3</td>
+                  <td className="px-4 py-3">London, UK</td>
+                  <td className="px-4 py-3">
+                    <FaApple className="w-5 h-5 text-gray-600" />
+                  </td>
+                  <td className="px-4 py-3">1hr 21min</td>
+                  <td className="px-4 py-3">23</td>
+                </tr>
+                <tr>
+                  <td className="px-4 py-3">4</td>
+                  <td className="px-4 py-3">Mumbai, IN</td>
+                  <td className="px-4 py-3">
+                    <FaAndroid className="w-5 h-5 text-gray-600" />
+                  </td>
+                  <td className="px-4 py-3">1hr 21min</td>
+                  <td className="px-4 py-3">23</td>
+                </tr>
+              </tbody>
+            </table>
+          </Card>
         </div>
       </div>
     </Content>

@@ -10,12 +10,22 @@ import Image from "next/image";
 import { RiLoader3Fill } from "react-icons/ri";
 import Card from "@/UI/Card";
 import Loading from "@/components/Dashboard/Loading";
+import LivePreview from "@/components/Dashboard/Preview";
 
 const Links: React.FC = () => {
   const { data: session } = useSession();
   const [isLoading, setIsLoading] = useState(false);
   const { fetchData } = useApi(session?.token || "");
   const [links, setLinks] = useState<LinkType[]>([]);
+  const [reload, setReload] = useState<boolean>(false);
+  // Simulate URL change and reload trigger
+  useEffect(() => {
+    setReload(true);
+
+    // Reset reload flag after useEffect to allow future reloads
+    const timer = setTimeout(() => setReload(false), 1000);
+    return () => clearTimeout(timer);
+  }, []);
   useEffect(() => {
     const fetchLinks = () => {
       setIsLoading(true);
@@ -38,7 +48,7 @@ const Links: React.FC = () => {
       title="Links"
       right={
         <div>
-          <AddLink />
+          <AddLink reloadPreview={setReload}/>
         </div>
       }
     >
@@ -63,7 +73,7 @@ const Links: React.FC = () => {
             <p className="text-gray-500 font-normal max-w-md text-center">
               You have no active links right now. Create some to showcase.
             </p>
-            <AddLink />
+            <AddLink reloadPreview={setReload}/>
           </div>
         )}
         {links.length > 0 && isLoading == false && (
@@ -74,9 +84,7 @@ const Links: React.FC = () => {
           </div>
         )}
         <div className="col-span-2 mt-1">
-        <Card title="Preview" className="overflow-y-scroll scrollbar-hide">
-            <p>Preview Here</p>
-        </Card>
+          <LivePreview url={`${window.location.origin}/${session?.user?.profiles[0]?.url}`} reload={reload}/>
         </div>
       </div>
     </Content>

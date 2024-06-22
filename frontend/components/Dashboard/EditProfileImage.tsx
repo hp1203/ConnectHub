@@ -5,7 +5,7 @@ import Button from "@/UI/Button";
 import { useSession } from "next-auth/react";
 import axios from "axios";
 
-const EditProfileImage = ({ profilePicture }: { profilePicture: string }) => {
+const EditProfileImage = ({ profilePicture, reloadPreview }: { profilePicture: string, reloadPreview: any }) => {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [file, setFile] = useState<any>(null);
   const [isDragging, setIsDragging] = useState(false);
@@ -75,8 +75,8 @@ const EditProfileImage = ({ profilePicture }: { profilePicture: string }) => {
             }
           })
 
-          console.log("Session", session);
-          
+          // console.log("Session", session);
+          reloadPreview(true);
           alert(response.data.message);
         }
       })

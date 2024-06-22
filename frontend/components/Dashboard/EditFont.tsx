@@ -7,8 +7,10 @@ import { useSession } from "next-auth/react";
 
 const EditFont = ({
   initialFontColor,
+  reloadPreview
 }: {
   initialFontColor: string;
+  reloadPreview: any;
 }) => {
   let [isLoading, setIsLoading] = useState(false);
   let [fontColor, setFontColor] = useState(initialFontColor);
@@ -30,7 +32,8 @@ const EditFont = ({
       .then((response) => {
         setIsLoading(false);
         if(response.data.success){
-            alert(response.data.message);
+          reloadPreview(true);
+          alert(response.data.message);
         }
       })
       .catch((error) => {

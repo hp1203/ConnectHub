@@ -4,7 +4,7 @@ const analyticsSchema = new mongoose.Schema({
     link: {
         type: Schema.Types.ObjectId, // Reference to the link associated with the event
         ref: 'Link',
-        required: true
+        required: false
     },
     eventType: {
         type: String, // Type of event (e.g., "click", "view", "conversion")

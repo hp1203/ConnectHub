@@ -4,10 +4,11 @@ import Card from "@/UI/Card";
 import EditBackground from "@/components/Dashboard/EditBackground";
 import useApi from "@/hooks/useApi";
 import { useSession } from "next-auth/react";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import EditDisclosure from "@/components/Dashboard/EditDisclosure";
 import EditFont from "@/components/Dashboard/EditFont";
 import Loading from "@/components/Dashboard/Loading";
+import LivePreview from "@/components/Dashboard/Preview";
 
 const Appearance = () => {
   const { data: session } = useSession();
@@ -15,6 +16,18 @@ const Appearance = () => {
 
   const [theme, setTheme] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [url, setUrl] = useState<string>(`${window.location.origin}/${session?.user?.profiles[0]?.url}`);
+  const [reload, setReload] = useState<boolean>(false);
+
+  // Simulate URL change and reload trigger
+  useEffect(() => {
+    setUrl(`${window.location.origin}/${session?.user?.profiles[0]?.url}`);
+    setReload(true);
+
+    // Reset reload flag after useEffect to allow future reloads
+    const timer = setTimeout(() => setReload(false), 1000);
+    return () => clearTimeout(timer);
+  }, [url]);
 
   useEffect(() => {
     const fetchTheme = () => {
@@ -33,7 +46,6 @@ const Appearance = () => {
     if (session?.token && theme == null) {
       fetchTheme();
     }
-    console.log("Theme", theme);
   }, []);
 
 
@@ -53,20 +65,20 @@ const Appearance = () => {
               initialColor={theme?.background?.color}
               initialOption={theme?.background?.bgType}
               initialUrl={theme?.background?.url || ""}
+              reloadPreview={setReload}
             />
             <EditDisclosure
               initialBgColor={theme?.disclosure.bgColor}
               initialFontColor={theme?.disclosure.fontColor}
               initialTitleColor={theme?.disclosure.titleColor}
               initialHoverColor={theme?.disclosure.hoverColor}
+              reloadPreview={setReload}
             />
-            <EditFont initialFontColor={theme?.font.color} />
+            <EditFont initialFontColor={theme?.font.color} reloadPreview={setReload}/>
           </div>
         )}
         <div className="col-span-2 mt-1">
-          <Card title="Preview" className="overflow-y-scroll scrollbar-hide">
-            <p>Preview Here</p>
-          </Card>
+          <LivePreview url={`${window.location.origin}/${session?.user?.profiles[0]?.url}`} reload={reload}/>
         </div>
       </div>
     </Content>

@@ -17,6 +17,9 @@ const PublicLinkCard: React.FC<LinkType> = ({
 }) => {
   icon = JSON.parse(icon);
   const { registerEvent } = useAnalytics();
+  // const logClickEvent = () => {
+  //   registerEvent(_id, "click", "")
+  // }
   return (
     <div 
       className={`w-full rounded-lg p-2 shadow-md border m-1 disclosure`}

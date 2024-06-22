@@ -45,7 +45,7 @@ export const data = {
     {
       fill: false,
       label: 'Click Trends',
-      data: labels.map(() => faker.datatype.number({ min: 0, max: 500 })),
+      data: labels.map(() => faker.number.int({ min: 0, max: 500 })),
       borderColor: '#889FFD',
       backgroundColor: '#D8DEFF',
     },
