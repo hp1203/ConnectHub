@@ -13,25 +13,25 @@ const options = [
   {
     name: "Flat Color",
     slug: "color",
-    icon: <IoMdColorFilter classNam="w-10 h-10" />,
+    icon: <IoMdColorFilter className="w-5 h-5 text-gray-500" />,
     isAllowed: true,
   },
   {
     name: "Gradient",
     slug: "gradient",
-    icon: <MdGradient classNam="w-10 h-10" />,
+    icon: <MdGradient className="w-5 h-5 text-gray-500" />,
     isAllowed: true,
   },
   {
     name: "Image",
     slug: "image",
-    icon: <IoImageOutline classNam="w-10 h-10" />,
+    icon: <IoImageOutline className="w-5 h-5 text-gray-500" />,
     isAllowed: false,
   },
   {
     name: "Video",
     slug: "video",
-    icon: <MdOutlineOndemandVideo classNam="w-10 h-10" />,
+    icon: <MdOutlineOndemandVideo className="w-5 h-5 text-gray-500" />,
     isAllowed: false,
   },
 ];
@@ -40,10 +40,12 @@ const EditBackground = ({
   initialColor,
   initialOption,
   initialUrl,
+  reloadPreview
 }: {
   initialColor: any;
   initialOption: string;
   initialUrl: string;
+  reloadPreview: any;
 }) => {
   let [bgColors, setBgColors] = useState(initialColor);
   let [isLoading, setIsLoading] = useState(false);
@@ -78,6 +80,7 @@ const EditBackground = ({
       .then((response) => {
         setIsLoading(false);
         if(response.data.success){
+            reloadPreview(true);
             alert(response.data.message);
         }
       })

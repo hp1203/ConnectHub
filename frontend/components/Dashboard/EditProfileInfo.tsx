@@ -10,10 +10,12 @@ const EditProfileInfo = ({
   title,
   url,
   description,
+  reloadPreview
 }: {
   title: string;
   url: string;
   description: string;
+  reloadPreview: any;
 }) => {
   let [isLoading, setIsLoading] = useState(false);
 
@@ -35,6 +37,7 @@ const EditProfileInfo = ({
       .then((response) => {
         setIsLoading(false);
         if (response.data.success) {
+          reloadPreview(true);
           alert(response.data.message);
         }
       })

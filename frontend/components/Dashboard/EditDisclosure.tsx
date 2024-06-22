@@ -15,11 +15,13 @@ const EditDisclosure = ({
   initialHoverColor,
   initialTitleColor,
   initialFontColor,
+  reloadPreview
 }: {
   initialBgColor: string;
   initialHoverColor: string;
   initialFontColor: string;
   initialTitleColor: string;
+  reloadPreview: any;
 }) => {
   let [isLoading, setIsLoading] = useState(false);
   let [bgColor, setBgColor] = useState(initialBgColor);
@@ -44,7 +46,10 @@ const EditDisclosure = ({
         },
       })
     )
-      .then((response) => {})
+      .then((response) => {
+        reloadPreview(true);
+        alert(response.data.message);
+      })
       .catch((error) => {
         console.log("Error", error);
         setIsLoading(false);

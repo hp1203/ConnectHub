@@ -13,12 +13,14 @@ const EditSocialMedia = ({
     twitter,
     facebook,
     instagram,
+    reloadPreview
 }: {
     website: string;
     linkedin: string;
     twitter: string;
     facebook: string;
     instagram: string;
+    reloadPreview: any;
 }) => {
   let [isLoading, setIsLoading] = useState(false);
 
@@ -42,6 +44,7 @@ const EditSocialMedia = ({
       .then((response) => {
         setIsLoading(false);
         if (response.data.success) {
+          reloadPreview(true);
           alert(response.data.message);
         }
       })

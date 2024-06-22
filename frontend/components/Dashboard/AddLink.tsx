@@ -11,7 +11,7 @@ import MultiSelectInput from "@/UI/MultiSelectInput";
 import useApi from "@/hooks/useApi";
 import { useSession } from "next-auth/react";
 
-const AddLink: React.FC = () => {
+const AddLink = ({reloadPreview}: {reloadPreview: any}) => {
   const { data: session } = useSession();
   const { fetchData } = useApi(session?.token);
   const [open, setOpen] = useState(false);
@@ -44,6 +44,7 @@ const AddLink: React.FC = () => {
     fetchData("post", `links/${session?.user?.profiles[0]?._id}`, data)
       .then((response) => {
         setIsLoading(false);
+        reloadPreview(true);
         setOpen(false);
       })
       .catch((error) => {

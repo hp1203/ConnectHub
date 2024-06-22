@@ -65,14 +65,16 @@ const Appearance = () => {
               initialColor={theme?.background?.color}
               initialOption={theme?.background?.bgType}
               initialUrl={theme?.background?.url || ""}
+              reloadPreview={setReload}
             />
             <EditDisclosure
               initialBgColor={theme?.disclosure.bgColor}
               initialFontColor={theme?.disclosure.fontColor}
               initialTitleColor={theme?.disclosure.titleColor}
               initialHoverColor={theme?.disclosure.hoverColor}
+              reloadPreview={setReload}
             />
-            <EditFont initialFontColor={theme?.font.color} />
+            <EditFont initialFontColor={theme?.font.color} reloadPreview={setReload}/>
           </div>
         )}
         <div className="col-span-2 mt-1">

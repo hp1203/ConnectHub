@@ -8,6 +8,7 @@ import EditProfileInfo from "@/components/Dashboard/EditProfileInfo";
 import EditSocialMedia from "@/components/Dashboard/EditSocialMedia";
 import EditProfileImage from "@/components/Dashboard/EditProfileImage";
 import Loading from "@/components/Dashboard/Loading";
+import LivePreview from "@/components/Dashboard/Preview";
 
 const Settings = () => {
   const { data: session } = useSession();
@@ -15,7 +16,15 @@ const Settings = () => {
 
   const [isLoading, setIsLoading] = useState(false);
   const [profile, setProfile] = useState<any>(null);
+  const [reload, setReload] = useState<boolean>(false);
+  // Simulate URL change and reload trigger
+  useEffect(() => {
+    setReload(true);
 
+    // Reset reload flag after useEffect to allow future reloads
+    const timer = setTimeout(() => setReload(false), 1000);
+    return () => clearTimeout(timer);
+  }, []);
   useEffect(() => {
     const fetchProfile = () => {
       setIsLoading(true);
@@ -28,7 +37,7 @@ const Settings = () => {
           console.log("Error", error);
           setIsLoading(false);
         });
-      console.log("pro", profile);
+      // console.log("pro", profile);
     };
 
     if (session?.token && profile == null) {
@@ -48,19 +57,21 @@ const Settings = () => {
           </div>
         ) : (
           <div className="flex flex-1 flex-col gap-4 col-span-3 overflow-y-scroll scrollbar-hide p-1">
-            <EditProfileImage profilePicture={profile?.profilePicture} />
+            <EditProfileImage 
+              profilePicture={profile?.profilePicture}
+              reloadPreview={setReload}
+            />
             <EditProfileInfo
               title={profile?.profileTitle}
               url={profile?.url}
               description={profile?.bio}
+              reloadPreview={setReload}
             />
-            <EditSocialMedia {...profile?.socialLinks} />
+            <EditSocialMedia {...profile?.socialLinks} reloadPreview={setReload}/>
           </div>
         )}
         <div className="col-span-2 mt-1">
-          <Card title="Preview" className="overflow-y-scroll scrollbar-hide">
-            <p>Preview Here</p>
-          </Card>
+          <LivePreview url={`${window.location.origin}/${session?.user?.profiles[0]?.url}`} reload={reload}/>
         </div>
       </div>
     </Content>
