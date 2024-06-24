@@ -16,12 +16,12 @@ const Appearance = () => {
 
   const [theme, setTheme] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [url, setUrl] = useState<string>(`${window.location.origin}/${session?.user?.profiles[0]?.url}`);
+  const [url, setUrl] = useState<string>(`${process.env.NEXTAUTH_URL}/${session?.user?.profiles[0]?.url}`);
   const [reload, setReload] = useState<boolean>(false);
 
   // Simulate URL change and reload trigger
   useEffect(() => {
-    setUrl(`${window.location.origin}/${session?.user?.profiles[0]?.url}`);
+    setUrl(`${process.env.NEXTAUTH_URL}/${session?.user?.profiles[0]?.url}`);
     setReload(true);
 
     // Reset reload flag after useEffect to allow future reloads
