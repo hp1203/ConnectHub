@@ -84,7 +84,7 @@ const Links: React.FC = () => {
           </div>
         )}
         <div className="col-span-2 mt-1">
-          <LivePreview url={`${window.location.origin}/${session?.user?.profiles[0]?.url}`} reload={reload}/>
+          <LivePreview url={`${process.env.NEXTAUTH_URL}/${session?.user?.profiles[0]?.url}`} reload={reload}/>
         </div>
       </div>
     </Content>
