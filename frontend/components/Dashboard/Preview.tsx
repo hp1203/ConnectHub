@@ -35,11 +35,12 @@ const LivePreview: React.FC<LivePreviewProps> = ({ url, reload }) => {
 
   return (
     <Card title='Preview'>
-      <div className='flex items-center rounded-lg p-1 bg-gray-50 mb-2'>
+      <div></div>
+      {/* <div className='flex items-center rounded-lg p-1 bg-gray-50 mb-2'>
         {url && <p className='text-sm flex-1 text-gray-600 ml-2'>{url}</p>}
         {/* <button className='bg-gray-200 rounded-lg p-2 cursor-pointer' onClick={() => reloadIframe()}>
           <IoReloadOutline className='text-gray-700 w-5 h-5'/>
-        </button> */}
+        </button> 
       </div>
       {url && isValidUrl(url) && (
         <iframe
@@ -48,7 +49,7 @@ const LivePreview: React.FC<LivePreviewProps> = ({ url, reload }) => {
           title="Live Preview"
           style={{ width: '100%', height: '600px' }}
         />
-      )}
+      )} */}
     </Card>
   );
 };
