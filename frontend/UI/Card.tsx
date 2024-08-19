@@ -9,13 +9,13 @@ type CardProps = {
 const Card = ({ children, title }: CardProps): JSX.Element => {
   return (
     <div className="flex flex-col w-full bg-white shadow rounded-lg">
-      <div className="border-b border-gray-100 p-3 px-4">
-        {title && (
+      {title && (
+        <div className="border-b border-gray-100 p-3 px-4">
           <h2 className="text-gray-500 text-sm font-semibold uppercase">
             {title}
           </h2>
-        )}
-      </div>
+        </div>
+      )}
       <div className="p-3">{children}</div>
     </div>
   );
