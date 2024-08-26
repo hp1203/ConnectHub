@@ -5,12 +5,14 @@ import useApi from "@/hooks/useApi";
 import { useSession } from "next-auth/react";
 import Input from "@/UI/Input";
 import { MdCelebration } from "react-icons/md";
-import { useState } from "react";
+import { FormEvent, useCallback, useState } from "react";
 import { RadioGroup } from "@headlessui/react";
 import Image from "next/image";
 import { FaCheckCircle } from "react-icons/fa";
 import { FaLock } from "react-icons/fa6";
 import Button from "@/UI/Button";
+import Link from "next/link";
+import useRazorpay, { RazorpayOptions } from "react-razorpay";
 
 const paymentGateways = [
   {
@@ -22,16 +24,69 @@ const paymentGateways = [
     logo: require("../../../public/razorpay-logo.svg"),
   },
 ];
+
 const Upgrade = () => {
   const { data: session } = useSession();
   const { fetchData } = useApi(session?.token);
+  const [Razorpay, isLoaded] = useRazorpay();
   const [selectedPayment, setSelectedPayment] = useState();
+
+  const payWithRazorpay = useCallback(() => {
+    // const order = await createOrder(params);
+
+    const options: RazorpayOptions = {
+      key: "rzp_test_Zgx5cAxl4p66fr",
+      amount: "3000",
+      currency: "INR",
+      name: "Acme Corp",
+      description: "Test Transaction",
+      image: "https://example.com/your_logo",
+      order_id: "order_9A33XWu170gUtm", //order.id,
+      handler: (response) => {
+        console.log(response.razorpay_payment_id);
+        console.log(response.razorpay_order_id);
+        console.log(response.razorpay_signature);
+      },
+      prefill: {
+        name: "Piyush Garg",
+        email: "youremail@example.com",
+        contact: "9999999999",
+      },
+      notes: {
+        address: "Razorpay Corporate Office",
+      },
+      theme: {
+        color: "#3399cc",
+      },
+    };
+
+    const rzpay = new Razorpay(options);
+    rzpay.on("payment.failed", function (response: any) {
+      console.log(response.error.code);
+      console.log(response.error.description);
+      console.log(response.error.source);
+      console.log(response.error.step);
+      console.log(response.error.reason);
+      console.log(response.error.metadata.order_id);
+      console.log(response.error.metadata.payment_id);
+    });
+    rzpay.open();
+  }, [Razorpay]);
+
+  const handlePayment = (e: FormEvent) => {
+    e.preventDefault();
+    payWithRazorpay();
+  };
   return (
     <Content title="Upgrade">
       <div className="flex w-full">
         <Card>
           <div className="flex gap-3">
-            <form className="flex-[0.6] space-y-4 p-4 px-8">
+            <form
+              onSubmit={handlePayment}
+              method="post"
+              className="flex-[0.6] space-y-4 p-4 px-8"
+            >
               <div className="mb-8">
                 <h2 className="text-2xl font-medium text-gray-800 mb-2 mt-4">
                   Upgrade to Pro
@@ -121,7 +176,7 @@ const Upgrade = () => {
                                 ? "ring-2 ring-white/60 ring-blue-500"
                                 : ""
                             }
-                  ${checked ? " text-white" : "bg-white"}
+                    ${checked ? " text-white" : "bg-white"}
                     relative flex flex-1 cursor-pointer rounded-lg px-5 py-4 border border-gray-300 focus:outline-none`
                           }
                         >
@@ -164,31 +219,32 @@ const Upgrade = () => {
                 </div>
               </div>
               <div className="flex justify-end space-x-4 items-center pt-2">
-                <Button
-                  style="secondary"
-                  className="flex-[0.3]"
-                  // isLoading={}
-                  // disabled={}
-                  // onClick={handleUpdate}
+                <Link
+                  className="flex-[0.3] flex items-center justify-center font-medium px-4 py-2 bg-transparent border-2 border-blue-200 rounded-lg text-blue-300"
+                  href={"/admin"}
                 >
                   <p className="text-lg">Cancel</p>
-                </Button>
+                </Link>
                 <Button
                   style="primary"
                   className="flex-[0.7]"
                   // isLoading={}
                   // disabled={}
-                  // onClick={handleUpdate}
+                  //   onClick={payWithRazorpay}
                 >
                   <p className="text-lg">Pay Securely</p>
                 </Button>
               </div>
               <div className="flex items-center text-xs text-gray-400">
-                By continuing, you agree to ConnectHub's&nbsp;<span className="underline">terms</span>&nbsp;and&nbsp;<span className="underline">privacy
-                policy</span>. You can cancel your subscription anytime. 
+                <p>
+                  By continuing, you agree to ConnectHub's&nbsp;
+                  <span className="underline">terms</span>&nbsp;and&nbsp;
+                  <span className="underline">privacy policy</span>. You can
+                  cancel your subscription anytime.{" "}
+                </p>
               </div>
             </form>
-            <div className="flex flex-[0.4] flex-col">
+            <div className="flex flex-[0.4] flex-col p-4">
               <div className="flex flex-col rounded-t-lg items-center space-y-2 text-center justify-center p-14 bg-gradient-to-tr text-white from-blue-600 to-blue-400">
                 <MdCelebration className="w-12 h-12" />
                 <h3 className="text-xl font-medium">Upgrade to Pro</h3>
@@ -226,14 +282,22 @@ const Upgrade = () => {
                   </ul>
                 </div>
                 <div className="border-t m-2 p-4 space-y-4 border-gray-100">
-                  <div className="flex items-center text-xl font-semibold text-gray-800 justify-between">
+                  <div className="flex items-center text-sm font-semibold text-gray-500 justify-between">
+                    <p>Sub Total</p>
+                    <p>$ 8.00 USD</p>
+                  </div>
+                  <div className="flex items-center text-sm font-semibold text-gray-500 justify-between">
+                    <p>Tax</p>
+                    <p>$ 2.00 USD</p>
+                  </div>
+                  <div className="flex items-center text-lg font-semibold text-gray-800 justify-between">
                     <p>Total</p>
                     <p>$ 10.00 USD</p>
                   </div>
-                  <div className="flex items-center text-xs text-gray-400">
+                  {/* <div className="flex items-center text-xs text-gray-400">
                     Guaranteed to be safe & secure, ensuring that all
                     transactions are protected with the highest eve of security
-                  </div>
+                  </div> */}
                 </div>
               </div>
             </div>

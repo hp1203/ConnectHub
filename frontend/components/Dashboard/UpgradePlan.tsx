@@ -54,10 +54,10 @@ const UpgradePlan = () => {
                 <Dialog.Panel className="w-full max-w-lg transform overflow-hidden rounded-lg bg-white text-left align-middle shadow-xl transition-all">
                   <Dialog.Title
                     as="h3"
-                    className="text-lg font-medium leading-6 items-center p-6 bg-blue-500"
+                    className="text-lg font-medium leading-6 items-center p-6 bg-gradient-to-tr text-white from-blue-600 to-blue-400"
                   >
                     <button
-                      className="float-right text-gray-300"
+                      className="float-right text-gray-100"
                       onClick={closeModal}
                     >
                       <FaCircleXmark />

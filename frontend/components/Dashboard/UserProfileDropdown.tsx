@@ -28,7 +28,7 @@ const UserProfileDropdown: React.FC<UserProfileProps> = ({
     <div>
       <Menu as="div" className="relative">
         <div>
-          <Menu.Button className="relative flex max-w-xs items-center bg-blue-500 text-sm focus:outline-none focus:ring-none focus:ring-none focus:ring-offset-2 focus:ring-offset-blue-600">
+          <Menu.Button className="relative flex max-w-xs items-center text-sm focus:outline-none focus:ring-none focus:ring-none focus:ring-offset-2 focus:ring-offset-blue-600">
             <span className="absolute -inset-1.5" />
             <span className="sr-only">Open user menu</span>
             <div className="flex items-center gap-3">

@@ -58,7 +58,7 @@ export default function DashboardLayout({
   return (
     <>
       <div className="min-h-full">
-        <Disclosure as="nav" className="bg-blue-500">
+        <Disclosure as="nav" className="bg-gradient-to-tr text-white from-blue-600 to-blue-400">
           <>
             <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
               <div className="flex h-16 items-center justify-between">
