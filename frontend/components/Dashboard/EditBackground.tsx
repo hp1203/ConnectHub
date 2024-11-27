@@ -162,7 +162,7 @@ const EditBackground = ({
       <div className="flex items-center justify-end border-t border-gray-100 mt-4 pt-4">
         <Button
           style="primary"
-          isLoading={isLoading}
+          // isLoading={isLoading}
           disabled={isLoading}
           onClick={handleUpdate}
         >

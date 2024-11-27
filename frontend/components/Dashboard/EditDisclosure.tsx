@@ -9,6 +9,7 @@ import UpgradePlan from "./UpgradePlan";
 import Button from "@/UI/Button";
 import useApi from "@/hooks/useApi";
 import { useSession } from "next-auth/react";
+import toast from "react-hot-toast";
 
 const EditDisclosure = ({
   initialBgColor,
@@ -34,6 +35,9 @@ const EditDisclosure = ({
 
   const handleUpdate = async () => {
     setIsLoading(true);
+    let updateLinkToast = toast.loading(
+      "Updating Disclosure..."
+    )
     fetchData(
       "put",
       `theme/${session?.user?.profiles[0]?._id}`,
@@ -48,10 +52,16 @@ const EditDisclosure = ({
     )
       .then((response) => {
         reloadPreview(true);
-        alert(response.data.message);
+        // alert(response.data.message);
+        toast.success(response.data.message, {
+          id: updateLinkToast
+        })
       })
       .catch((error) => {
         console.log("Error", error);
+        toast.error(error, {
+          id: updateLinkToast
+        })
         setIsLoading(false);
       });
   };
@@ -79,7 +89,7 @@ const EditDisclosure = ({
       <div className="flex items-center justify-end border-t border-gray-100 mt-4 pt-4">
         <Button
           style="primary"
-          isLoading={isLoading}
+          // isLoading={isLoading}
           disabled={isLoading}
           onClick={handleUpdate}
         >
