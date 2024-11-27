@@ -237,7 +237,7 @@ const Upgrade = () => {
               </div>
               <div className="flex items-center text-xs text-gray-400">
                 <p>
-                  By continuing, you agree to ConnectHub's&nbsp;
+                  By continuing, you agree to ConnectHub&apos;s &nbsp;
                   <span className="underline">terms</span>&nbsp;and&nbsp;
                   <span className="underline">privacy policy</span>. You can
                   cancel your subscription anytime.{" "}
