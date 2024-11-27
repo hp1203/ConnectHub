@@ -5,6 +5,7 @@ import useApi from "@/hooks/useApi";
 import { useSession } from "next-auth/react";
 import Input from "@/UI/Input";
 import Textarea from "@/UI/Textarea";
+import toast from "react-hot-toast";
 
 const EditProfileInfo = ({
   title,
@@ -29,6 +30,9 @@ const EditProfileInfo = ({
 
   const handleUpdate = async () => {
     setIsLoading(true);
+    let updateLinkToast = toast.loading(
+      "Updating Profile Info..."
+    )
     fetchData(
       "put",
       `users/profile/${session?.user?.profiles[0]?._id}`,
@@ -38,11 +42,17 @@ const EditProfileInfo = ({
         setIsLoading(false);
         if (response.data.success) {
           reloadPreview(true);
-          alert(response.data.message);
+          // alert(response.data.message);
+          toast.success(response.data.message, {
+            id: updateLinkToast
+          })
         }
       })
       .catch((error) => {
         console.log("Error", error);
+        toast.error(error, {
+          id: updateLinkToast
+        })
         setIsLoading(false);
       });
   };
