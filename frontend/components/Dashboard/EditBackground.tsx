@@ -9,6 +9,7 @@ import UpgradePlan from "./UpgradePlan";
 import Button from "@/UI/Button";
 import useApi from "@/hooks/useApi";
 import { useSession } from "next-auth/react";
+import toast from "react-hot-toast";
 const options = [
   {
     name: "Flat Color",
@@ -67,6 +68,9 @@ const EditBackground = ({
 
   const handleUpdate = async () => {
     setIsLoading(true);
+    let updateLinkToast = toast.loading(
+      "Updating Background..."
+    )
     fetchData(
       "put",
       `theme/${session?.user?.profiles[0]?._id}`,
@@ -81,11 +85,17 @@ const EditBackground = ({
         setIsLoading(false);
         if(response.data.success){
             reloadPreview(true);
-            alert(response.data.message);
+            // alert(response.data.message);
+            toast.success(response.data.message, {
+              id: updateLinkToast
+            })
         }
       })
       .catch((error) => {
         console.log("Error", error);
+        toast.error(error, {
+          id: updateLinkToast
+        })
         setIsLoading(false);
       });
   };
