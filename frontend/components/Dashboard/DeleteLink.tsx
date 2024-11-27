@@ -5,6 +5,7 @@ import { LuBadgeAlert, LuTrash2 } from "react-icons/lu";
 import Button from "@/UI/Button";
 import useApi from "@/hooks/useApi";
 import { useSession } from "next-auth/react";
+import toast from "react-hot-toast";
 
 const DeleteLink = ({ linkId }: { linkId: string }) => {
   const { data: session } = useSession();
@@ -22,15 +23,24 @@ const DeleteLink = ({ linkId }: { linkId: string }) => {
 
   const handleDelete = () => {
     setLoading(true);
+    let updateLinkToast = toast.loading(
+      "Deleting Link..."
+    )
     fetchData("delete", `links/${linkId}`)
       .then((response) => {
         setLoading(false);
         if (response.data.success) {
+          toast.success(response.data.message, {
+            id: updateLinkToast
+          })
           closeModal();
         }
       })
       .catch((error) => {
         console.log("Error", error);
+        toast.error(error, {
+          id: updateLinkToast
+        })
         setLoading(false);
       });
   };
@@ -104,7 +114,7 @@ const DeleteLink = ({ linkId }: { linkId: string }) => {
                       type="button"
                       style="danger"
                       onClick={handleDelete}
-                      isLoading={loading}
+                      disabled={loading}
                     >
                       Delete
                     </Button>
