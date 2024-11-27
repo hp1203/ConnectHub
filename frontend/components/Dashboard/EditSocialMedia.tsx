@@ -6,6 +6,7 @@ import Button from "@/UI/Button";
 import useApi from "@/hooks/useApi";
 import { useSession } from "next-auth/react";
 import Input from "@/UI/Input";
+import toast from "react-hot-toast";
 
 const EditSocialMedia = ({
     website,
@@ -36,6 +37,9 @@ const EditSocialMedia = ({
 
   const handleUpdate = async () => {
     setIsLoading(true);
+    let updateLinkToast = toast.loading(
+      "Updating Profile Info..."
+    )
     fetchData(
       "put",
       `users/profile/${session?.user?.profiles[0]?._id}`,
@@ -45,11 +49,17 @@ const EditSocialMedia = ({
         setIsLoading(false);
         if (response.data.success) {
           reloadPreview(true);
-          alert(response.data.message);
+          // alert(response.data.message);
+          toast.success(response.data.message, {
+            id: updateLinkToast
+          })
         }
       })
       .catch((error) => {
         console.log("Error", error);
+        toast.error(error, {
+          id: updateLinkToast
+        })
         setIsLoading(false);
       });
   };
