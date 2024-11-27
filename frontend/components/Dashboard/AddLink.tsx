@@ -10,6 +10,7 @@ import EmojiSelector from "@/UI/EmojiSelector";
 import MultiSelectInput from "@/UI/MultiSelectInput";
 import useApi from "@/hooks/useApi";
 import { useSession } from "next-auth/react";
+import toast from "react-hot-toast";
 
 const AddLink = ({reloadPreview}: {reloadPreview: any}) => {
   const { data: session } = useSession();
@@ -34,6 +35,9 @@ const AddLink = ({reloadPreview}: {reloadPreview: any}) => {
 
   const handleCreateLink = () => {
     setIsLoading(true);
+    let loadingToast = toast.loading(
+      "Saving Link..."
+    )
     const data = {
       ...formData,
       tags: selectedTags,
@@ -44,6 +48,9 @@ const AddLink = ({reloadPreview}: {reloadPreview: any}) => {
     fetchData("post", `links/${session?.user?.profiles[0]?._id}`, data)
       .then((response) => {
         setIsLoading(false);
+        toast.success("Link Saved!", {
+          id: loadingToast
+        })
         reloadPreview(true);
         setOpen(false);
       })
@@ -223,7 +230,8 @@ const AddLink = ({reloadPreview}: {reloadPreview: any}) => {
                           className=""
                           onClick={() => handleCreateLink()}
                           icon={<LuSave className="w-5 h-5" />}
-                          isLoading={isLoading}
+                          // isLoading={isLoading}
+                          disabled={isLoading}
                         >
                           Save
                         </Button>

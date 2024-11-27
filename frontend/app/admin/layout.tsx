@@ -14,6 +14,7 @@ import MobileMenu from "@/components/Dashboard/MobileMenu";
 import { useSelectedLayoutSegment } from "next/navigation";
 import { FiExternalLink } from "react-icons/fi";
 import { IoMdHeart } from "react-icons/io";
+import { Toaster } from "react-hot-toast";
 
 const navigation = [
   {
@@ -58,7 +59,7 @@ export default function DashboardLayout({
   return (
     <>
       <div className="min-h-full">
-        <Disclosure as="nav" className="bg-gradient-to-tr text-white from-blue-600 to-blue-400">
+        <Disclosure as="nav" className="text-white bg-blue-600">
           <>
             <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
               <div className="flex h-16 items-center justify-between">
@@ -142,6 +143,11 @@ export default function DashboardLayout({
             <p className="text-gray-600 text-sm">Copyright &copy; ConnectHub {new Date().getFullYear()}. All rights reserved.</p>
           </div>
         </footer>
+
+        <Toaster
+          position="top-center"
+          reverseOrder={true}
+        />
       </div>
     </>
   );
