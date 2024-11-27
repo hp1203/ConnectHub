@@ -52,13 +52,16 @@ const EditLink: React.FC<LinkType> = ({ title, icon, description, url, isPublic,
     fetchData("put", `links/${_id}`, data)
       .then((response) => {
         setIsLoading(false);
-        toast.success("Link Updated!", {
+        toast.success(response.data.message, {
           id: updateLinkToast
         })
         setOpen(false);
       })
       .catch((error) => {
         setIsLoading(false);
+        toast.error(error, {
+          id: updateLinkToast
+        })
         alert(error);
       });
   };

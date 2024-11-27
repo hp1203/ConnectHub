@@ -4,6 +4,7 @@ import Button from "@/UI/Button";
 import useApi from "@/hooks/useApi";
 import { useSession } from "next-auth/react";
 import Input from "@/UI/Input";
+import toast from "react-hot-toast";
 
 const EditUserInfo = ({
   name,
@@ -23,6 +24,9 @@ const EditUserInfo = ({
 
   const handleUpdate = async () => {
     setIsLoading(true);
+    let updateLinkToast = toast.loading(
+      "Updating User Info..."
+    )
     fetchData(
       "put",
       `users/info`,
@@ -31,11 +35,17 @@ const EditUserInfo = ({
       .then((response) => {
         setIsLoading(false);
         if (response.data.success) {
-          alert(response.data.message);
+          // alert(response.data.message);
+          toast.success(response.data.message, {
+            id: updateLinkToast
+          })
         }
       })
       .catch((error) => {
         console.log("Error", error);
+        toast.error(error, {
+          id: updateLinkToast
+        })
         setIsLoading(false);
       });
   };
