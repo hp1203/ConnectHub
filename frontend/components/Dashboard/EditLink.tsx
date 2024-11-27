@@ -11,6 +11,7 @@ import MultiSelectInput from "@/UI/MultiSelectInput";
 import useApi from "@/hooks/useApi";
 import { useSession } from "next-auth/react";
 import { LinkType } from "@/Constants/types";
+import toast from "react-hot-toast";
 
 const EditLink: React.FC<LinkType> = ({ title, icon, description, url, isPublic, _id, tags }) => {
   const { data: session } = useSession();
@@ -38,19 +39,22 @@ const EditLink: React.FC<LinkType> = ({ title, icon, description, url, isPublic,
 
   const handleCreateLink = () => {
     setIsLoading(true);
+    let updateLinkToast = toast.loading(
+      "Updating Link..."
+    )
     const data = {
       ...formData,
       tags: selectedTags,
       icon: JSON.stringify(selectedEmoji),
       isPublic: isLinkPublic,
     };
-    console.log("Data", data);
 
     fetchData("put", `links/${_id}`, data)
       .then((response) => {
-        console.log("res", response);
-        
         setIsLoading(false);
+        toast.success("Link Updated!", {
+          id: updateLinkToast
+        })
         setOpen(false);
       })
       .catch((error) => {
@@ -219,7 +223,7 @@ const EditLink: React.FC<LinkType> = ({ title, icon, description, url, isPublic,
                           className=""
                           onClick={() => handleCreateLink()}
                           icon={<LuSave className="w-5 h-5" />}
-                          isLoading={isLoading}
+                          disabled={isLoading}
                         >
                           Update
                         </Button>
