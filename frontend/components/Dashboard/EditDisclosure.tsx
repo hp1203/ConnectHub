@@ -51,6 +51,7 @@ const EditDisclosure = ({
       })
     )
       .then((response) => {
+        setIsLoading(false);
         reloadPreview(true);
         // alert(response.data.message);
         toast.success(response.data.message, {
