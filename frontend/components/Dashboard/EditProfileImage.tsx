@@ -4,6 +4,7 @@ import Card from "@/UI/Card";
 import Button from "@/UI/Button";
 import { useSession } from "next-auth/react";
 import axios from "axios";
+import toast from "react-hot-toast";
 
 const EditProfileImage = ({ profilePicture, reloadPreview }: { profilePicture: string, reloadPreview: any }) => {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
@@ -48,7 +49,9 @@ const EditProfileImage = ({ profilePicture, reloadPreview }: { profilePicture: s
     console.log("FormData", formData);
     
     setIsLoading(true);
-
+    let updateLinkToast = toast.loading(
+      "Updating Profile Picture..."
+    )
     axios
       .post(
         `${uri}users/profile/${session?.user?.profiles[0]?._id}/image`,
@@ -77,11 +80,17 @@ const EditProfileImage = ({ profilePicture, reloadPreview }: { profilePicture: s
 
           // console.log("Session", session);
           reloadPreview(true);
-          alert(response.data.message);
+          // alert(response.data.message);
+          toast.success(response.data.message, {
+            id: updateLinkToast
+          })
         }
       })
       .catch((error) => {
         console.log("Error", error);
+        toast.error(error, {
+          id: updateLinkToast
+        })
         setIsLoading(false);
       });
   };
