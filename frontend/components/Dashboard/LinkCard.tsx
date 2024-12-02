@@ -1,12 +1,10 @@
 import { LinkType } from "@/Constants/types";
 import Link from "next/link";
 import React from "react";
-import {
-  LuBarChart3,
-  LuShare2,
-} from "react-icons/lu";
+import { LuBarChart3, LuShare2 } from "react-icons/lu";
 import DeleteLink from "./DeleteLink";
 import EditLink from "./EditLink";
+import ShareLink from "./ShareLink";
 
 const LinkCard: React.FC<LinkType> = ({
   title,
@@ -17,7 +15,7 @@ const LinkCard: React.FC<LinkType> = ({
   _id,
   tags,
 }) => {
-  console.log("Ion",typeof icon);
+  console.log("Ion", typeof icon);
   icon = JSON.parse(icon);
   return (
     <div className="flex flex-col shadow rounded-lg bg-white w-full h-fit">
@@ -51,10 +49,7 @@ const LinkCard: React.FC<LinkType> = ({
           <LuBarChart3 className="w-4 h-4 text-gray-500" />
           <span className="text-gray-600 text-sm font-medium">9 Clicks</span>
         </button>
-        <button className="flex items-center justify-center p-3 w-full gap-2">
-          <LuShare2 className="w-4 h-4 text-gray-500" />
-          <span className="text-gray-600 text-sm font-medium">Share</span>
-        </button>
+        <ShareLink linkId="dfsdfsdf" linkUrl={url} />
         <EditLink
           title={title}
           icon={icon}
