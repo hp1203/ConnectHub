@@ -18,14 +18,16 @@ const paymentsSchema = new mongoose.Schema(
     currency: {
       type: String,
     },
-    payment_gateway: {
-      type: String, // 'razorpay' or 'stripe'
+    gateway: {
+      type: String, // e.g. 'razorpay', 'stripe', 'paypal'
     },
-    gateway_payment_id: {
-      type: String, // ID from the payment gateway
+    transactionId: {
+      type: String, // Gateway-specific transaction ID
     },
     status: {
-      type: String, // 'pending', 'completed', 'failed'
+      type: String, // 'pending', 'success', 'failed'
+      enum: ["success", "failed", "pending"],
+      required: true,
     },
   },
   {

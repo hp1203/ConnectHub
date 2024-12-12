@@ -1,24 +1,31 @@
 import mongoose, { Schema } from "mongoose";
 
-const subscriptionSchema = new mongoose.Schema({
+const subscriptionSchema = new mongoose.Schema(
+  {
     name: {
-        type: String,
-        required: true
+      type: String,
+      required: true,
     },
     description: {
-        type: String,
+      type: String,
     },
     price: {
-        type: Number,
-        required: true
+      type: Number,
+      required: true,
     },
     duration_days: {
-        type: Number,
-        required: true
-    }
-},{
-    timestamps: true
-});
+      type: Number,
+      required: true,
+    },
+    is_active: {
+      type: Boolean,
+      default: true,
+    },
+  },
+  {
+    timestamps: true,
+  }
+);
 
 const Subscription = mongoose.model("Subscriptions", subscriptionSchema);
 
