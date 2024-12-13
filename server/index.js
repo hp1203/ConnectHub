@@ -1,5 +1,5 @@
 import express from "express";
-import dotenv from "dotenv";
+import * as dotenv from "dotenv";
 import cors from "cors";
 import { connectToDb } from "./utils/database.js";
 import authRoute from "./routes/AuthRouter.js";
@@ -9,10 +9,36 @@ import analyticsRoutes from "./routes/AnalyticsRoutes.js";
 import categoryRoute from "./routes/CategoryRoutes.js";
 import themeRoutes from "./routes/ThemeRoutes.js";
 import subscriptionRoutes from "./routes/SubscriptionRoutes.js";
+
+import User from "./models/user.model.js";
 dotenv.config();
 
+// AdminJs Imports
+import AdminJS from "adminjs";
+import AdminJSExpress from "@adminjs/express";
+import * as AdminJSMongoose from "@adminjs/mongoose";
+import { Database, Resource } from "@adminjs/mongoose";
+import Subscription from "./models/subscription.model.js";
+import Payments from "./models/payments.model.js";
+import Profile from "./models/profile.model.js";
+import Link from "./models/link.model.js";
+import Category from "./models/category.model.js";
+
 const app = express();
+
 const PORT = process.env.PORT || 5000;
+
+// Basic AdminJs Config
+AdminJS.registerAdapter(AdminJSMongoose);
+const adminJs = new AdminJS({
+  resources: [User, Category, Subscription, Payments, Profile, Link], // We don’t have any resources connected yet.
+
+  rootPath: "/admin", // Path to the AdminJS dashboard.
+});
+
+// Build and use a router to handle AdminJS routes.
+const router = AdminJSExpress.buildRouter(adminJs);
+app.use(adminJs.options.rootPath, router);
 
 app.use(
   cors({
@@ -37,7 +63,8 @@ app.use("/api/v1/categories", categoryRoute);
 app.use("/api/v1/theme", themeRoutes);
 app.use("/api/v1/subscription", subscriptionRoutes);
 
+connectToDb();
+
 app.listen(PORT, () => {
   console.log(`Server is running on port: ${PORT}`);
-  connectToDb();
 });
