@@ -1,5 +1,6 @@
 import { Router } from "express";
 import {
+  createUserSubscription,
   getSubscriptionPlans,
   makePaymentIntent,
 } from "../controllers/SubscriptionsController.js";
@@ -12,6 +13,11 @@ subscriptionRoutes.post(
   "/create-payment-intent",
   verifyToken,
   makePaymentIntent
+);
+subscriptionRoutes.post(
+  "/finalize-subscription",
+  verifyToken,
+  createUserSubscription
 );
 
 export default subscriptionRoutes;
