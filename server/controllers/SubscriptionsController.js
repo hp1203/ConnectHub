@@ -5,7 +5,9 @@ import Payments from "../models/payments.model.js";
 import { connectToDb } from "../utils/database.js";
 import stripePackage from "stripe";
 import User from "../models/user.model.js";
+import * as dotenv from "dotenv";
 
+dotenv.config();
 const stripe = stripePackage(process.env.STRIPE_KEY);
 export const getSubscriptionPlans = async (request, response) => {
   connectToDb();
@@ -38,7 +40,23 @@ export const makePaymentIntent = async (request, response) => {
       metadata: { userId, planId },
       payment_method_types: ["card"],
     });
-    response.status(201).json({ clientSecret: paymentIntent.client_secret });
+
+    // Log payment initiation in the database
+    const payment = new Payments({
+      user: userId,
+      subscription: planId,
+      gateway: "stripe",
+      transactionId: paymentIntent.id,
+      amount: plan.price,
+      currency: "inr",
+      status: "pending",
+    });
+    await payment.save();
+
+    res.status(201).json({
+      clientSecret: paymentIntent.client_secret,
+      paymentId: payment._id,
+    });
   } catch (error) {
     console.error(error);
     response
@@ -52,7 +70,7 @@ export const createUserSubscription = async (request, response) => {
   const { userId, planId, transactionId, gateway, status } = request.body;
 
   try {
-    if (status !== "success") {
+    if (status !== "succeeded") {
       return response.status(400).json({ message: "Payment not successful" });
     }
 
@@ -65,10 +83,25 @@ export const createUserSubscription = async (request, response) => {
         .status(404)
         .json({ message: "Plan not found or inactive" });
 
+    // Update payment status in the database
+    const payment = await Payments.findOne({ transactionId });
+    if (!payment)
+      return res.status(404).json({ message: "Payment record not found" });
+
+    payment.status = status;
+    await payment.save();
+
+    if (status !== "succeeded") {
+      return res
+        .status(400)
+        .json({ message: "Payment not successful", payment });
+    }
+
     const activeSubscription = await UserSubscriptions.findOne({
       userId,
       status: "active",
     });
+
     if (activeSubscription)
       return response
         .status(400)
@@ -78,18 +111,6 @@ export const createUserSubscription = async (request, response) => {
     const startDate = new Date();
     const endDate = new Date();
     endDate.setDate(startDate.getDate() + plan.duration_days);
-
-    // Save payment details
-    const payment = new Payments({
-      user: userId,
-      subscription: planId,
-      gateway,
-      transactionId,
-      amount: plan.price,
-      currency: "usd",
-      status,
-    });
-    await payment.save();
 
     // Create subscription
     const userPlan = new UserSubscriptions({
