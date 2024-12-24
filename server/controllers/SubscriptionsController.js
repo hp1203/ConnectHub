@@ -36,9 +36,20 @@ export const makePaymentIntent = async (request, response) => {
     // Create Stripe Payment Intent
     const paymentIntent = await stripe.paymentIntents.create({
       amount: Math.round(plan.price * 100), // Convert price to cents
-      currency: "inr",
+      currency: "usd",
       metadata: { userId, planId },
-      payment_method_types: ["card"],
+      // payment_method_types: ["card"],
+      description: "Subscription Plan Purchase",
+      shipping: {
+        name: "Himanshu",
+        address: {
+          line1: "510 Townsend St",
+          postal_code: "98140",
+          city: "San Francisco",
+          state: "CA",
+          country: "US",
+        },
+      },
     });
 
     // Log payment initiation in the database
@@ -48,12 +59,12 @@ export const makePaymentIntent = async (request, response) => {
       gateway: "stripe",
       transactionId: paymentIntent.id,
       amount: plan.price,
-      currency: "inr",
+      currency: "usd",
       status: "pending",
     });
     await payment.save();
 
-    res.status(201).json({
+    response.status(201).json({
       clientSecret: paymentIntent.client_secret,
       paymentId: payment._id,
     });
@@ -86,13 +97,13 @@ export const createUserSubscription = async (request, response) => {
     // Update payment status in the database
     const payment = await Payments.findOne({ transactionId });
     if (!payment)
-      return res.status(404).json({ message: "Payment record not found" });
+      return response.status(404).json({ message: "Payment record not found" });
 
     payment.status = status;
     await payment.save();
 
     if (status !== "succeeded") {
-      return res
+      return response
         .status(400)
         .json({ message: "Payment not successful", payment });
     }

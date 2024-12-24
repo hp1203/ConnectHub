@@ -25,8 +25,8 @@ const paymentsSchema = new mongoose.Schema(
       type: String, // Gateway-specific transaction ID
     },
     status: {
-      type: String, // 'pending', 'success', 'failed'
-      enum: ["success", "failed", "pending"],
+      type: String, // 'pending', 'succeeded', 'failed'
+      enum: ["succeeded", "failed", "pending"],
       required: true,
     },
   },

@@ -1,4 +1,4 @@
-import mongoose, { Schema } from "mongoose";
+import mongoose, { Schema, SchemaType } from "mongoose";
 
 const subscriptionSchema = new mongoose.Schema(
   {
@@ -10,7 +10,7 @@ const subscriptionSchema = new mongoose.Schema(
       type: String,
     },
     price: {
-      type: Number,
+      type: Schema.Types.Decimal128,
       required: true,
     },
     duration_days: {
