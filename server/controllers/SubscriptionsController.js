@@ -8,71 +8,44 @@ import User from "../models/user.model.js";
 import * as dotenv from "dotenv";
 
 dotenv.config();
-const stripe = stripePackage(process.env.STRIPE_KEY);
-export const getSubscriptionPlans = async (request, response) => {
+
+export const getSubscriptions = async (request, response) => {
   connectToDb();
   try {
-    const plans = await Subscription.find({});
+    let subscriptions = await Subscription.find({});
     return response.status(200).json({
-      plans,
-    });
-  } catch (error) {
-    console.log(error);
-    return response.status(500).json({ error: error.message });
-  }
-};
-
-export const makePaymentIntent = async (request, response) => {
-  connectToDb();
-  const { userId } = response;
-  const { planId, gateway } = request.body;
-  try {
-    const plan = await Subscription.findById(planId);
-    if (!plan || !plan.is_active)
-      return response
-        .status(404)
-        .json({ message: "Plan not found or inactive" });
-
-    // Create Stripe Payment Intent
-    const paymentIntent = await stripe.paymentIntents.create({
-      amount: Math.round(plan.price * 100), // Convert price to cents
-      currency: "usd",
-      metadata: { userId, planId },
-      // payment_method_types: ["card"],
-      description: "Subscription Plan Purchase",
-      shipping: {
-        name: "Himanshu",
-        address: {
-          line1: "510 Townsend St",
-          postal_code: "98140",
-          city: "San Francisco",
-          state: "CA",
-          country: "US",
-        },
-      },
-    });
-
-    // Log payment initiation in the database
-    const payment = new Payments({
-      user: userId,
-      subscription: planId,
-      gateway: "stripe",
-      transactionId: paymentIntent.id,
-      amount: plan.price,
-      currency: "usd",
-      status: "pending",
-    });
-    await payment.save();
-
-    response.status(201).json({
-      clientSecret: paymentIntent.client_secret,
-      paymentId: payment._id,
+      subscriptions,
     });
   } catch (error) {
     console.error(error);
     response
-      .status(500)
+      .status(404)
       .json({ message: "Internal server error", error: error.message });
+  }
+};
+
+export const createNewSubscription = async (request, response) => {
+  connectToDb();
+  const { name, description, price, duration_days } = request.body;
+  try {
+    const newSubscription = new Subscription({
+      name,
+      description,
+      price,
+      duration_days,
+    });
+
+    await newSubscription.save();
+    return response.status(201).json({
+      message: "Subscription created successfully",
+      newSubscription,
+    });
+  } catch (error) {
+    console.error(error);
+    return response.status(500).json({
+      message: "Internal server error",
+      error: error.message,
+    });
   }
 };
 
@@ -141,5 +114,20 @@ export const createUserSubscription = async (request, response) => {
     response
       .status(500)
       .json({ message: "Internal server error", error: error.message });
+  }
+};
+
+export const getUserSubscriptions = async (request, response) => {
+  const { userId } = request.params;
+  connectToDb();
+  try {
+    const userSubscriptions = await UserSubscriptions.find({ user: userId });
+    return response.status(200).json({ userSubscriptions });
+  } catch (error) {
+    console.error(error);
+    return response.status(500).json({
+      message: "Internal server error",
+      error: error.message,
+    });
   }
 };

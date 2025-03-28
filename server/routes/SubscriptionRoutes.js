@@ -1,23 +1,25 @@
 import { Router } from "express";
 import {
   createUserSubscription,
-  getSubscriptionPlans,
-  makePaymentIntent,
+  getSubscriptions,
+  getUserSubscriptions,
 } from "../controllers/SubscriptionsController.js";
 import { verifyToken } from "../middlewares/AuthMiddleware.js";
 
 const subscriptionRoutes = Router();
 
-subscriptionRoutes.get("/plans", getSubscriptionPlans);
-subscriptionRoutes.post(
-  "/create-payment-intent",
-  verifyToken,
-  makePaymentIntent
-);
+subscriptionRoutes.get("/", getSubscriptions);
 subscriptionRoutes.post(
   "/finalize-subscription",
   verifyToken,
   createUserSubscription
+);
+
+// User Subscriptions
+subscriptionRoutes.get(
+  "/user-subscriptions",
+  verifyToken,
+  getUserSubscriptions
 );
 
 export default subscriptionRoutes;

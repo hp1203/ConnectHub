@@ -1,4 +1,4 @@
-import mongoose, { Schema, SchemaType } from "mongoose";
+import mongoose, { Schema } from "mongoose";
 
 const subscriptionSchema = new mongoose.Schema(
   {
@@ -13,10 +13,32 @@ const subscriptionSchema = new mongoose.Schema(
       type: Schema.Types.Decimal128,
       required: true,
     },
-    duration_days: {
-      type: Number,
+    selling_price: {
+      type: Schema.Types.Decimal128,
       required: true,
     },
+    duration: {
+      type: String, // monthly, yearly, forever etc.
+      required: true,
+    },
+    features: [
+      {
+        display_name: {
+          type: String,
+          required: true,
+        },
+        slug: {
+          type: String,
+          required: true,
+        },
+        metadata: {
+          type: Object,
+        },
+        description: {
+          type: String,
+        },
+      },
+    ],
     is_active: {
       type: Boolean,
       default: true,
