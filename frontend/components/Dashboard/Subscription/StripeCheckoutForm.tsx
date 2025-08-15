@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Input from "@/UI/Input";
 import { MdCelebration } from "react-icons/md";
 import { FormEvent, useCallback, useState } from "react";
@@ -16,15 +16,63 @@ import {
   useElements,
   useStripe,
 } from "@stripe/react-stripe-js";
+import Loading from "../Loading";
 
-const StripeCheckoutForm = ({ selectedPayment }: { selectedPayment: any }) => {
+const StripeCheckoutForm = ({
+  selectedPayment,
+  plan,
+  frequency,
+}: {
+  selectedPayment: any;
+  plan: any;
+  frequency: string;
+}) => {
   const stripe = useStripe();
   const elements = useElements();
   const { data: session } = useSession();
   const { fetchData } = useApi(session?.token);
+  const [billingDetails, setBillingDetails] = useState({
+    name: "",
+    email: "",
+    address: "",
+    city: "",
+    state: "",
+    zip: "",
+  });
+
+  if (plan == null) {
+    return (
+      <Loading
+        title="Getting Things Done..."
+        // subtitle="Hold on! We're getting the profile info."
+      />
+    );
+  }
+
+  var price =
+    frequency === "monthly" ? plan.monthly_price : plan.yearly_price || 0;
+  var selling_price =
+    frequency === "monthly"
+      ? plan.monthly_selling_price
+      : plan.yearly_selling_price || 0;
+  var discount = selling_price - price || 0;
+
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    let value = event.target.value;
+    let name = event.target.name;
+
+    setBillingDetails((prevState) => {
+      return {
+        ...prevState,
+        [name]: value,
+      };
+    });
+  };
 
   const handlePayment = async (e: FormEvent) => {
     e.preventDefault();
+
+    console.log("Elements", elements);
 
     if (elements == null || stripe == null) {
       return;
@@ -41,9 +89,16 @@ const StripeCheckoutForm = ({ selectedPayment }: { selectedPayment: any }) => {
     if (selectedPayment.name === "Stripe") {
       fetchData(
         "post",
-        "subscription/create-payment-intent",
+        "subscription/finalize-subscription",
         JSON.stringify({
-          planId: "675c877d1ab93cbf8f2e9a99",
+          planId: plan._id,
+          paymentDetails: {
+            // Start Here
+            stripeProductId: plan.stripeProductId,
+            amount: selling_price * 100,
+            interval: frequency.replace("ly", ""),
+          },
+          billingDetails,
         })
       )
         .then(async (response) => {
@@ -54,7 +109,7 @@ const StripeCheckoutForm = ({ selectedPayment }: { selectedPayment: any }) => {
             elements,
             clientSecret,
             confirmParams: {
-              return_url: `${window.location.pathname}/success`,
+              return_url: `${window.location.href}/success`,
             },
           });
 
@@ -71,7 +126,7 @@ const StripeCheckoutForm = ({ selectedPayment }: { selectedPayment: any }) => {
           }
         })
         .catch((error) => {
-          console.log("Error", error.message);
+          console.log("Error:", error);
           // toast.error(error, {
           //   id: updateLinkToast,
           // });
@@ -87,10 +142,10 @@ const StripeCheckoutForm = ({ selectedPayment }: { selectedPayment: any }) => {
       >
         <div className="mb-8">
           <h2 className="text-2xl font-medium text-gray-800 mb-2 mt-4">
-            Upgrade to Pro
+            Upgrade to {plan?.name || ""} Plan
           </h2>
           <p className="text-gray-500 font-normal text-base">
-            Do more with unlimited links, advance analytics & many more.
+            {plan?.description || ""}
           </p>
         </div>
         <div className="">
@@ -98,8 +153,16 @@ const StripeCheckoutForm = ({ selectedPayment }: { selectedPayment: any }) => {
           <Input
             type="text"
             name="name"
-            placeholder="e.g. Jhon Smith"
-            value={``}
+            placeholder="Full Name"
+            value={billingDetails.name}
+            onChange={handleInputChange}
+          />
+          <Input
+            type="email"
+            name="email"
+            placeholder="Email"
+            value={billingDetails.email}
+            onChange={handleInputChange}
           />
         </div>
         <div>
@@ -111,23 +174,37 @@ const StripeCheckoutForm = ({ selectedPayment }: { selectedPayment: any }) => {
               type="text"
               name="address"
               placeholder="Address"
-              value={``}
+              value={billingDetails.address}
+              onChange={handleInputChange}
             />
           </div>
           <div className="flex gap-4 mb-2">
             <div className="flex-1">
-              <Input type="text" name="city" placeholder="City" value={``} />
+              <Input
+                type="text"
+                name="city"
+                placeholder="City"
+                value={billingDetails.city}
+                onChange={handleInputChange}
+              />
             </div>
             <div className="flex-1">
-              <Input type="text" name="state" placeholder="State" value={``} />
+              <Input
+                type="text"
+                name="state"
+                placeholder="State"
+                value={billingDetails.state}
+                onChange={handleInputChange}
+              />
             </div>
-          </div>
-          <div className="flex gap-4 mb-4">
             <div className="flex-1">
-              <Input type="text" name="zip" placeholder="Pin Code" value={``} />
-            </div>
-            <div className="flex-1">
-              <Input type="text" name="state" placeholder="State" value={``} />
+              <Input
+                type="text"
+                name="zip"
+                placeholder="Pin Code"
+                value={billingDetails.zip}
+                onChange={handleInputChange}
+              />
             </div>
           </div>
           {/* <div className="">
@@ -183,9 +260,14 @@ const StripeCheckoutForm = ({ selectedPayment }: { selectedPayment: any }) => {
                 ))}
               </div>
             </RadioGroup>
-          </div> */}
+          </div>  */}
         </div>
-        <PaymentElement />
+        <div>
+          <label className="block text-gray-600 font-semibold mb-2">
+            Card Details
+          </label>
+          <PaymentElement />
+        </div>
         <div className="flex justify-end space-x-4 items-center pt-2">
           <Link
             className="flex-[0.3] flex items-center justify-center font-medium px-4 py-2 bg-transparent border-2 border-blue-200 rounded-lg text-blue-300"
@@ -216,55 +298,65 @@ const StripeCheckoutForm = ({ selectedPayment }: { selectedPayment: any }) => {
       <div className="flex flex-[0.4] flex-col p-4">
         <div className="flex flex-col rounded-t-lg items-center space-y-2 text-center justify-center p-14 bg-gradient-to-tr text-white from-blue-600 to-blue-400">
           <MdCelebration className="w-12 h-12" />
-          <h3 className="text-xl font-medium">Upgrade to Pro</h3>
+          <h3 className="text-xl font-medium">{(plan && plan?.name) || ""}</h3>
           <p className="text-gray-100">
-            Unlock premium features for just <br />
-            <span className="font-semibold text-lg">$10/month</span>
+            {(plan && plan?.description) || ""} <br />
+            <span className="font-semibold text-lg">
+              <span className="text-base font-semibold">
+                {`$${
+                  frequency === "yearly"
+                    ? plan && plan?.yearly_selling_price
+                    : plan && plan?.monthly_selling_price
+                }`}
+              </span>{" "}
+              {frequency === "yearly" ? "/Year" : "/Month"}
+            </span>
           </p>
         </div>
         <div className="flex flex-col border border-gray-200 rounded-b-lg">
           <div className="p-6">
             <p className="font-semibold text-gray-800 mb-4">What you get</p>
             <ul className="space-y-2 text-gray-800">
-              <li className="flex items-center text-sm">
-                <FaCheckCircle className="text-green-500 text-lg mr-2" /> Manage
-                up to 50 links
-              </li>
-              <li className="flex items-center text-sm">
-                <FaCheckCircle className="text-green-500 text-lg mr-2" />{" "}
-                Advanced analytics (Devices, Locations)
-              </li>
-              <li className="flex items-center text-sm">
-                <FaCheckCircle className="text-green-500 text-lg mr-2" /> Custom
-                domains for branding
-              </li>
-              <li className="flex items-center text-sm">
-                <FaCheckCircle className="text-green-500 text-lg mr-2" />{" "}
-                Enhanced customization (Custom URLs, UTM tracking)
-              </li>
-              <li className="flex items-center text-sm">
-                <FaCheckCircle className="text-green-500 text-lg mr-2" />{" "}
-                Priority support
-              </li>
+              {plan &&
+                plan?.features.map((feature: any, index: number) => (
+                  <li
+                    className="flex items-center text-sm text-gray-700 font-medium transition-opacity ease-in-out duration-300 capitalize"
+                    key={index}
+                  >
+                    <div>
+                      <FaCheckCircle className="text-green-500 text-lg mr-2" />{" "}
+                    </div>
+                    {feature.display_name}{" "}
+                    {feature?.metadata !== undefined &&
+                      " : " +
+                        Object.values<any>(feature.metadata)[0]
+                          .toString()
+                          .replace(/,/g, ", ")
+                          .replace(/_/g, " ")
+                          .replace(/-/g, " ")}
+                  </li>
+                ))}
             </ul>
           </div>
           <div className="border-t m-2 p-4 space-y-4 border-gray-100">
             <div className="flex items-center text-sm font-semibold text-gray-500 justify-between">
               <p>Sub Total</p>
-              <p>$ 8.00 USD</p>
+              <p>{price} USD</p>
             </div>
             <div className="flex items-center text-sm font-semibold text-gray-500 justify-between">
-              <p>Tax</p>
-              <p>$ 2.00 USD</p>
+              <p>Discount</p>
+              <p>
+                {discount} USD ({((discount / price) * 100).toFixed(2)}%)
+              </p>
             </div>
             <div className="flex items-center text-lg font-semibold text-gray-800 justify-between">
               <p>Total</p>
-              <p>$ 10.00 USD</p>
+              <p>{selling_price} USD</p>
             </div>
-            {/* <div className="flex items-center text-xs text-gray-400">
-                    Guaranteed to be safe & secure, ensuring that all
-                    transactions are protected with the highest eve of security
-                  </div> */}
+            <div className="flex items-center text-xs text-gray-400">
+              Guaranteed to be safe & secure, ensuring that all transactions are
+              protected with the highest eve of security
+            </div>
           </div>
         </div>
       </div>

@@ -2,7 +2,14 @@ import React, { useState } from "react";
 import { Fragment } from "react";
 import { Menu, Transition } from "@headlessui/react";
 import Link from "next/link";
-import { LuSettings2, LuLogOut, LuBarChartBig, LuUsers2, LuUserCircle, LuMessageCircle } from "react-icons/lu";
+import {
+  LuSettings2,
+  LuLogOut,
+  LuBarChartBig,
+  LuUsers2,
+  LuUserCircle,
+  LuMessageCircle,
+} from "react-icons/lu";
 import { signOut } from "next-auth/react";
 import Image from "next/image";
 interface UserProfileProps {
@@ -126,7 +133,7 @@ const UserProfileDropdown: React.FC<UserProfileProps> = ({
             <Menu.Item>
               {({ active }) => (
                 <Link
-                  href="/admin/billing"
+                  href="/admin/upgrade"
                   className={classNames(
                     active ? "bg-gray-100" : "",
                     "text-sm text-gray-700 flex items-center p-3 gap-3"

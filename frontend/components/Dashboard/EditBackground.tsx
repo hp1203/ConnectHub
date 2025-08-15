@@ -10,6 +10,7 @@ import Button from "@/UI/Button";
 import useApi from "@/hooks/useApi";
 import { useSession } from "next-auth/react";
 import toast from "react-hot-toast";
+import UpgradeSubscription from "./UpgradeSubscription";
 const options = [
   {
     name: "Flat Color",
@@ -41,7 +42,7 @@ const EditBackground = ({
   initialColor,
   initialOption,
   initialUrl,
-  reloadPreview
+  reloadPreview,
 }: {
   initialColor: any;
   initialOption: string;
@@ -54,7 +55,7 @@ const EditBackground = ({
   let [selectedOption, setSelectedOption] = useState(
     options.find((op) => op.slug === initialOption) || options[0]
   );
-  
+
   const { data: session } = useSession();
   const { fetchData } = useApi(session?.token);
 
@@ -68,9 +69,7 @@ const EditBackground = ({
 
   const handleUpdate = async () => {
     setIsLoading(true);
-    let updateLinkToast = toast.loading(
-      "Updating Background..."
-    )
+    let updateLinkToast = toast.loading("Updating Background...");
     fetchData(
       "put",
       `theme/${session?.user?.profiles[0]?._id}`,
@@ -83,19 +82,19 @@ const EditBackground = ({
     )
       .then((response) => {
         setIsLoading(false);
-        if(response.data.success){
-            reloadPreview(true);
-            // alert(response.data.message);
-            toast.success(response.data.message, {
-              id: updateLinkToast
-            })
+        if (response.data.success) {
+          reloadPreview(true);
+          // alert(response.data.message);
+          toast.success(response.data.message, {
+            id: updateLinkToast,
+          });
         }
       })
       .catch((error) => {
         console.log("Error", error);
         toast.error(error, {
-          id: updateLinkToast
-        })
+          id: updateLinkToast,
+        });
         setIsLoading(false);
       });
   };
@@ -120,7 +119,7 @@ const EditBackground = ({
                 >
                   <span className="text-lg">{option.icon}</span>
                   <p className="text-base font-medium">{option.name}</p>
-                  {!option.isAllowed && <UpgradePlan />}
+                  {!option.isAllowed && <UpgradeSubscription />}
                 </div>
               )}
             </RadioGroup.Option>

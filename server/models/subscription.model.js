@@ -9,16 +9,20 @@ const subscriptionSchema = new mongoose.Schema(
     description: {
       type: String,
     },
-    price: {
-      type: Schema.Types.Decimal128,
+    monthly_price: {
+      type: Number,
       required: true,
     },
-    selling_price: {
-      type: Schema.Types.Decimal128,
+    monthly_selling_price: {
+      type: Number,
       required: true,
     },
-    duration: {
-      type: String, // monthly, yearly, forever etc.
+    yearly_price: {
+      type: Number,
+      required: true,
+    },
+    yearly_selling_price: {
+      type: Number,
       required: true,
     },
     features: [
@@ -49,6 +53,6 @@ const subscriptionSchema = new mongoose.Schema(
   }
 );
 
-const Subscription = mongoose.model("Subscriptions", subscriptionSchema);
+const Subscription = mongoose.model("Subscription", subscriptionSchema);
 
 export default Subscription;

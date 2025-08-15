@@ -1,6 +1,7 @@
 import useApi from "@/hooks/useApi";
 import { Dialog, RadioGroup, Tab, Transition } from "@headlessui/react";
 import Link from "next/link";
+import { Router } from "next/router";
 import { Fragment, useEffect, useState } from "react";
 import { FaCheckCircle } from "react-icons/fa";
 import { FaCircleXmark, FaCircleCheck, FaCircle } from "react-icons/fa6";
@@ -73,7 +74,7 @@ const UpgradeSubscription = () => {
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
               >
-                <Dialog.Panel className="w-full max-w-5xl transform overflow-hidden rounded-lg bg-white text-left align-middle shadow-xl transition-all">
+                <Dialog.Panel className="w-full max-w-5xl border-t-[8px] border-blue-600 transform overflow-hidden rounded-lg bg-white text-left align-middle shadow-xl transition-all">
                   <Dialog.Title
                     as="h3"
                     className="text-lg font-medium leading-6 items-center pt-6 px-6 text-gray-900"
@@ -85,7 +86,7 @@ const UpgradeSubscription = () => {
                       <FaCircleXmark />
                     </button>
                     <div className="pt-14 px-12 pb-3">
-                      <h3 className="text-xl font-semibold text-center mb-2">
+                      <h3 className="text-2xl font-semibold text-center mb-2">
                         Upgrade Your Plan
                       </h3>
                       <p className="text-gray-500 text-sm font-medium text-center mb-4">
@@ -217,16 +218,18 @@ const UpgradeSubscription = () => {
                         {selectedPlan?.features.map(
                           (feature: any, index: number) => (
                             <li
-                              className="flex items-center text-base text-gray-700 font-medium"
+                              className="flex items-center text-base text-gray-700 font-medium transition-opacity ease-in-out duration-300 capitalize"
                               key={index}
                             >
                               <FaCheckCircle className="text-green-500 text-lg mr-2" />{" "}
                               {feature.display_name}{" "}
                               {feature?.metadata !== undefined &&
                                 " : " +
-                                  Object.values(feature.metadata)[0]
+                                  Object.values<any>(feature.metadata)[0]
                                     .toString()
-                                    .toUpperCase()}
+                                    .replace(/,/g, ", ")
+                                    .replace(/_/g, " ")
+                                    .replace(/-/g, " ")}
                             </li>
                           )
                         )}
@@ -243,7 +246,9 @@ const UpgradeSubscription = () => {
                       </a>
                     </p>
                     <Link
-                      href={`upgrade`}
+                      href={`upgrade?plan=${selectedPlan?._id}&type=${
+                        selectedTab === "Yearly" ? "yearly" : "monthly"
+                      }`}
                       className="bg-blue-500 text-white font-medium py-2 px-4 rounded-lg hover:bg-blue-600 transition duration-300"
                     >
                       Upgrade Now

@@ -9,7 +9,7 @@ import analyticsRoutes from "./routes/AnalyticsRoutes.js";
 import categoryRoute from "./routes/CategoryRoutes.js";
 import themeRoutes from "./routes/ThemeRoutes.js";
 import subscriptionRoutes from "./routes/SubscriptionRoutes.js";
-
+import Stripe from "stripe";
 import User from "./models/user.model.js";
 dotenv.config();
 
@@ -23,6 +23,7 @@ import Payments from "./models/payments.model.js";
 import Profile from "./models/profile.model.js";
 import Link from "./models/link.model.js";
 import Category from "./models/category.model.js";
+import UserSubscriptions from "./models/user_subscriptions.model.js";
 
 const app = express();
 
@@ -31,7 +32,15 @@ const PORT = process.env.PORT || 5000;
 // Basic AdminJs Config
 AdminJS.registerAdapter(AdminJSMongoose);
 const adminJs = new AdminJS({
-  resources: [User, Category, Subscription, Payments, Profile, Link], // We don’t have any resources connected yet.
+  resources: [
+    User,
+    Category,
+    Subscription,
+    UserSubscriptions,
+    Payments,
+    Profile,
+    Link,
+  ], // Resources to connect.
 
   rootPath: "/admin", // Path to the AdminJS dashboard.
 });

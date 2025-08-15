@@ -7,9 +7,9 @@ const paymentsSchema = new mongoose.Schema(
       ref: "User",
       required: true,
     },
-    subscription: {
+    user_subscription: {
       type: Schema.Types.ObjectId,
-      ref: "Subscription",
+      ref: "UserSubscriptions",
       required: true,
     },
     amount: {
@@ -23,6 +23,9 @@ const paymentsSchema = new mongoose.Schema(
     },
     transactionId: {
       type: String, // Gateway-specific transaction ID
+    },
+    metadata: {
+      type: Object, // Additional metadata related to the payment
     },
     status: {
       type: String, // 'pending', 'succeeded', 'failed'

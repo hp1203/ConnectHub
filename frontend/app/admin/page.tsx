@@ -25,6 +25,7 @@ import {
 import PieChart from "@/components/Dashboard/PieChart";
 import useAnalytics from "@/hooks/useAnalytics";
 import Card from "@/UI/Card";
+
 const Dashboard: React.FC = () => {
   const { data: session } = useSession();
   const [imageError, setImageError] = useState(false);
@@ -117,15 +118,17 @@ const Dashboard: React.FC = () => {
             <p className="text-4xl font-medium text-gray-800">234</p>
           </div>
         </div>
-        <div className="flex md:flex-row gap-5">
-          <Card title="Click Trends">
-            <Chart />
-          </Card>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+          <div className="col-span-2">
+            <Card title="Click Trends">
+              <Chart />
+            </Card>
+          </div>
           <Card title="Device Breakdown">
             <PieChart />
           </Card>
         </div>
-        <div className="flex md:flex-row gap-5">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
           <Card title="Top Links">
             <table className="table-auto w-full text-left whitespace-no-wrap">
               <thead>
@@ -210,7 +213,7 @@ const Dashboard: React.FC = () => {
                     <FaDesktop className="w-5 h-5 text-gray-600" />
                   </td>
                   <td className="px-4 py-3">1hr 21min</td>
-                  <td className="px-4 py-3">23</td>
+                  <td className="px-4 py-3">233</td>
                 </tr>
                 <tr>
                   <td className="px-4 py-3">2</td>
@@ -219,7 +222,7 @@ const Dashboard: React.FC = () => {
                     <FaDesktop className="w-5 h-5 text-gray-600" />
                   </td>
                   <td className="px-4 py-3">1hr 21min</td>
-                  <td className="px-4 py-3">23</td>
+                  <td className="px-4 py-3">34</td>
                 </tr>
                 <tr>
                   <td className="px-4 py-3">3</td>
@@ -228,7 +231,7 @@ const Dashboard: React.FC = () => {
                     <FaApple className="w-5 h-5 text-gray-600" />
                   </td>
                   <td className="px-4 py-3">1hr 21min</td>
-                  <td className="px-4 py-3">23</td>
+                  <td className="px-4 py-3">567</td>
                 </tr>
                 <tr>
                   <td className="px-4 py-3">4</td>
@@ -237,7 +240,7 @@ const Dashboard: React.FC = () => {
                     <FaAndroid className="w-5 h-5 text-gray-600" />
                   </td>
                   <td className="px-4 py-3">1hr 21min</td>
-                  <td className="px-4 py-3">23</td>
+                  <td className="px-4 py-3">66</td>
                 </tr>
               </tbody>
             </table>

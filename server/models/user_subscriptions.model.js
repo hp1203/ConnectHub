@@ -27,6 +27,9 @@ const userSubscriptionsSchema = new mongoose.Schema(
     free_trial_duration_days: {
       type: Number, // Duration of the free trial in days
     },
+    metadata: {
+      type: Object, // Additional metadata related to the subscription
+    },
     status: {
       type: String,
       enum: ["active", "inactive", "cancelled"],
